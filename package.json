@@ -1,5 +1,5 @@
 {
-  "name": "webapp-template",
+  "name": "webapp-client",
   "version": "1.0.0",
   "type": "module",
   "scripts": {

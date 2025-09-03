@@ -2,15 +2,15 @@ import applyTypescript from "@rollup/plugin-typescript"
 import resolveNodeJs from '@rollup/plugin-node-resolve'
 import applyTerser from '@rollup/plugin-terser'
 import commonjs from '@rollup/plugin-commonjs'
-import legacy from "@rollup/plugin-legacy";
+import legacy from "@rollup/plugin-legacy"
 import sveltePreprocess from "svelte-preprocess"
 import svelte from "rollup-plugin-svelte"
-import clear from "rollup-plugin-clear";
+import clear from "rollup-plugin-clear"
 
 const
     dev = !!process.env.ROLLUP_WATCH,
     inputDir = "./src/main/typescript/webapp",
-    outputDir = "./src/main/webapp/WEB-RES/js/built"
+    outputDir = "../WebappCore/src/main/webapp/WEB-RES/js/built"
 
 export default  {
     dev: dev,
