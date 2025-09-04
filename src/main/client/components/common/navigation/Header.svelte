@@ -1,7 +1,7 @@
 <script lang="ts">
     import {fade} from "svelte/transition"
     import {popupAction, popupList} from "../../../util/alert";
-    import {appInfo} from "../../../webapp";
+    import {appInfo} from "../../../index";
     import Button from "../input/Button.svelte";
 
 

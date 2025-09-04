@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es2017",
-    "outDir": "../WebappCore/src/main/webapp/WEB-RES/js/built",
+//    "outDir": "../WebappCore/src/main/webapp/WEB-RES/js/built",
     "moduleResolution": "node",
     "module": "esnext",
     "typeRoots": [
@@ -10,7 +10,7 @@
     ]
   },
   "include": [
-    "src/main/typescript/**/*.ts"
+    "src/main/client/**/*.ts"
   ],
   "exclude": [
     "node_modules"

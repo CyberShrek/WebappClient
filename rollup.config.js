@@ -7,15 +7,15 @@ import sveltePreprocess from "svelte-preprocess"
 import svelte from "rollup-plugin-svelte"
 import clear from "rollup-plugin-clear"
 
-const
-    dev = !!process.env.ROLLUP_WATCH,
-    inputDir = "./src/main/typescript/webapp",
-    outputDir = "../WebappCore/src/main/webapp/WEB-RES/js/built"
+const dev = !!process.env.ROLLUP_WATCH
+const args = process.argv.slice(2);
+const inputDir = args.find(arg => arg.startsWith('--INPUT_DIR='))?.split('=')[1] || './src/main/client';
+const outputDir = args.find(arg => arg.startsWith('--OUTPUT_DIR='))?.split('=')[1] || 'built';
 
 export default  {
     dev: dev,
     input: [
-        `${inputDir}/webapp.ts`
+        `${inputDir}/index.ts`
     ],
     output: [
         {
