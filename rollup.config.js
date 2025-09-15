@@ -45,7 +45,7 @@ export default  {
         resolveNodeJs({
             mainFields: [ "module", "browser", "main" ],
             browser: true,
-            dedupe: ['s']
+            dedupe: ['svelte']
         }),
         applyTypescript(),
         applyTerser(),
