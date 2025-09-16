@@ -7,10 +7,11 @@ import sveltePreprocess from "svelte-preprocess"
 import svelte from "rollup-plugin-svelte"
 import clear from "rollup-plugin-clear"
 
-const dev = true // !!process.env.ROLLUP_WATCH
-const args = process.argv.slice(2);
-const inputDir = args.find(arg => arg.startsWith('--INPUT_DIR='))?.split('=')[1] || 'src';
-const outputDir = args.find(arg => arg.startsWith('--OUTPUT_DIR='))?.split('=')[1] || 'dist';
+const dev = !!process.env.ROLLUP_WATCH
+const
+    args = process.argv.slice(2),
+    inputDir = args.find(arg => arg.startsWith('--INPUT_DIR='))?.split('=')[1] || 'src',
+    outputDir = args.find(arg => arg.startsWith('--OUTPUT_DIR='))?.split('=')[1] || 'dist'
 
 export default  {
     dev: dev,

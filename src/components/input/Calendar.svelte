@@ -2,7 +2,7 @@
 
     import Button from "./Button.svelte"
     import {tick} from "svelte"
-    import {EasepickModule} from "../../../third-party/EasepickModule"
+    import {EasepickModule} from "../../third-party/EasepickModule";
 
     export let
         value: string[],

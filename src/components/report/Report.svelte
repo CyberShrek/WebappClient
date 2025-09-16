@@ -1,9 +1,8 @@
 <script lang="ts">
 
     import ReportHeader from "./ReportHeader.svelte"
-    import {resolveStyle} from "../../../util/resolver"
     import Loading from "../misc/Loading.svelte"
-    import {onMount} from "svelte";
+    import {resolveStyle} from "../../util/resolver";
 
     export let
         title    = "Отчёт",

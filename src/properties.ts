@@ -11,7 +11,7 @@ export const
         userinfo: `${rootPath}/userinfo`,
         export: `${rootPath}/report/export`,
         options: `${rootPath}/options`,
-        report: `${rootPath}/report`,
+        query: `${rootPath}/query`,
         dataSources: `${rootPath}/datasources`,
         serviceBank: `/servicebank/getdata`
     },
@@ -23,7 +23,7 @@ export const
         userinfo: "Не удалось загрузить информацию о пользователе",
         export: "Не удалось экспортировать",
         options: "Не удалось загрузить опции",
-        report: "Ошибка отчёта",
+        query: "Ошибка запроса к базе данных",
         dataSources: "Не удалось загрузить источники данных",
         serviceBank: "Не удалось загрузить данные из банка микросервисов"
     },

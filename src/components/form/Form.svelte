@@ -1,11 +1,9 @@
 <script lang="ts">
-    import Section from "./Section.svelte"
-    import {createEventDispatcher, onMount, tick} from "svelte"
+    import {createEventDispatcher} from "svelte"
     import {fade} from "svelte/transition"
-    import Report from "../report/Report.svelte"
-    import {resolveStyle} from "../../../util/resolver";
     import Loading from "../misc/Loading.svelte";
     import Button from "../input/Button.svelte";
+    import {resolveStyle} from "../../util/resolver";
 
     const dispatch = createEventDispatcher(),
         SUBMIT_EVENT = "submit"

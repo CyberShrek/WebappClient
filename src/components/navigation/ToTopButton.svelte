@@ -1,7 +1,7 @@
 <script lang="ts">
 
     import Button from "../input/Button.svelte"
-    import {scrollIntoElement} from "../../../util/dom";
+    import {scrollIntoElement} from "../../util/dom";
 
 </script>
 

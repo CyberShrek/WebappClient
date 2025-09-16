@@ -1,6 +1,7 @@
 <script lang="ts">
 
-    import {VirtualSelectModule} from "../../../third-party/VirtualSelectModule"
+
+    import {VirtualSelectModule} from "../../third-party/VirtualSelectModule";
 
     type Options = { [key: string]: string}
 

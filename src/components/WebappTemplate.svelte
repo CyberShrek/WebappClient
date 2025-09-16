@@ -1,9 +1,7 @@
 <script lang="ts">
-    import {resolveStyles} from "../../util/resolver"
+    import {resolveStyles} from "../util/resolver"
     import Loading from "./misc/Loading.svelte"
     import Header from "./navigation/Header.svelte"
-    import ToTopButton from "./navigation/ToTopButton.svelte"
-    import Fix from "./misc/Fix.svelte"
 
     let scrollY: number,
         innerHeight: number,

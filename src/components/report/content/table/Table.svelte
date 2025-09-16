@@ -6,7 +6,7 @@
     import Foot from "./foot/Foot.svelte"
     import {ColumnType} from "./types";
     import Loading from "../../../misc/Loading.svelte";
-    import {resolveStyle} from "../../../../../util/resolver";
+    import {resolveStyle} from "../../../../util/resolver";
 
     const dispatch = createEventDispatcher()
 

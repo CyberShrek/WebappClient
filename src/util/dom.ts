@@ -1,3 +1,4 @@
+// @ts-ignore
 import {toJpeg} from "dom-to-image"
 
 // Used to create inner html and return them as elements
@@ -28,7 +29,7 @@ export function swapElements(element1: HTMLElement, element2: HTMLElement) {
 
 export function exportAsJpeg(element: HTMLElement, jpegName: string = "element"){
     toJpeg(element)
-        .then((dataUrl) => {
+        .then((dataUrl : string) => {
             const link = document.createElement("a")
             link.download = jpegName+".jpeg"
             link.href = dataUrl
@@ -48,7 +49,7 @@ export function toggleFullscreen(element: HTMLElement){
         element.requestFullscreen()
 }
 
-export function getFullscreenElement(): Element{
+export function getFullscreenElement(): Element | null {
     return document.querySelector(":fullscreen")
 }
 

@@ -1,6 +1,6 @@
 <script lang="ts">
 
-    import {serverLocations} from "../../../properties"
+    import {serverLocations} from "../../properties";
 
     export let
         name: string,

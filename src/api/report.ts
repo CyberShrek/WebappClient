@@ -2,11 +2,18 @@ import {ExportableReport} from "../model/export/ExportableReport"
 import {SimpleHttp} from "./http/SimpleHttp"
 import {serverLocations} from "../properties"
 
-export function getReportData(reportId: string, formValues: { [fieldId: string]: any }) {
+export function getReportData(queryId: string, formValues: { [fieldId: string]: any }) {
+    // Object.keys(formValues).forEach(
+    //     key => {
+    //         if (typeof formValues[key] === 'object' && formValues[key] !== null && !Array.isArray(formValues[key]))
+    //             formValues[key] = Object.keys(formValues[key])
+    //     }
+    // )
+
     return SimpleHttp
-        .withHeaders({"Report-Id": reportId})
+        .withHeaders({"Query-Id": queryId})
         .andBody(formValues)
-        .post(serverLocations.report)
+        .post(serverLocations.query)
         .json<(string | number | boolean)[][]>()
 }
 
@@ -27,3 +34,5 @@ function download(blob: Blob, name: string) {
     a.remove();
     URL.revokeObjectURL(url);
 }
+
+

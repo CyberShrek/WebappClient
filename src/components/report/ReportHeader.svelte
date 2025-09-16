@@ -1,10 +1,10 @@
 <script lang="ts">
 
-    import {exportAsJpeg, getFullscreenElement, toggleFullscreen} from "../../../util/dom"
-    import {popupRadioAction} from "../../../util/alert"
-    import {ExportableReport} from "../../../model/export/ExportableReport"
-    import {TableModel} from "../../../model/export/TableModel"
-    import {downloadReport} from "../../../api/report"
+    import {exportAsJpeg, getFullscreenElement, toggleFullscreen} from "../../util/dom"
+    import {popupRadioAction} from "../../util/alert"
+    import {ExportableReport} from "../../model/export/ExportableReport"
+    import {TableModel} from "../../model/export/TableModel"
+    import {downloadReport} from "../../api/report"
     import ToTopButton from "../navigation/ToTopButton.svelte"
     import Button from "../input/Button.svelte"
     import Loading from "../misc/Loading.svelte";

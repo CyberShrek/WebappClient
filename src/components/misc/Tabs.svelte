@@ -1,7 +1,7 @@
 <script lang="ts">
 
     import Loading from "./Loading.svelte"
-    import {resolveStyle} from "../../../util/resolver"
+    import {resolveStyle} from "../../util/resolver";
 
     export let
         tabs: string[] = [],
