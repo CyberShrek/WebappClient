@@ -5,10 +5,10 @@
     import {ColumnType} from "../types";
 
     export let
-        columnHeaders: string[],
-        columnTypes: ColumnType[],
+        head: string[],
+        types: ColumnType[],
         // Provides
-        columnOperations: {
+        operations: {
             filter: string
             sort: "asc" | "desc"
         }[]
@@ -16,7 +16,7 @@
 </script>
 
 <thead>
-    <ColumnHeaders    {columnHeaders}/>
+<ColumnHeaders    {head}/>
 <!--    <ColumnOperations {columnTypes}-->
 <!--                      bind:columnOperations/>-->
 </thead>

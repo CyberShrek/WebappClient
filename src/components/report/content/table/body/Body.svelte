@@ -3,19 +3,19 @@
     import {ColumnType} from "../types"
 
     export let
-        matrixData: (string | number | boolean | null)[][],
-        columnTypes: ColumnType[]
+        body: (string | number | boolean | null)[][],
+        types: ColumnType[]
 
 </script>
 
 <tbody>
 
-    {#each matrixData as row}
-        <tr>
-            {#each row as cell, i}
-                <td class={columnTypes[i]}>{cell != null ? cell : ""}</td>
-            {/each}
-        </tr>
-    {/each}
+{#each body as row}
+    <tr>
+        {#each row as cell, i}
+            <td class={types[i]}>{cell != null ? cell : ""}</td>
+        {/each}
+    </tr>
+{/each}
 
 </tbody>

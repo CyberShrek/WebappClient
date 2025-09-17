@@ -3,16 +3,20 @@ import {SimpleHttp} from "./http/SimpleHttp"
 import {serverLocations} from "../properties"
 
 export function getReportData(queryId: string, formValues: { [fieldId: string]: any }) {
-    // Object.keys(formValues).forEach(
-    //     key => {
-    //         if (typeof formValues[key] === 'object' && formValues[key] !== null && !Array.isArray(formValues[key]))
-    //             formValues[key] = Object.keys(formValues[key])
-    //     }
-    // )
+
+    const exportValues: typeof formValues = {};
+
+    Object.keys(formValues).forEach(
+        key => {
+            exportValues[key] = (typeof formValues[key] === 'object' && formValues[key] !== null && !Array.isArray(formValues[key]))
+                ? Object.keys(formValues[key])
+                : formValues[key]
+        }
+    )
 
     return SimpleHttp
         .withHeaders({"Query-Id": queryId})
-        .andBody(formValues)
+        .andBody(exportValues)
         .post(serverLocations.query)
         .json<(string | number | boolean)[][]>()
 }
@@ -34,5 +38,3 @@ function download(blob: Blob, name: string) {
     a.remove();
     URL.revokeObjectURL(url);
 }
-
-

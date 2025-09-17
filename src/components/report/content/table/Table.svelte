@@ -11,14 +11,30 @@
     const dispatch = createEventDispatcher()
 
     export let
-        matrixData: (string | number | boolean | null)[][],
-        columnHeaders: string[],
-        columnTypes: ColumnType[]
+        head: string[],
+        body: (string | number | boolean | null)[][],
+        foot: (string | number | boolean | null)[] | null = null
 
-    let columnOperations: {
-        filter: string
-        sort:   "asc" | "desc"
-    }[]
+
+    let operations: {
+            filter: string
+            sort:   "asc" | "desc"
+        }[],
+        types: ColumnType[] = []
+
+    $: if (body?.length > 0) determineTypes()
+
+    function determineTypes() {
+        types = head.map(() => "string")
+        body.forEach(row => {
+            row.forEach((cell, cellI) => {
+                if (cell != null && typeof cell === "number")
+                    types[cellI] = "number"
+                else if (cell != null && typeof cell === "boolean")
+                    types[cellI] = "boolean"
+            })
+        })
+    }
 
 </script>
 
@@ -26,15 +42,17 @@
     <Loading/>
 {:then _}
     <table>
-        <Head {columnHeaders}
-              {columnTypes}
-              bind:columnOperations>
+        <Head {head}
+              {types}
+              bind:operations>
         </Head>
 
-        <Foot {matrixData}
-              {columnTypes}/>
+        {#if foot && foot.length > 0}
+            <Foot {foot}
+                  {types}/>
+        {/if}
 
-        <Body {matrixData}
-              {columnTypes}/>
+        <Body {body}
+              {types}/>
     </table>
 {/await}

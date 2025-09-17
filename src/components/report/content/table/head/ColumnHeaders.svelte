@@ -1,11 +1,11 @@
 <script lang="ts">
 
-    export let columnHeaders: string[]
+    export let head: string[]
 
 </script>
 
 <tr>
-    {#each columnHeaders as header}
+    {#each head as header}
         <th>{header}</th>
     {/each}
 </tr>

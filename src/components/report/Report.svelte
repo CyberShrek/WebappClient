@@ -7,7 +7,7 @@
     export let
         title    = "Отчёт",
         modal    = false,
-        isLoaded = null
+        isLoaded: boolean | null = null
 
     let reportRootElement: HTMLDivElement,
         isCollapsed  = false,

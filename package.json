@@ -11,6 +11,7 @@
     "@easepick/core": "^1.2.1",
     "@easepick/lock-plugin": "^1.2.1",
     "@easepick/range-plugin": "^1.2.1",
+    "alasql": "^4.6.6",
     "chart.js": "^4.3.0",
     "dom-to-image": "^2.6.0",
     "jsdom": "^22.1.0",
