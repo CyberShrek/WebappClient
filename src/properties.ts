@@ -9,7 +9,7 @@ export const
         modules: `${resourcesPath}/js/`,
         appinfo: `${rootPath}/appinfo`,
         userinfo: `${rootPath}/userinfo`,
-        export: `${rootPath}/report/export`,
+        export: `${rootPath}/export`,
         options: `${rootPath}/options`,
         query: `${rootPath}/query`,
         dataSources: `${rootPath}/datasources`,

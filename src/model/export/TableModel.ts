@@ -65,7 +65,7 @@ export class TableModel {
 
 // Модель строки
 export class RowModel {
-    cells: CellModel[] = [];
+    cells: (CellModel | null)[] = [];
 
     constructor(private readonly htmlTableRow: HTMLTableRowElement) {
         this.parseRow();
@@ -113,7 +113,7 @@ export class CellModel {
         // Извлечение значения
         this.value = this.convertValue(
             htmlTableCell.hasAttribute("value")
-                ? htmlTableCell.getAttribute("value")
+                ? String(htmlTableCell.getAttribute("value"))
                 : getDirectText(htmlTableCell),
             this.type);
 

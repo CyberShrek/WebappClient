@@ -1,10 +1,11 @@
 import {TableModel} from "./TableModel";
 
-export class ExportableReport {
+export class ExportReport {
 
     tables: TableModel[] = []
 
     constructor(public readonly title: string) {
+
     }
 
     addTable(table: TableModel) {

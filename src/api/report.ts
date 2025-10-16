@@ -1,4 +1,4 @@
-import {ExportableReport} from "../model/export/ExportableReport"
+import {ExportReport} from "../model/export/ExportReport"
 import {SimpleHttp} from "./http/SimpleHttp"
 import {serverLocations} from "../properties"
 
@@ -21,7 +21,7 @@ export function getReportData(queryId: string, formValues: { [fieldId: string]: 
         .json<(string | number | boolean)[][]>()
 }
 
-export async function downloadReport(report: ExportableReport) {
+export async function downloadReport(report: ExportReport) {
     download(await SimpleHttp
         .withHeaders()
         .andBody(report)

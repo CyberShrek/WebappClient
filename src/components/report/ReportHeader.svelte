@@ -1,13 +1,13 @@
 <script lang="ts">
 
     import {exportAsJpeg, getFullscreenElement, toggleFullscreen} from "../../util/dom"
-    import {popupRadioAction} from "../../util/alert"
-    import {ExportableReport} from "../../model/export/ExportableReport"
+    import {popupRadioAction, popupTimeoutAction} from "../../util/alert"
+    import {ExportReport} from "../../model/export/ExportReport"
     import {TableModel} from "../../model/export/TableModel"
     import {downloadReport} from "../../api/report"
     import ToTopButton from "../navigation/ToTopButton.svelte"
     import Button from "../input/Button.svelte"
-    import Loading from "../misc/Loading.svelte";
+    import Loading from "../misc/Loading.svelte"
 
     export let
         reportRootElement: HTMLDivElement,
@@ -24,32 +24,41 @@
     })
 
     function tryExport() {
-        type option = "tables" | "charts"
-        const radios: { [key in option]?: string } = {}
-        if(allowTablesExport)
-            radios.tables = "Таблицы"
-        if(allowChartsExport)
-            radios.charts = "Графики"
+        // type option = "tables" | "charts"
+        // const radios: { [key in option]?: string } = {}
 
-        if(Object.keys(radios).length > 0)
-            popupRadioAction("Экспорт отчёта", "Выберите вариант", radios, "Получить", (value: option) => {
-                switch (value) {
-                    case "tables": exportTables(); break
-                    case "charts": exportCharts()
-                }
-            })
+        popupTimeoutAction("Экспортировать отчёт?", "Подтвердить", () => {
+            if(allowTablesExport)
+                exportTables()
+            // radios.tables = "Таблицы"
+            if(allowChartsExport)
+                exportCharts()
+            // radios.charts = "Графики"
+        })
+
+
+
+        // if(Object.keys(radios).length > 0)
+        //     popupRadioAction("Экспорт отчёта", "Выберите вариант", radios, "Получить", (value: option) => {
+        //         switch (value) {
+        //             case "tables": exportTables(); break
+        //             case "charts": exportCharts()
+        //         }
+        //     })
     }
 
     function exportTables() {
-        reportRootElement?.querySelectorAll(".body .content table")?.forEach((tableBlock: HTMLTableElement, i) => {
-            const report = new ExportableReport(title)
-            report.addTable(new TableModel("Таблица", tableBlock))
+        reportRootElement?.querySelectorAll(".body .content table")?.forEach((tableBlock: Element, i) => {
+            const report = new ExportReport(title)
+            report.addTable(new TableModel(title, tableBlock as HTMLTableElement))
             downloadReport(report.toJson())
         })
     }
     function exportCharts() {
         reportRootElement?.querySelectorAll(".body .content .charts")?.forEach((chartsBlock, i) => {
-            exportAsJpeg(chartsBlock.closest(".content"), "Графики")
+            const content = chartsBlock.closest(".content")
+            if (content)
+                exportAsJpeg((content as HTMLElement), "Графики")
         })
     }
 
@@ -71,9 +80,11 @@
         <!--            hint="Графическое представление"-->
         <!--            on:click={() => showCharts = !showCharts}/>-->
         <!--{/if}-->
-        <Button image="download.svg"
-                hint="Экспортировать"
-                on:click={tryExport}/>
+        {#if allowTablesExport || allowChartsExport}
+            <Button image="download.svg"
+                    hint="Экспортировать"
+                    on:click={tryExport}/>
+        {/if}
         <!--{#if !modal}-->
         <!--    <Button image="collapse.svg"-->
         <!--            hint={isCollapsed ? "Развернуть" : "Свернуть"}-->
