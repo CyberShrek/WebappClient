@@ -5,9 +5,10 @@
     "strict": true,
   },
   "include": [
-    "src/**/*.ts"
+    "**/*.ts",
+    "**/*.svelte"
   ],
   "exclude": [
-    "./node_modules"
+    "node_modules"
   ]
 }

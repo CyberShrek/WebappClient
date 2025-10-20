@@ -1,36 +1,39 @@
-import {addCursorLoader, removeCursorLoader} from "../../util/dom";
-import {popupError} from "../../util/alert";
-import {serverErrors, serverLocations} from "../../properties";
+import {addCursorLoader, removeCursorLoader} from "../../util/dom"
+import {popupError} from "../../util/alert"
+import {serverErrors, serverLocations} from "../../properties"
 
 
 export type Method = "GET" | "POST" | "PUT" | "PATCH" | "DELETE"
 export type ResourceType = "json" | "text" | "blob"
 
+export type Headers = {[key: string]: string}
+export type Payload = object
+
 export abstract class Http {
 
     protected static get     = (url: string,
-                                headers?: object,
+                                headers?: Headers,
                                 type?: ResourceType) => Http.send(url,"GET", headers, undefined, type)
 
     protected static put     = (url: string,
-                         headers?: object,
-                         payload?: object,
+                         headers?: Headers,
+                         payload?: Payload,
                                 type?: ResourceType) => Http.send(url,"PUT", headers, payload,        type)
 
     protected static post    = (url: string,
-                         headers?: object,
-                         payload?: object,
+                         headers?: Headers,
+                         payload?: Payload,
                                 type?: ResourceType) => Http.send(url,"POST", headers, payload,        type)
 
     protected static delete  = (url: string,
-                         headers?: object,
-                         payload?: object,
+                         headers?: Headers,
+                         payload?: Payload,
                                 type?: ResourceType) => Http.send(url,"DELETE", headers, payload,        type)
 
     protected static async send(url: string,
                        method: Method,
-                       headers?: object,
-                       payload?: object,
+                       headers?: Headers,
+                       payload?: Payload,
                                 type: ResourceType = "json")
     {
         addCursorLoader()
@@ -53,19 +56,7 @@ export abstract class Http {
     }
 }
 
-async function getContentLength(response: Response): Promise<number> {
-    const responseClone = response.clone();
-    const reader = responseClone.body.getReader();
-    let contentLength = 0;
-    while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        contentLength += value.length;
-    }
-    return contentLength
-}
-
-function prepareHeaders(headers: object) {
+function prepareHeaders(headers: {[key: string]: string}) {
     Object.keys(headers)
         .forEach(key => headers[key] = encodeURIComponent(headers[key]))
 

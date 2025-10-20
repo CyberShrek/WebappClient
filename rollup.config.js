@@ -8,19 +8,14 @@ import svelte from "rollup-plugin-svelte"
 import clear from "rollup-plugin-clear"
 
 const dev = !!process.env.ROLLUP_WATCH
-const
-    args = process.argv.slice(2),
-    inputDir = args.find(arg => arg.startsWith('--INPUT_DIR='))?.split('=')[1] || 'src',
-    outputDir = args.find(arg => arg.startsWith('--OUTPUT_DIR='))?.split('=')[1] || 'dist'
 
 export default  {
-    dev: dev,
     input: [
-        `${inputDir}/index.ts`
+        `index.js`
     ],
     output: [
         {
-            dir: outputDir,
+            dir: "dist",
             format: "es",
             sourcemap: dev,
             // manualChunks:{
@@ -34,15 +29,15 @@ export default  {
     plugins: [
         clear({
             // required, point out which directories should be clear.
-            targets: [outputDir],
+            targets: ["dist"],
             // optional, whether clear the directores when rollup recompile on --watch mode.
             watch: true, // default: false
         }),
-        commonjs({
-            namedExports:{
-                "dom-to-image": ["dom-to-image"],
-            }
-        }),
+        // commonjs({
+        //     namedExports:{
+        //         "dom-to-image": ["dom-to-image"],
+        //     }
+        // }),
         resolveNodeJs({
             mainFields: [ "module", "browser", "main" ],
             browser: true,
@@ -58,12 +53,12 @@ export default  {
             preprocess: sveltePreprocess(),
         })
     ],
-    onwarn: (warning, handle) => {
-        // Ignore node_modules warnings
-        if(warning.loc?.file?.includes("node_modules") || warning.ids?.toString()?.includes("node_modules"))
-            return
-
-        handle(warning.message)
-    },
+    // onwarn: (warning, handle) => {
+    //     // Ignore node_modules warnings
+    //     if(warning.loc?.file?.includes("node_modules") || warning.ids?.toString()?.includes("node_modules"))
+    //         return
+    //
+    //     handle(warning.message)
+    // },
     preserveSymlinks: true
 }

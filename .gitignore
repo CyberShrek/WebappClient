@@ -1,6 +1,8 @@
 node_modules
-dist_modules
+dist
 .cache
 
 package-lock.json
 .idea
+
+private

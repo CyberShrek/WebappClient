@@ -3,7 +3,7 @@ const rootPath = '/' + document.location.pathname.split('/')[1],
 
 export const
 
-    serverLocations = {
+    serverLocations: {[key: string]: string} = {
         images: `${resourcesPath}/img/`,
         styles: `${resourcesPath}/css/`,
         modules: `${resourcesPath}/js/`,

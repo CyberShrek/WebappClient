@@ -2,7 +2,7 @@
     import {fade} from "svelte/transition"
     import Button from "../input/Button.svelte";
     import {popupAction, popupList} from "../../util/alert";
-    import {appInfo} from "../../../index";
+    import {appInfo} from "../../../index.js";
 
 
     function showAppInfo(){
