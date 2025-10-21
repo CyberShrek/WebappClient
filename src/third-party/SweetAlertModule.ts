@@ -8,7 +8,7 @@ resolveStyle("third-party/animate")
 
 export class SweetAlertModule extends Module {
 
-    private mouseEvent: MouseEvent
+    private mouseEvent?: MouseEvent
 
     constructor() {
         super()

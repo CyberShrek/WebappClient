@@ -31,6 +31,6 @@ function promisePromise<T>(promiseName: string,
     if(!promiseContainer.has(promiseName))
         promiseContainer.set(promiseName, promise)
 
-    return promiseContainer.get(promiseName)
+    return promiseContainer.get(promiseName) ?? promise
 }
 

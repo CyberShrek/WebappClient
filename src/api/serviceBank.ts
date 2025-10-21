@@ -9,7 +9,7 @@ export async function getOptionsFromSB(listName: string,
     const sbResponse = await SimpleHttp
         .withBody(JSON.parse(`{"${listName}":[${JSON.stringify(params)}]}`))
         .post(serverLocations.serviceBank)
-        .json<object[]>()
+        .json<{ [key: string]: ({ [key: string]: string })[] }>()
 
     sbResponse[listName].forEach(item => {
         const key = item[listKeyName] as string

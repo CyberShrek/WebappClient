@@ -33,10 +33,10 @@ export class LocalDB {
 
     public static execute(query: string): { head: string[]; body: any[][]; } {
         // Выполняем запрос
-        const result = alasql(query);
+        const result: {}[] = alasql(query);
 
         // Обрабатываем разные форматы результатов
-        if (result === undefined || result.length === 0) {
+        if (result == null || result.length === 0) {
             return { head: [], body: [] };
         }
 

@@ -50,7 +50,7 @@ export class EasepickModule extends InputModule<string[]>{
                     many: 'дней'
                 },
                 delimiter: " - "
-            } : null,
+            } : undefined,
             AmpPlugin: {
                 darkMode: false,
                 dropdown: {

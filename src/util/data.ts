@@ -10,7 +10,7 @@ export function numberOf(word: string|number): number {
 
 // Returns a Map consisting of the vararg Maps
 export function concatMaps(...maps: Map<any, any>[]): Map<any, any>{
-    const buffer = []
+    const buffer: [any, any][] = []
     maps.forEach(map => {
         buffer.push(...map.entries())
     })
@@ -34,7 +34,7 @@ export function mapToJson<V>(map: Map<string, V>): {[k: string]: V} {
     return obj
 }
 
-export function jsonToMap<V>(json: object): Map<string, V> {
+export function jsonToMap<V>(json: {[k: string]: V}): Map<string, V> {
     const map: Map<string, V> = new Map()
     if(json)
         for (const key in json)
@@ -111,13 +111,6 @@ export function parseFormStatementKeys(
         else
             sectionsReceiver.add(entry[0])
     })
-}
-
-export function getOrSetMapValue<K, V>(map: Map<K, V>, key: K, value: V): V{
-    if(!map.has(key)){
-        map.set(key, value)
-    }
-    return map.get(key)
 }
 
 export function swapArrayItems<T>(array: T[], firstItemIndex: number, secondItemIndex: number): T[]{

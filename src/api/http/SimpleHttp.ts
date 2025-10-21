@@ -1,9 +1,9 @@
-import {Http, Method, ResourceType} from "./Http"
+import {Headers, Http, Method, Payload, ResourceType} from "./Http"
 
 export class SimpleHttp extends Http {
 
-    static withHeaders = (headers?: object) => { return {
-        andBody: (payload?: object) => { return {
+    static withHeaders = (headers?: Headers) => { return {
+        andBody: (payload?: Payload) => { return {
             post(url: string) {return SimpleHttp.withAll(url, "POST", headers, payload)},
             put(url: string)  {return SimpleHttp.withAll(url, "PUT",  headers, payload)},
             patch(url: string) {return SimpleHttp.withAll(url, "PATCH", headers, payload)},
@@ -18,8 +18,8 @@ export class SimpleHttp extends Http {
 
     private static withAll(url: string,
                            method: Method,
-                           headers: object,
-                           payload: object) {
+                           headers?: Headers,
+                           payload?: Payload) {
         const sendFor = (type: ResourceType) => Http.send(url, method, headers, payload, type)
         return {
             text(): Promise<string> {return sendFor("text")},

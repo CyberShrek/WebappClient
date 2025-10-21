@@ -59,7 +59,8 @@ export class VirtualSelectModule extends InputModule<string[]>{
                 rootElement.addEventListener("change", event => {
                     const newValue = event.currentTarget
                         // @ts-ignore Resolved by module import
-                        .value
+                        ?.value
+                        ?? []
                     super.setValue(newValue.length > 0 ? (typeof newValue === "object" ? newValue : [newValue]) : [], false)
                 })
                 resolve()
