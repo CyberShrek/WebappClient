@@ -12,6 +12,7 @@ const links = [
     ['node_modules'],
     ['tsconfig.json'],
     ['rollup.config.js'],
+    ['vite.config.js'],
     ['src', 'webapp-client']
 ];
 

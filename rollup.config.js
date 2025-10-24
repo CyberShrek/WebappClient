@@ -9,7 +9,7 @@ import clear from "rollup-plugin-clear"
 
 const dev = !!process.env.ROLLUP_WATCH
 
-export default  {
+export default {
     input: [
         `index.js`
     ],
@@ -50,6 +50,7 @@ export default  {
             compilerOptions: {
                 dev
             },
+            emitCss: false,
             preprocess: sveltePreprocess(),
         })
     ],
