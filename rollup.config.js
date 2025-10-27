@@ -11,7 +11,7 @@ const dev = !!process.env.ROLLUP_WATCH
 
 export default {
     input: [
-        `index.js`
+        `index.ts`
     ],
     output: [
         {
