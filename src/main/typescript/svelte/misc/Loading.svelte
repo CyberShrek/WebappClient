@@ -12,6 +12,7 @@
 </div>
 
 <style>
+
     .loader {
         height: 2em;
         width: 2em;
@@ -19,7 +20,7 @@
 
     .loader-path {
         fill: none;
-        stroke: #003466;
+        stroke: var(--primary-color);
         stroke-width: 10%;
         stroke-linecap: round;
         animation: animate-stroke 1.5s ease-in-out infinite;

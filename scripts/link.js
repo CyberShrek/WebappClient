@@ -11,9 +11,8 @@ const webappClientPath = resolve(__dirname, '..')
 const links = [
     ['node_modules'],
     ['tsconfig.json'],
-    ['rollup.config.js'],
-    ['vite.config.js'],
-    ['src/main', 'webapp-client']
+    ['static-assets.d.ts'],
+    ['src/main', 'import'],
 ]
 
 function checkTargetExists(targetPath) {
