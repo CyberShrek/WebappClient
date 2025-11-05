@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "build": "vite build",
-    "vite": "vite"
+    "debug": "vite --config src/debug/vite.config.js"
   },
   "peerDependencies": {
     "alasql": "^4.6.6",
