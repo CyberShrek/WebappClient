@@ -4,24 +4,8 @@ const
     stylesPromises  = new Map<string, Promise<any>>(),
     modulesPromises = new Map<string, Promise<any>>()
 
-export const useStyle = (name: string) => {
-    if(!stylesPromises.has(name))
-        stylesPromises.set(name, new Promise((resolve, reject) => {
-            const link = document.createElement('link')
-            link.rel = 'stylesheet'
-            link.href = `${serverLocations.styles}${name}.css`
-            link.onload = resolve
-            link.onerror = reject
-            document.head.appendChild(link)
-        }))
-
-    return stylesPromises.get(name)
-}
-
-export const useStyles = (...names: string[]) => Promise.all(names.map(useStyle))
-
-export const useModule = (name: string) =>
-    promisePromise(name, modulesPromises, import(`${serverLocations.modules}${name}.js`))
+// export const useModule = (name: string) =>
+//     promisePromise(name, modulesPromises, import(`${serverLocations.modules}${name}.js`))
 
 
 function promisePromise<T>(promiseName: string,

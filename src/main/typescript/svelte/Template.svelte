@@ -1,7 +1,10 @@
 <script lang="ts">
-    import {useStyles} from "../util/resolver"
-    import Loading from "./misc/Loading.svelte"
     import Header from "./navigation/Header.svelte"
+    import Fix from "./misc/Fix.svelte"
+    import ToTopButton from "./navigation/ToTopButton.svelte"
+
+    export let
+        appInfo: AppInfo
 
     let scrollY: number,
         innerHeight: number,
@@ -9,20 +12,16 @@
 
 </script>
 
-{#await useStyles("global", "states")}
-    <Loading/>
-{:then _}
-    <Header/>
+    <Header {appInfo}/>
 
     <slot/>
 
-    <!--{#if scrollY > 100}-->
-    <!--    <Fix right={true}-->
-    <!--         bottom={true}>-->
-    <!--        <ToTopButton/>-->
-    <!--    </Fix>-->
-    <!--{/if}-->
-{/await}
+    {#if scrollY > 100}
+        <Fix right
+             bottom>
+            <ToTopButton/>
+        </Fix>
+    {/if}
 
 <svelte:window bind:scrollY
                bind:innerHeight

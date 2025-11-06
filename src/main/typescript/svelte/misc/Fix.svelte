@@ -30,6 +30,7 @@
         z-index: 64;
         box-shadow: var(--shadow);
         transition:  opacity 0.3s;
+        width: min-content;
     }
     .fix:hover {
         opacity: 1;
@@ -47,12 +48,20 @@
         border: 5px solid var(--primary-color);
         border-radius: var(--border-radius);
     }
-    .fix p{
-        margin: auto var(--indent) auto 0;
+
+    .fix.bottom {
+        top: auto;
     }
 
-    .fix button {
-        height: 35px;
-        width: 35px;
+    .fix.top {
+        top: 0;
+    }
+
+    .fix.left {
+        left: 0;
+    }
+
+    .fix.right {
+        left: auto;
     }
 </style>

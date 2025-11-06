@@ -1,10 +1,14 @@
 <script lang="ts">
+    import Template from "../main/typescript/svelte/Template.svelte"
 
-    import Loading from "../main/typescript/svelte/misc/Loading.svelte"
+    const appInfo: AppInfo = {
+        code: "debug"
+    }
 
 </script>
 
-{"Hello"}
+<Template {appInfo}>
 
-<Loading/>
 
+
+</Template>

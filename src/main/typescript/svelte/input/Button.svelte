@@ -9,13 +9,12 @@
         frameless     = false,
         submit        = false,
         cancel        = false,
-        size: "small" | "medium" | "large" = "medium",
+        size          = 25,
 
         hint          = "",
         text          = "",
         image         = "",
-        imageLocation = undefined,
-        root: HTMLButtonElement = null
+        root: null |HTMLButtonElement = null
 
 </script>
 
@@ -24,7 +23,7 @@
         class:submit
         class:cancel
         class:active
-        class={size}
+        style={`height: ${size}px; width: ${size}px;`}
         title={hint}
         bind:this={root}
         on:click={event => event.preventDefault()}
@@ -35,8 +34,7 @@
 
     {#if image && image.length > 0}
         <Image {hint}
-               name={image}
-               location={imageLocation}/>
+               {image}/>
     {/if}
 
     {text}
@@ -44,3 +42,18 @@
     <slot/>
 
 </button>
+
+<style>
+
+    button {
+        cursor: pointer;
+        border: var(--light-border);
+    }
+
+    button.frameless {
+        border: 0;
+        background: transparent;
+        padding: 0;
+    }
+
+</style>

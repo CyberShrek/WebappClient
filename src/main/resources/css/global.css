@@ -28,6 +28,7 @@
 	font-family: Roboto, serif;
 	color: var(--font-color);
 	transition: 0.1s;
+	border-radius: var(--border-radius);
 }
 
 body {

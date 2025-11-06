@@ -7,6 +7,5 @@ export default defineConfig({
             preprocess: sveltePreprocess()
         }
     )],
-    root: 'src/debug',
-    publicDir: '../main/resources'
+    root: 'src/debug'
 })

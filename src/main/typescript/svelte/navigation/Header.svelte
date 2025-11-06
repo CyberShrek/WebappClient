@@ -1,8 +1,13 @@
 <script lang="ts">
     import {fade} from "svelte/transition"
-    import Button from "../input/Button.svelte";
-    import {popupAction, popupList} from "../../util/alert";
-    import {appInfo} from "../../../index";
+    import Button from "../input/Button.svelte"
+    import {popupAction, popupList} from "../../util/alert"
+
+    import resetImage from "../../../resources/img/reset.svg"
+    import infoImage from "../../../resources/img/info.svg"
+    import helpImage from "../../../resources/img/help.svg"
+
+    export let appInfo: AppInfo
 
 
     function showAppInfo(){
@@ -38,48 +43,47 @@
 </script>
 
 <header id="header">
-    <a href="{appInfo.groupPath}" transition:fade>
-        {appInfo.groupName}
-    </a>|<p transition:fade>
-        {appInfo.name}
-    </p>
-    <Button frameless hint="Сброс"                    image="reset.svg" on:click={() => location.reload()}/>
-    <Button frameless hint="Информация о приложении"  image="info.svg"  on:click={showAppInfo}/>
-    <Button frameless hint="Руководство пользователя" image="help.svg"  on:click={showHelpDownloader}/>
+    <div class="name">
+        <a href="{appInfo.groupPath}" transition:fade>
+            {appInfo.groupName}
+        </a>|<span transition:fade>
+            {appInfo.name}
+        </span>
+    </div>
+
+    <div class="buttons">
+        <Button frameless hint="Сброс"                    image={resetImage} on:click={() => location.reload()}/>
+        <Button frameless hint="Информация о приложении"  image={infoImage}  on:click={showAppInfo}/>
+        <Button frameless hint="Руководство пользователя" image={helpImage}  on:click={showHelpDownloader}/>
+    </div>
 </header>
 
 <style>
     #header {
         display: flex;
         align-items: center;
+        justify-content: space-between;
         width: 100%;
-        height: 50px;
         left: 0;
     }
+    .name {
+        display: flex;
+        align-items: center;
+        gap: var(--indent);
+    }
 
-    #header a{
+    .name a {
         text-decoration: none;
         color: var(--primary-color);
         font-weight: bold;
-        margin: 0 var(--indent);
     }
 
-    #header p{
-        margin-right: auto;
-        margin-left: var(--indent);
-    }
-
-    #header :is(a, p){
+    .name :is(a, span){
         font-size: 18px;
     }
 
-    #header button{
-        width: 25px;
-        height: 25px;
-        margin: var(--indent);
-    }
-
-    #header input[type=text]{
-        width: 125px;
+    .buttons{
+        display: flex;
+        gap: var(--indent);
     }
 </style>
