@@ -5,7 +5,7 @@
     import {ExportReport} from "../../model/export/ExportReport"
     import {TableModel} from "../../model/export/TableModel"
     import {downloadReport} from "../../api/report"
-    import ToTopButton from "../navigation/ToTopButton.svelte"
+    import ToTopButton from "../././././index/ToTopButton.svelte"
     import Button from "../input/Button.svelte"
     import Loading from "../misc/Loading.svelte"
 

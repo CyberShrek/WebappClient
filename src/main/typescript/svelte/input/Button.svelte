@@ -6,10 +6,11 @@
         disabled      = false,
         active        = false,
 
-        frameless     = false,
-        submit        = false,
-        cancel        = false,
-        size          = 25,
+        size          = 30,
+        design: "basic"
+            | "frameless"
+            | "submit"
+            | "cancel" = "basic",
 
         hint          = "",
         text          = "",
@@ -19,11 +20,12 @@
 </script>
 
 <button class:disabled
-        class:frameless
-        class:submit
-        class:cancel
         class:active
-        style={`height: ${size}px; width: ${size}px;`}
+        class={design}
+        style={`
+             height: ${size}px;
+             font-size: ${size / 2}px;
+        `}
         title={hint}
         bind:this={root}
         on:click={event => event.preventDefault()}
@@ -48,6 +50,13 @@
     button {
         cursor: pointer;
         border: var(--light-border);
+        border-radius: 0.5em;
+        padding: 0.35em 0.7em;
+    }
+
+    button.submit {
+        background: var(--primary-color);
+        color: white;
     }
 
     button.frameless {

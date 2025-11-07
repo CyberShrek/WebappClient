@@ -23,9 +23,10 @@
     <slot/>
 
     <div class="buttons">
-        <Button submit
-                text={"Подтвердить"}
+        <Button text={"Подтвердить"}
                 disabled={submitIsTouched && isWrong}
+                design="submit"
+                size={40}
                 on:click={() => handleSubmit()}
                 on:mouseenter={() => submitIsTouched = true}/>
     </div>

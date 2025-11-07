@@ -35,10 +35,10 @@
     .fix:hover {
         opacity: 1;
     }
-    .fix.top    { top:    var(--strong-indent) }
-    .fix.bottom { bottom: var(--strong-indent) }
-    .fix.right   { left:   var(--strong-indent) }
-    .fix.right  { right:  var(--strong-indent) }
+    .fix.bottom { top:  auto; }
+    .fix.top    { top:  0;    }
+    .fix.left   { left: 0;    }
+    .fix.right  { left: auto; }
 
     .fix.framed {
         flex-wrap: wrap;
@@ -47,21 +47,5 @@
         background: var(--secondary-color);
         border: 5px solid var(--primary-color);
         border-radius: var(--border-radius);
-    }
-
-    .fix.bottom {
-        top: auto;
-    }
-
-    .fix.top {
-        top: 0;
-    }
-
-    .fix.left {
-        left: 0;
-    }
-
-    .fix.right {
-        left: auto;
     }
 </style>

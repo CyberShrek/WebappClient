@@ -52,9 +52,9 @@
     </div>
 
     <div class="buttons">
-        <Button frameless hint="Сброс"                    image={resetImage} on:click={() => location.reload()}/>
-        <Button frameless hint="Информация о приложении"  image={infoImage}  on:click={showAppInfo}/>
-        <Button frameless hint="Руководство пользователя" image={helpImage}  on:click={showHelpDownloader}/>
+        <Button design="frameless" size={25} hint="Сброс"                    image={resetImage} on:click={() => location.reload()}/>
+        <Button design="frameless" size={25} hint="Информация о приложении"  image={infoImage}  on:click={showAppInfo}/>
+        <Button design="frameless" size={25} hint="Руководство пользователя" image={helpImage}  on:click={showHelpDownloader}/>
     </div>
 </header>
 

@@ -5,7 +5,7 @@
 
     export let
         title      = "",
-        info       = "",
+        hint       = "",
         message    = "",
         isWrong    = false,
         isReady    = false
@@ -25,8 +25,8 @@
         <p>
             {title}
         </p>
-        {#if info}
-            <span title="{info}">
+        {#if hint}
+            <span title="{hint}">
                 🛈
             </span>
         {/if}
@@ -55,22 +55,6 @@
         max-width: 25vw;
     }
 
-    .field:is(.switch-field, .select-field, .text-field, .calendar-field, .number-field) {
-        height: 100%;
-        width: 100%;
-    }
-    /* .field.switch-field .switch, .field.range-field .range {
-        margin-bottom: auto;
-    } */
-    .field.number-field :is(.number, .range){
-        display: flex;
-        align-items: center;
-        gap: var(--indent);
-    }
-    .field.number-field .range > input{
-        width: 100%;
-    }
-
     .field > .header {
         padding: 0;
         display: flex;
@@ -87,14 +71,6 @@
         font-weight: normal;
         font-size: 18px;
         height: 20px;
-    }
-
-    .field > p:empty {
-        margin: 0;
-    }
-
-    .field > label:empty {
-        width: 1px;
     }
 
     .field.wrong :is(.multiselect){
