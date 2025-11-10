@@ -1,7 +1,7 @@
 <script lang="ts">
     import {createEventDispatcher} from "svelte"
     import {fade} from "svelte/transition"
-    import Button from "../input/Button.svelte";
+    import Button from "../input/Button.svelte"
 
     const dispatch = createEventDispatcher(),
         SUBMIT_EVENT = "submit"

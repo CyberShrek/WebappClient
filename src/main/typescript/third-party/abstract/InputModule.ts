@@ -11,10 +11,10 @@ export abstract class InputModule<VALUE_TYPE> extends Module{
         super()
     }
     
-    onChange = (callback: (newValue?: VALUE_TYPE) => void) => this.onChangeCallbacks.push(callback)
+    onChange = (callback: (newValue: VALUE_TYPE) => void) => this.onChangeCallbacks.push(callback)
 
-    getValue(): VALUE_TYPE | null {
-        return this.value ?? null
+    getValue(): VALUE_TYPE {
+        return this.value
     }
 
     setValue(value: VALUE_TYPE, changeRootValue = true){

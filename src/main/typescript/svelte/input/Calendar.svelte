@@ -6,7 +6,7 @@
 
     export let
         value: string[],
-        range: number = null
+        range: number = 0
 
     let rootElement: HTMLInputElement,
         module: EasepickModule
@@ -20,7 +20,7 @@
     function recreate(){
         module?.destroy()
         module = new EasepickModule(rootElement, {
-            range: range != null,
+            range: range > 0,
             maxDays: range
         })
         module.onChange(setValue)

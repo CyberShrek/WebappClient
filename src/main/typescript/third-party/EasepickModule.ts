@@ -1,11 +1,18 @@
+import {DateTime} from "@easepick/datetime"
 import {easepick} from "@easepick/core"
 import {RangePlugin} from "@easepick/range-plugin"
 import {AmpPlugin} from "@easepick/amp-plugin"
 import {LockPlugin} from "@easepick/lock-plugin"
+
+import coreCSS from '@easepick/core/dist/index.css?url'
+import rangeCSS from '@easepick/range-plugin/dist/index.css?url'
+import ampCSS from '@easepick/amp-plugin/dist/index.css?url'
+import lockCSS from '@easepick/lock-plugin/dist/index.css?url'
+// // import "../../resources/css/third-party/easepick.css"
+
 import {stringifyDate} from "../util/data"
 import {serverLocations} from "../properties"
 import {InputModule} from "./abstract/InputModule"
-import {DateTime} from "@easepick/datetime"
 
 export class EasepickModule extends InputModule<string[]>{
 
@@ -21,7 +28,7 @@ export class EasepickModule extends InputModule<string[]>{
 
         super(pickedDate => {
             if(rootElement == null) return
-            Array.isArray(pickedDate)                                       // @ts-ignore Resolved by module import
+            Array.isArray(pickedDate)
                 ?  pickedDate[0] && rootElement.setStartDate(pickedDate[0]) // @ts-ignore Resolved by module import
                 || pickedDate[1] && rootElement.setEndDate(pickedDate[1])   // @ts-ignore Resolved by module import
                 : rootElement.setDate(pickedDate)
@@ -62,7 +69,7 @@ export class EasepickModule extends InputModule<string[]>{
                 maxDays: Number(config.maxDays)
             },
             css: [
-                serverLocations.styles + "third-party/easepick.css"
+                coreCSS, rangeCSS, ampCSS, lockCSS
             ],
             setup: (picker) => {
                 picker.on("select", (e) => {
