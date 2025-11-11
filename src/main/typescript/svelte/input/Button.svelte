@@ -55,7 +55,7 @@
     }
 
     button.submit {
-        background: var(--primary-color);
+        background: var(--accent-color);
         color: white;
     }
 

@@ -37,7 +37,7 @@
         padding-bottom: 0;
         width: auto;
         gap: var(--light-indent);
-        border-bottom: 5px solid var(--primary-color);
+        border-bottom: 5px solid var(--accent-color);
         overflow-y: auto;
     }
     .tabs > .header > .tab {
@@ -52,6 +52,6 @@
     }
     .tabs > .header > .tab.active {
         color: white;
-        background: var(--primary-color);
+        background: var(--accent-color);
     }
 </style>

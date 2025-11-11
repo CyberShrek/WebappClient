@@ -17,7 +17,6 @@
 </script>
 
 <div class="field"
-     {title}
      class:wrong={isWrong}
      transition:fade>
 

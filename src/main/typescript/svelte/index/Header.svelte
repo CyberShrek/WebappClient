@@ -74,7 +74,7 @@
 
     .name a {
         text-decoration: none;
-        color: var(--primary-color);
+        color: var(--accent-color);
         font-weight: bold;
     }
 

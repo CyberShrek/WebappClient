@@ -1,18 +1,17 @@
 <script lang="ts">
 
-
-    import {VirtualSelectModule} from "../../third-party/VirtualSelectModule";
+    import {VirtualSelectModule} from "../../third-party/VirtualSelectModule"
 
     type Options = { [key: string]: string}
 
     export let
-        value: Options,
+        value:   Options,
         options: Options,
         multiple        = false,
         search          = false,
         showCodes       = false,
-        placeholder     = '',
         pickAllCheckbox = false,
+        placeholder     = '',
         maxValues       = 0
 
     let rootElement: HTMLDivElement,
@@ -63,6 +62,7 @@
 </script>
 
 <div class="select" bind:this={rootElement}>
+
 </div>
 
 <!--{JSON.stringify(Object.entries(options.entries()))}-->

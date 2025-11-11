@@ -1,7 +1,8 @@
-import {useModule, useStyle} from "../util/resolver"
 import {virtualSelectProperties} from "../properties"
 import {equal} from "../util/data"
 import {InputModule} from "./abstract/InputModule"
+import 'virtual-select-plugin/dist/virtual-select.min.css';
+import 'virtual-select-plugin/dist/virtual-select.min.js';
 
 export type Option = {
     label: string
@@ -9,11 +10,6 @@ export type Option = {
     alias: string
     description: string
 }
-
-const modulePromise = Promise.all([
-    useStyle("third-party/virtual-select"),
-    useModule("third-party/virtual-select.min")
-])
 
 export class VirtualSelectModule extends InputModule<string[]>{
 
@@ -32,39 +28,37 @@ export class VirtualSelectModule extends InputModule<string[]>{
                 }) {
 
         super((newKeys: string[]) => {
+            // @ts-ignore
             rootElement
-                // @ts-ignore Resolved by module import
                 ?.setValue?.(newKeys)
         })
 
         this.value = []
 
         this.mountPromise = new Promise(resolve => {
-            modulePromise.then(() => {
-                // @ts-ignore Resolved by module import
-                VirtualSelect.init({
-                    ...virtualSelectProperties,
-                    ele: rootElement,
-                    multiple: !!config.multiple,
-                    search: !!config.search,
-                    placeholder: config.placeholder ?? "",
-                    hasOptionDescription: !!config.showCodes,
-                    disableSelectAll: !!config.disableSelectAll,
-                    maxValues: config.maxValues,
-                    searchPlaceholderText: (config.multiple && !config.disableSelectAll)
-                        ? virtualSelectProperties.selectAllText
-                        : virtualSelectProperties.searchPlaceholderText,
-                    autofocus: false
-                })
-                rootElement.addEventListener("change", event => {
-                    const newValue = event.currentTarget
-                        // @ts-ignore Resolved by module import
-                        ?.value
-                        ?? []
-                    super.setValue(newValue.length > 0 ? (typeof newValue === "object" ? newValue : [newValue]) : [], false)
-                })
-                resolve()
+            // @ts-ignore
+            VirtualSelect.init({
+                ...virtualSelectProperties,
+                ele: rootElement,
+                multiple: !!config.multiple,
+                search: !!config.search,
+                placeholder: config.placeholder ?? "",
+                hasOptionDescription: !!config.showCodes,
+                disableSelectAll: !!config.disableSelectAll,
+                maxValues: config.maxValues,
+                searchPlaceholderText: (config.multiple && !config.disableSelectAll)
+                    ? virtualSelectProperties.selectAllText
+                    : virtualSelectProperties.searchPlaceholderText,
+                autofocus: false
             })
+            rootElement.addEventListener("change", event => {
+                // @ts-ignore
+                const newValue = event.currentTarget
+                    ?.value
+                    ?? []
+                super.setValue(newValue.length > 0 ? (typeof newValue === "object" ? newValue : [newValue]) : [], false)
+            })
+            resolve()
         })
     }
 
@@ -78,14 +72,18 @@ export class VirtualSelectModule extends InputModule<string[]>{
         return this.mountPromise.then(() => {
             if (!equal(this.options, newOptions)) {
                 if (newOptions && newOptions.length > 0) {
-                    this.rootElement// @ts-ignore Resolved by module import
+                    // @ts-ignore
+                    this.rootElement
                         .enable()
-                    this.rootElement // @ts-ignore Resolved by module import
+                    // @ts-ignore
+                    this.rootElement
                         .setOptions(newOptions)
                 } else {
-                    this.rootElement // @ts-ignore Resolved by module import
+                    // @ts-ignore
+                    this.rootElement
                         .disable()
-                    this.rootElement // @ts-ignore Resolved by module import
+                    // @ts-ignore
+                    this.rootElement
                         .reset()
                     this.rootElement.blur()
                 }
@@ -95,27 +93,33 @@ export class VirtualSelectModule extends InputModule<string[]>{
     }
 
     open(){
-        this.rootElement // @ts-ignore Resolved by module import
+        // @ts-ignore
+        this.rootElement
             ?.open()
     }
     close(){
-        this.rootElement // @ts-ignore Resolved by module import
+        // @ts-ignore
+        this.rootElement
             ?.close()
     }
     focus(){
-        this.rootElement // @ts-ignore Resolved by module import
+        this.rootElement
             ?.focus()
     }
     enable(){
-        this.rootElement // @ts-ignore Resolved by module import
+        // @ts-ignore
+        this.rootElement
             ?.enable()
     }
     disable(){
-        this.rootElement // @ts-ignore Resolved by module import
+        // @ts-ignore
+        this.rootElement
             ?.disable()
     }
     override destroy() {
-        try{this.rootElement // @ts-ignore Resolved by module import
+        try{
+            // @ts-ignore
+            this.rootElement
             ?.destroy()}
         catch{}
     }

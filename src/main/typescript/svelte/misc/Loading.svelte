@@ -20,7 +20,7 @@
 
     .loader-path {
         fill: none;
-        stroke: var(--primary-color);
+        stroke: var(--accent-color);
         stroke-width: 10%;
         stroke-linecap: round;
         animation: animate-stroke 1.5s ease-in-out infinite;

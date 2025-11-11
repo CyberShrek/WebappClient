@@ -42,10 +42,10 @@
 
     .fix.framed {
         flex-wrap: wrap;
-        color: var(--primary-color);
+        color: var(--accent-color);
         padding: var(--indent);
         background: var(--secondary-color);
-        border: 5px solid var(--primary-color);
+        border: 5px solid var(--accent-color);
         border-radius: var(--border-radius);
     }
 </style>

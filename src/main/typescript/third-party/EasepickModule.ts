@@ -4,11 +4,11 @@ import {RangePlugin} from "@easepick/range-plugin"
 import {AmpPlugin} from "@easepick/amp-plugin"
 import {LockPlugin} from "@easepick/lock-plugin"
 
+import customCSS from "../../resources/css/easepick.css?url"
 import coreCSS from '@easepick/core/dist/index.css?url'
 import rangeCSS from '@easepick/range-plugin/dist/index.css?url'
 import ampCSS from '@easepick/amp-plugin/dist/index.css?url'
 import lockCSS from '@easepick/lock-plugin/dist/index.css?url'
-// // import "../../resources/css/third-party/easepick.css"
 
 import {stringifyDate} from "../util/data"
 import {serverLocations} from "../properties"
@@ -69,7 +69,7 @@ export class EasepickModule extends InputModule<string[]>{
                 maxDays: Number(config.maxDays)
             },
             css: [
-                coreCSS, rangeCSS, ampCSS, lockCSS
+                 customCSS, coreCSS, rangeCSS, ampCSS, lockCSS
             ],
             setup: (picker) => {
                 picker.on("select", (e) => {

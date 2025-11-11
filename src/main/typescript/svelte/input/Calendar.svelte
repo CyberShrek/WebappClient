@@ -4,6 +4,8 @@
     import {tick} from "svelte"
     import {EasepickModule} from "../../third-party/EasepickModule";
 
+    import image from "../../../resources/img/calendar.svg"
+
     export let
         value: string[],
         range: number = 0
@@ -37,6 +39,6 @@
 </script>
 
 <div class="datepicker">
-    <Button image="calendar.svg" on:click={() => rootElement.click()}/>
+    <Button {image} on:click={() => rootElement.click()}/>
     <input bind:this={rootElement}>
 </div>

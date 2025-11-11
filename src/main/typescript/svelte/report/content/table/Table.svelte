@@ -182,7 +182,7 @@
         text-align: center !important;
         font-size: 16px;
         font-weight: normal;
-        background: var(--primary-color);
+        background: var(--accent-color);
     }
 
     td {
@@ -191,7 +191,7 @@
     }
 
     tbody td {
-        color: var(--primary-color);
+        color: var(--accent-color);
         font-size: 14px;
     }
 
