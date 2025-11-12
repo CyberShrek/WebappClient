@@ -49,12 +49,12 @@
         flex-direction: column;
         justify-content: end;
         justify-self: start;
-        gap: var(--light-indent);
         width: 100%;
     }
 
     .field > .header {
         padding: 0;
+        margin-bottom: var(--light-indent);
         display: flex;
         justify-content: space-between;
         align-items: end;
@@ -71,5 +71,9 @@
     }
     .field.wrong > .header{
         color: var(--negative-color);
+    }
+
+    .field .message {
+        margin-left: auto;
     }
 </style>

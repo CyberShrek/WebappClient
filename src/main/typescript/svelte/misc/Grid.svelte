@@ -21,6 +21,7 @@
     .grid {
         display: grid;
         width: 100%;
+        align-items: start;
         grid-gap: var(--indent);
     }
 </style>

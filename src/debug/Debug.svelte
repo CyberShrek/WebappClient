@@ -15,6 +15,8 @@
         [fieldId: string]: any
     } = {}
 
+    $: message = values.switch ? "Какое-то сообщение" : ''
+
 </script>
 
 <Template {appInfo}>
@@ -25,7 +27,7 @@
                 <Calendar bind:value={values.calendar}/>
             </Field>
             <Field title="Календарь с диапазоном"
-                   message="Какое-то сообщение">
+                   {message}>
                 <Calendar bind:value={values.rangedCalendar}
                           range={10}/>
             </Field>
