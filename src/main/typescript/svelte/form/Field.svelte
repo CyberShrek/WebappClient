@@ -51,13 +51,11 @@
         justify-self: start;
         gap: var(--light-indent);
         width: 100%;
-        max-width: 25vw;
     }
 
     .field > .header {
         padding: 0;
         display: flex;
-        /*     height: 10px; */
         justify-content: space-between;
         align-items: end;
     }
@@ -71,9 +69,7 @@
         font-size: 18px;
         height: 20px;
     }
-
-    .field.wrong :is(.multiselect){
-        outline: thin solid var(--negative-color);
+    .field.wrong > .header{
+        color: var(--negative-color);
     }
-
 </style>

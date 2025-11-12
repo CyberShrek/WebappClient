@@ -39,6 +39,33 @@
 </script>
 
 <div class="datepicker">
-    <Button {image} on:click={() => rootElement.click()}/>
+    <Button design="frameless"
+            {image}
+            size={40}
+            on:click={() => rootElement.click()}/>
     <input bind:this={rootElement}>
 </div>
+
+<style>
+    .datepicker {
+        display: flex;
+        align-items: center;
+        background: white;
+        border: var(--light-border);
+        border-radius: var(--border-radius);
+    }
+
+    .datepicker > input {
+        width: 100%;
+        height: 90%;
+        font-size: medium;
+        color: var(--accent-color);
+        border: none;
+        border-radius: inherit;
+    }
+
+    .datepicker > input:focus {
+        outline: solid thin var(--accent-color);
+
+    }
+</style>

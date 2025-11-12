@@ -1,0 +1,17 @@
+.vscomp-ele .vscomp-toggle-button {
+    height: 40px;
+    border: var(--light-border);
+    border-radius: var(--border-radius);
+    box-shadow: none !important;
+}
+
+.vscomp-ele .focused .vscomp-toggle-button,
+.vscomp-ele .vscomp-wrapper:focus .vscomp-toggle-button {
+    outline: solid thin var(--accent-color);
+}
+
+.vscomp-ele .vscomp-dropbox-container {
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow) !important;
+}

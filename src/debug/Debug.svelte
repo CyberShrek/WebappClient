@@ -3,8 +3,9 @@
     import Form from "../main/typescript/svelte/form/Form.svelte"
     import Section from "../main/typescript/svelte/form/Section.svelte"
     import Field from "../main/typescript/svelte/form/Field.svelte"
-    import Calendar from "../main/typescript/svelte/input/Calendar.svelte";
-    import Select from "../main/typescript/svelte/input/Select.svelte";
+    import Calendar from "../main/typescript/svelte/input/Calendar.svelte"
+    import Select from "../main/typescript/svelte/input/Select.svelte"
+    import Switch from "../main/typescript/svelte/input/Switch.svelte";
 
     const appInfo: AppInfo = {
         code: "debug"
@@ -18,16 +19,15 @@
 
 <Template {appInfo}>
     <Form {values}>
-        <Section title="Какая-то секция" size={2}>
+        <Section title="Какая-то секция" area={2}>
             <Field title="Календарь"
-                   hint="Информация"
-                   message="Какое-то сообщение">
-                <Calendar bind:value={values.calendar}
-                          range={10}/>
+                   hint="Информация">
+                <Calendar bind:value={values.calendar}/>
             </Field>
-            <Field isWrong={true}
-                   message="Какая-то ошибка">
-
+            <Field title="Календарь с диапазоном"
+                   message="Какое-то сообщение">
+                <Calendar bind:value={values.rangedCalendar}
+                          range={10}/>
             </Field>
 
             <Field title="Cелект">
@@ -55,6 +55,13 @@
                             "opt-4": "Опция 4",
                             "opt-5": "Опция 5"
                         }}/>
+            </Field>
+            <Field title="Переключатель">
+                <Switch bind:value={values.switch}/>
+            </Field>
+            <Field title="Чекбокс">
+                <Switch type="checkbox"
+                        bind:value={values.checkbox}/>
             </Field>
         </Section>
 

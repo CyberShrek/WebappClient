@@ -1,8 +1,11 @@
 import {virtualSelectProperties} from "../properties"
 import {equal} from "../util/data"
 import {InputModule} from "./abstract/InputModule"
-import 'virtual-select-plugin/dist/virtual-select.min.css';
+
 import 'virtual-select-plugin/dist/virtual-select.min.js';
+import 'virtual-select-plugin/dist/virtual-select.min.css';
+import '../../resources/css/virtual-select.css';
+
 
 export type Option = {
     label: string

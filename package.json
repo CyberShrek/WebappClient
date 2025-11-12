@@ -15,7 +15,8 @@
     "jsdom": "^22.1.0",
     "pretty": "^2.0.0",
     "sweetalert2": "11.22.4",
-    "virtual-select-plugin": "^1.1.0"
+    "virtual-select-plugin": "^1.1.0",
+    "animate.css": "^4.1.1"
   },
   "devDependencies": {
     "@easepick/amp-plugin": "^1.2.1",

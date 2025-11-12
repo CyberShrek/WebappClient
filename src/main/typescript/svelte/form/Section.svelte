@@ -5,16 +5,20 @@
 
     export let
         title: string = '',
-        size: number = 4
+        area: number = 4
 
 </script>
 
 <div class="section"
      transition:fade>
 
-    <Grid className="fields"
-          {title}
-          {size}>
+    <div class="header">
+        <p>
+            {title}
+        </p>
+    </div>
+
+    <Grid {area}>
 
         <slot/>
 
@@ -30,7 +34,7 @@
         gap: var(--indent);
     }
 
-    .section .grid-wrapper > .header {
+    .section > .header {
         display: flex;
         gap: var(--strong-indent);
         align-items: center;

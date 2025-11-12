@@ -28,7 +28,7 @@
 	font-family: Roboto, serif;
 	color: var(--font-color);
 	transition: 0.1s;
-	border-radius: var(--border-radius);
+	/*border-radius: var(--border-radius);*/
 }
 
 body {
@@ -70,6 +70,10 @@ a {
 
 span {
 	white-space: break-spaces;
+}
+
+input {
+	cursor: pointer;
 }
 
 /* cyrillic */

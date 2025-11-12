@@ -51,7 +51,7 @@
         cursor: pointer;
         border: var(--light-border);
         border-radius: 0.5em;
-        padding: 0.35em 0.7em;
+        padding: 0.35em 0.5em;
     }
 
     button.submit {
@@ -62,7 +62,7 @@
     button.frameless {
         border: 0;
         background: transparent;
-        padding: 0;
+        padding: 0.35em;
     }
 
 </style>

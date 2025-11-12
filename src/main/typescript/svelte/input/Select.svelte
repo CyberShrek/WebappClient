@@ -64,5 +64,3 @@
 <div class="select" bind:this={rootElement}>
 
 </div>
-
-<!--{JSON.stringify(Object.entries(options.entries()))}-->

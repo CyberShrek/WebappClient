@@ -1,7 +1,7 @@
 import {Module} from "./abstract/Module"
 import swal, {SweetAlertOptions, SweetAlertPosition, SweetAlertResult} from "sweetalert2"
 import {sweetAlertProperties} from "../properties"
-import "../../resources/css/animate.css"
+import "animate.css"
 import "../../resources/css/swal.css"
 
 export class SweetAlertModule extends Module {
