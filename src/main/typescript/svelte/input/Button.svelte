@@ -6,7 +6,9 @@
         disabled      = false,
         active        = false,
 
-        size          = 30,
+        size: "small"
+            | "medium"
+            | "large" = "medium",
         design: "basic"
             | "frameless"
             | "submit"
@@ -21,11 +23,7 @@
 
 <button class:disabled
         class:active
-        class={design}
-        style={`
-             height: ${size}px;
-             font-size: ${size / 2}px;
-        `}
+        class="{size} {design}"
         title={hint}
         bind:this={root}
         on:click={event => event.preventDefault()}
@@ -36,6 +34,7 @@
 
     {#if image && image.length > 0}
         <Image {hint}
+               {size}
                {image}/>
     {/if}
 
@@ -48,21 +47,52 @@
 <style>
 
     button {
+        display: flex;
+        align-items: center;
         cursor: pointer;
         border: var(--light-border);
-        border-radius: 0.5em;
-        padding: 0.35em 0.5em;
+        border-radius: var(--border-radius);
+        color: var(--accent-color);
+        vertical-align: center;
+    }
+
+    button.small {
+        min-height: calc(var(--indent) * 2);
+        min-width: calc(var(--indent));
+        padding: 0 var(--indent);
+        font-size: small;
+    }
+    button.medium {
+        min-height: calc(var(--indent) * 3);
+        padding: var(--light-indent) var(--indent);
+        font-size: medium;
+    }
+    button.large {
+        min-height: calc(var(--indent) * 4);
+        padding: var(--indent) var(--strong-indent);
+        font-size: large;
     }
 
     button.submit {
         background: var(--accent-color);
+        border: none;
         color: white;
+        box-shadow: var(--shadow);
     }
 
     button.frameless {
+        /*min-height: 0;*/
+        padding: 0;
         border: 0;
         background: transparent;
-        padding: 0.35em;
+    }
+
+    button:hover {
+        filter: brightness(1.2);
+    }
+
+    button:active {
+        filter: brightness(0.8);
     }
 
 </style>

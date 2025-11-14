@@ -1,9 +1,10 @@
 :host {
  --color-fg-default: var(--accent-color) !important;
  --color-fg-primary: var(--accent-color) !important;
+ --border-radius: 12px !important;
 }
 * {
- transition: all 0.1s !important;
+ transition: all 0.2s !important;
 }
 
 .container {
@@ -11,28 +12,25 @@
   transform:scale(0) !important;
   opacity: 0 !important;
   overflow: initial !important; 
-  border-radius: 5px !important;
+  border-radius: var(--border-radius) !important;
   transition:transform 0.2s, opacity 0.3s ease-out !important;
 }
 .container.show {
  height:auto !important;
- transform:scale(1) !important;
+ transform: scale(1) translateX(-40px) translateY(var(--light-indent)) !important;
  opacity: 1 !important;
  box-shadow: var(--shadow) !important;
 }
 
-.calendar > .days-grid > .day.selected {
-  border-radius: 5px !important;
-}
 .container.range-plugin .calendar > .days-grid > .day.start:not(.flipped),
 .container.range-plugin .calendar > .days-grid > .day.end.flipped{
- border-top-left-radius: 5px !important;
- border-bottom-left-radius: 5px !important;
+ border-top-left-radius: var(--border-radius) !important;
+ border-bottom-left-radius: var(--border-radius) !important;
 }
 .container.range-plugin .calendar > .days-grid > .day.end:not(.flipped),
 .container.range-plugin .calendar > .days-grid > .day.start.flipped{
- border-top-right-radius: 5px !important;
- border-bottom-right-radius: 5px !important;
+ border-top-right-radius: var(--border-radius) !important;
+ border-bottom-right-radius: var(--border-radius) !important;
 }
 
 .container main {

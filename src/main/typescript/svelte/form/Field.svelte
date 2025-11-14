@@ -2,6 +2,8 @@
 
     import {slide, fade} from "svelte/transition"
     import {onMount} from "svelte"
+    import {popupMessage} from "../../util/alert";
+    import Button from "../input/Button.svelte";
 
     export let
         title      = "",
@@ -25,9 +27,11 @@
             {title}
         </p>
         {#if hint}
-            <span title="{hint}">
+            <Button hint="Подробнее"
+                    design="frameless"
+                    on:click={() => popupMessage("🛈", hint)}>
                 🛈
-            </span>
+            </Button>
         {/if}
     </div>
 
@@ -47,18 +51,19 @@
     .field {
         display: flex;
         flex-direction: column;
-        justify-content: end;
-        justify-self: start;
+        justify-content: start;
         width: 100%;
     }
 
     .field > .header {
-        padding: 0;
-        margin-bottom: var(--light-indent);
         display: flex;
         justify-content: space-between;
-        align-items: end;
+        margin-bottom: var(--light-indent);
+        align-items: center;
+        font-size: large;
+        height: 20px;
     }
+
     .field > .header:empty {
         display: none;
     }
@@ -66,14 +71,14 @@
         margin: 0;
         white-space: nowrap;
         font-weight: normal;
-        font-size: 18px;
-        height: 20px;
     }
-    .field.wrong > .header{
-        color: var(--negative-color);
+
+    .field.wrong > :global(:not(.header, .message)){
+        outline: 1px solid var(--negative-color);
     }
 
     .field .message {
         margin-left: auto;
+        font-size: small;
     }
 </style>

@@ -26,7 +26,7 @@
         <Button text={"Подтвердить"}
                 disabled={submitIsTouched && isWrong}
                 design="submit"
-                size={40}
+                size="large"
                 on:click={() => handleSubmit()}
                 on:mouseenter={() => submitIsTouched = true}/>
     </div>

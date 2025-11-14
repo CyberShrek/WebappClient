@@ -38,7 +38,7 @@
         display: flex;
         gap: var(--strong-indent);
         align-items: center;
-        /*     font-size: 22px; */
+        font-size: large;
         font-weight: bold;
         margin: 0;
     }

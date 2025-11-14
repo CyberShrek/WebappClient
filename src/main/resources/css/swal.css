@@ -1,11 +1,15 @@
 .swal2-container {
-    border-radius: var(--outer-border-radius) !important;
 
     /* animate.css */
     --animate-duration: 0.4s;
     --animate-delay: 0s;
+    --primary-color: var(--accent-color);
 }
 
-.swal2-container > * {
-    border-radius: inherit;
+.swal2-container > .swal2-popup {
+    border-radius: var(--outer-border-radius) !important;
+}
+
+.swal2-container * {
+    border-radius: var(--border-radius);
 }

@@ -64,3 +64,11 @@
 <div class="select" bind:this={rootElement}>
 
 </div>
+
+<style>
+
+    .select {
+        border-radius: var(--border-radius);
+    }
+
+</style>

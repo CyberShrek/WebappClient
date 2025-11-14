@@ -6,6 +6,7 @@
     import Calendar from "../main/typescript/svelte/input/Calendar.svelte"
     import Select from "../main/typescript/svelte/input/Select.svelte"
     import Switch from "../main/typescript/svelte/input/Switch.svelte";
+    import Button from "../main/typescript/svelte/input/Button.svelte";
 
     const appInfo: AppInfo = {
         code: "debug"
@@ -21,7 +22,7 @@
 
 <Template {appInfo}>
     <Form {values}>
-        <Section title="Какая-то секция" area={2}>
+        <Section title="Какая-то секция" area={3}>
             <Field title="Календарь"
                    hint="Информация">
                 <Calendar bind:value={values.calendar}/>
@@ -32,7 +33,7 @@
                           range={10}/>
             </Field>
 
-            <Field title="Cелект">
+            <Field title="Cелект" isWrong>
                 <Select bind:value={values.select}
                         options={{
                             "opt-1": "Опция 1",
@@ -58,15 +59,31 @@
                             "opt-5": "Опция 5"
                         }}/>
             </Field>
-            <Field title="Переключатель">
-                <Switch bind:value={values.switch}/>
-            </Field>
-            <Field title="Чекбокс">
-                <Switch type="checkbox"
-                        bind:value={values.checkbox}/>
+            <Field hint="Информация">
+                <Switch title="Переключатель"
+
+                        bind:value={values.switch}/>
             </Field>
         </Section>
 
-        values: {JSON.stringify(values)}
+        <div>
+
+            <Button size="small">
+                small
+            </Button>
+
+            <Button size="medium">
+                medium
+            </Button>
+
+            <Button size="large">
+                large
+            </Button>
+
+        </div>
+
+
+
+<!--        values: {JSON.stringify(values)}-->
     </Form>
 </Template>

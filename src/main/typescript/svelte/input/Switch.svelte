@@ -12,10 +12,10 @@
 
 <label class={type}>
     <input type="checkbox" bind:checked={value}>
-    {title}
     {#if type === "switch"}
         <span class="slider"></span>
     {/if}
+    {title}
 </label>
 
 <style>
@@ -23,7 +23,9 @@
         --switch-width: 45px;
         --switch-height: 25px;
     }
-    label input {
+
+    label {
+        gap: var(--indent);
         cursor: pointer;
     }
 

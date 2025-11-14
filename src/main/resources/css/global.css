@@ -12,13 +12,13 @@
 	
 	--border: thin solid steelblue;
 	--light-border: thin solid lightsteelblue;
-	--indent: 10px;
-	--light-indent: 5px;
-	--strong-indent: 15px;
-	--border-radius: 5px;
-	--outer-border-radius: var(--indent);
-	--shadow: 0 10px 15px -5px rgba(0, 0, 0, 0.3);
-	--light-shadow: 0 5px 10px -5px rgba(0, 0, 0, 0.3);
+	--indent: 12px;
+	--light-indent: 6px;
+	--strong-indent: 18px;
+	--border-radius: 12px;
+	--outer-border-radius: 18px;
+	--shadow: 0 12px 18px -6px rgba(0, 0, 0, 0.3);
+	--light-shadow: 0 6px 12px -6px rgba(0, 0, 0, 0.3);
 	--inner-shadow: inset var(--shadow);
 	
 	accent-color: var(--accent-color);
@@ -47,7 +47,7 @@ body.nested{
 	margin: 0;
 }
 
-h1, h2, h3 {
+h1, h2, h3, p, ul, li, a, span, input {
   margin: 0;
 }
 
@@ -103,10 +103,6 @@ input {
 
 .wrong {
 	color: var(--negative-color);
-}
-
-.wrong input {
-	outline: 1px solid var(--negative-color)
 }
 
 .error, .error * {

@@ -2,7 +2,7 @@
 
     import Button from "./Button.svelte"
     import {tick} from "svelte"
-    import {EasepickModule} from "../../third-party/EasepickModule";
+    import {EasepickModule} from "../../third-party/EasepickModule"
 
     import image from "../../../resources/img/calendar.svg"
 
@@ -41,7 +41,7 @@
 <div class="datepicker">
     <Button design="frameless"
             {image}
-            size={40}
+            size="small"
             on:click={() => rootElement.click()}/>
     <input bind:this={rootElement}>
 </div>
@@ -50,22 +50,31 @@
     .datepicker {
         display: flex;
         align-items: center;
+        height: 50px;
+        padding-left: var(--indent);
         background: white;
+        gap: var(--indent);
+        box-sizing: border-box;
         border: var(--light-border);
         border-radius: var(--border-radius);
     }
 
     .datepicker > input {
         width: 100%;
-        height: 90%;
+        height: 100%;
+        padding: 0 var(--indent);
         font-size: medium;
         color: var(--accent-color);
         border: none;
         border-radius: inherit;
     }
 
+    .datepicker:focus-within {
+        outline: solid thin var(--accent-color)
+    }
+
     .datepicker > input:focus {
-        outline: solid thin var(--accent-color);
+        outline: none;
 
     }
 </style>
