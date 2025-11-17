@@ -7,6 +7,7 @@
     import Select from "../main/typescript/svelte/input/Select.svelte"
     import Switch from "../main/typescript/svelte/input/Switch.svelte";
     import Button from "../main/typescript/svelte/input/Button.svelte";
+    import Report from "../main/typescript/svelte/report/Report.svelte";
 
     const appInfo: AppInfo = {
         code: "debug"
@@ -66,24 +67,26 @@
             </Field>
         </Section>
 
-        <div>
-
-            <Button size="small">
-                small
-            </Button>
-
-            <Button size="medium">
-                medium
-            </Button>
-
-            <Button size="large">
-                large
-            </Button>
-
-        </div>
-
-
-
 <!--        values: {JSON.stringify(values)}-->
     </Form>
+
+    <Report>
+
+    </Report>
+
+    <div>
+
+        <Button size="small">
+            small
+        </Button>
+
+        <Button size="medium">
+            medium
+        </Button>
+
+        <Button size="large">
+            large
+        </Button>
+
+    </div>
 </Template>

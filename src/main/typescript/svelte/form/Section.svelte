@@ -19,9 +19,7 @@
     </div>
 
     <Grid {area}>
-
         <slot/>
-
     </Grid>
 </div>
 

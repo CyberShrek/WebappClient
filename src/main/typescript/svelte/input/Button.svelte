@@ -46,29 +46,35 @@
 
 <style>
 
+    :root {
+        --button-height-small: 24px;
+        --button-height-medium: 36px;
+        --button-height-large: 48px;
+    }
+
     button {
         display: flex;
         align-items: center;
         cursor: pointer;
         border: var(--light-border);
         border-radius: var(--border-radius);
+        background: var(--secondary-color);
         color: var(--accent-color);
         vertical-align: center;
     }
 
     button.small {
-        min-height: calc(var(--indent) * 2);
-        min-width: calc(var(--indent));
+        min-height: var(--button-height-small);
         padding: 0 var(--indent);
         font-size: small;
     }
     button.medium {
-        min-height: calc(var(--indent) * 3);
+        min-height: var(--button-height-medium);
         padding: var(--light-indent) var(--indent);
         font-size: medium;
     }
     button.large {
-        min-height: calc(var(--indent) * 4);
+        min-height: var(--button-height-large);
         padding: var(--indent) var(--strong-indent);
         font-size: large;
     }

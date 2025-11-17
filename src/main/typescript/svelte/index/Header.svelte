@@ -42,7 +42,7 @@
 
 </script>
 
-<header id="header">
+<header>
     <div class="name">
         <a href="{appInfo.groupPath}" transition:fade>
             {appInfo.groupName}
@@ -59,11 +59,10 @@
 </header>
 
 <style>
-    #header {
+    header {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        width: 100%;
         left: 0;
     }
     .name {

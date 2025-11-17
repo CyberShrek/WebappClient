@@ -15,3 +15,18 @@
     overflow: hidden;
     box-shadow: var(--shadow) !important;
 }
+.vscomp-ele .vscomp-option.selected {
+    background: initial !important;
+}
+.vscomp-ele .vscomp-option.selected * {
+    color: var(--accent-color) !important;
+    font-weight: bold;
+}
+.vscomp-ele .vscomp-option.selected .checkbox-icon::after {
+    /*border-color: var(--accent-color) !important;*/
+    border-bottom-color:  var(--accent-color) !important;
+    border-right-color:  var(--accent-color) !important;
+}
+.vscomp-ele .vscomp-option.focused {
+    background: var(--secondary-color) !important;
+}

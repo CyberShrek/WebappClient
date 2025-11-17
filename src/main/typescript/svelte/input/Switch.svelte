@@ -19,9 +19,9 @@
 </label>
 
 <style>
-    :root{
-        --switch-width: 45px;
-        --switch-height: 25px;
+    :root {
+        --switch-width: 40px;
+        --switch-height: 24px;
     }
 
     label {
@@ -62,7 +62,7 @@
         bottom: 3px;
         background-color: white;
         transition: .2s;
-        border-radius: var(--switch-height);
+        border-radius: var(--border-radius);
     }
     label.switch input:hover + .slider {
         background: var(--secondary-color);

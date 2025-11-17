@@ -35,9 +35,8 @@ body {
 	display: grid;
 
 	align-content: start;
-  row-gap: var(--strong-indent);
-	width: calc(100% - var(--strong-indent) * 2);
-	margin: var(--strong-indent);
+    row-gap: var(--strong-indent);
+	margin: var(--indent) var(--strong-indent);
 	min-height: 100vh;
 	background-color: var(--background-color);
 }

@@ -22,15 +22,26 @@
  box-shadow: var(--shadow) !important;
 }
 
-.container.range-plugin .calendar > .days-grid > .day.start:not(.flipped),
-.container.range-plugin .calendar > .days-grid > .day.end.flipped{
- border-top-left-radius: var(--border-radius) !important;
- border-bottom-left-radius: var(--border-radius) !important;
+.container .calendar .days-grid .day{
+    cursor: pointer;
 }
-.container.range-plugin .calendar > .days-grid > .day.end:not(.flipped),
-.container.range-plugin .calendar > .days-grid > .day.start.flipped{
- border-top-right-radius: var(--border-radius) !important;
- border-bottom-right-radius: var(--border-radius) !important;
+.container .calendar .days-grid .day:is(.selected, :hover):not(.start, .end){
+    border-radius: var(--border-radius) !important;
+}
+
+.container.range-plugin .calendar > .days-grid > .day:is(
+    .start:not(.flipped),
+    .end.flipped
+){
+    border-top-left-radius: var(--border-radius) !important;
+    border-bottom-left-radius: var(--border-radius) !important;
+}
+.container.range-plugin .calendar > .days-grid > .day:is(
+    .end:not(.flipped),
+    .start.flipped
+){
+    border-top-right-radius: var(--border-radius) !important;
+    border-bottom-right-radius: var(--border-radius) !important;
 }
 
 .container main {

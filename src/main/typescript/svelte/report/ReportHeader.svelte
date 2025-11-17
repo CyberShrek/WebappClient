@@ -5,7 +5,6 @@
     import {ExportReport} from "../../model/export/ExportReport"
     import {TableModel} from "../../model/export/TableModel"
     import {downloadReport} from "../../api/report"
-    import ToTopButton from "../././././index/ToTopButton.svelte"
     import Button from "../input/Button.svelte"
     import Loading from "../misc/Loading.svelte"
 
@@ -71,9 +70,9 @@
     {#if isLoaded === false}
         <Loading/>
     {:else if isLoaded === true}
-        {#if !modal}
-            <ToTopButton/>
-        {/if}
+        <!--{#if !modal}-->
+        <!--    <ToTopButton/>-->
+        <!--{/if}-->
         <!--{#if report.hasCharts && report.hasTables}-->
         <!--    <Button image="graph.svg"-->
         <!--            disabled={collapsed}-->
@@ -114,15 +113,5 @@
     .header > h2{
         margin-right: auto;
         padding: 0 var(--strong-indent);
-    }
-    .header > img{
-        height: 40px;
-    }
-    .header > button{
-        height: var(--report-header-height);
-        width: var(--report-header-height);
-        padding: var(--light-indent);
-        background: white;
-        border: 0;
     }
 </style>

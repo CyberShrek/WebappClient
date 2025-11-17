@@ -18,14 +18,9 @@
 <div class="report"
      bind:this={reportRootElement}>
 
-    <ReportHeader {title}
-                  {reportRootElement}
-                  {modal}
-                  {allowTablesExport}
-                  {allowChartsExport}
-                  {isLoaded}
-                  bind:isCollapsed
-                  bind:isFullScreen/>
+    <div class="header">
+
+    </div>
 
     <div class="body">
         <slot/>
@@ -48,5 +43,19 @@
     .report > .body{
         display: grid;
         gap: var(--indent);
+    }
+
+    .report > .header {
+        display:flex;
+        width: auto;
+        height: var(--report-header-height);
+        align-items: center;
+        margin: var(--indent);
+        background: var(--solid-color);
+        border-radius: var(--border-radius);
+    }
+    .header > h2{
+        margin-right: auto;
+        padding: 0 var(--strong-indent);
     }
 </style>

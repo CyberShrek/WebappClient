@@ -12,8 +12,8 @@
         isWrong         = false
 
 
-    async function handleSubmit(){
-        dispatch(SUBMIT_EVENT, {formValues: values})
+    async function dispatchSubmit(){
+        dispatch(SUBMIT_EVENT, values)
     }
 
 </script>
@@ -27,27 +27,17 @@
                 disabled={submitIsTouched && isWrong}
                 design="submit"
                 size="large"
-                on:click={() => handleSubmit()}
+                on:click={dispatchSubmit}
                 on:mouseenter={() => submitIsTouched = true}/>
     </div>
 </form>
-<!--{JSON.stringify(value)}-->
 
 <style>
     form {
         display: flex;
         flex-direction: column;
-        width: calc(100% - 2*var(--indent));
         gap: var(--indent);
-        padding: var(--indent);
         border-radius: var(--outer-border-radius);
-    }
-
-    form .message {
-        font-size: medium;
-        font-weight: normal;
-        margin: var(--light-indent) auto 0 auto;
-        filter: saturate(0.7);
     }
 
     form > .buttons {

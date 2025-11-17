@@ -25,8 +25,8 @@
         <Fix right
              bottom>
             <Button hint="Вернуться наверх"
+                    design="frameless"
                     {image}
-                    size={35}
                     on:click={() => scrollIntoElement(document.documentElement)}/>
         </Fix>
     {/if}
