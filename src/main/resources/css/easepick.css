@@ -1,7 +1,7 @@
 :host {
  --color-fg-default: var(--accent-color) !important;
  --color-fg-primary: var(--accent-color) !important;
- --border-radius: 12px !important;
+ --border-radius: 6px !important;
 }
 * {
  transition: all 0.2s !important;
@@ -17,7 +17,7 @@
 }
 .container.show {
  height:auto !important;
- transform: scale(1) translateX(-40px) translateY(var(--light-indent)) !important;
+ transform: scale(1) translateX(-46px) translateY(var(--light-indent)) !important;
  opacity: 1 !important;
  box-shadow: var(--shadow) !important;
 }
@@ -49,5 +49,6 @@
 }
 
 .range-plugin-tooltip {
- transition: 0.5s !important;
+    border-radius: 99px !important;
+    transition: 0.5s !important;
 }

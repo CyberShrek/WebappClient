@@ -62,7 +62,7 @@
         bottom: 3px;
         background-color: white;
         transition: .2s;
-        border-radius: var(--border-radius);
+        border-radius: 50%;
     }
     label.switch input:hover + .slider {
         background: var(--secondary-color);

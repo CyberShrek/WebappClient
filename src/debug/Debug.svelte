@@ -8,6 +8,7 @@
     import Switch from "../main/typescript/svelte/input/Switch.svelte";
     import Button from "../main/typescript/svelte/input/Button.svelte";
     import Report from "../main/typescript/svelte/report/Report.svelte";
+    import Image from "../main/typescript/svelte/misc/Image.svelte";
 
     const appInfo: AppInfo = {
         code: "debug"
@@ -70,23 +71,20 @@
 <!--        values: {JSON.stringify(values)}-->
     </Form>
 
-    <Report>
-
+    <Report title="Отчёт">
+        <Image image="https://i.pinimg.com/originals/60/9f/79/609f79c036f54c4564ab72e0f89df98f.gif"/>
     </Report>
 
     <div>
 
-        <Button size="small">
-            small
-        </Button>
+        <Button size="small"
+                text="small"/>
 
-        <Button size="medium">
-            medium
-        </Button>
+        <Button size="medium"
+                text="medium"/>
 
-        <Button size="large">
-            large
-        </Button>
+        <Button size="large"
+                text="large"/>
 
     </div>
 </Template>

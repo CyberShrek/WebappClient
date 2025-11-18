@@ -1,30 +1,38 @@
 <script lang="ts">
 
-    import ReportHeader from "./ReportHeader.svelte"
+    import FullscreenButton from "./buttons/FullscreenButton.svelte"
+    import CollapseButton from "./buttons/CollapseButton.svelte"
 
     export let
-        title    = "Отчёт",
-        modal    = false,
-        allowTablesExport = false,
-        allowChartsExport = false,
-        isLoaded: boolean | null = null
+        title        = "Отчёт",
+        isReady      = true,
+        isCollapsed  = false
 
-    let reportRootElement: HTMLDivElement,
-        isCollapsed  = false,
-        isFullScreen = false
+    let rootElement: HTMLDivElement
 
 </script>
 
 <div class="report"
-     bind:this={reportRootElement}>
+     bind:this={rootElement}>
 
     <div class="header">
-
+        <h2>
+            {title}
+        </h2>
+        {#if isReady}
+            <div class="buttons">
+                <slot name="buttons"/>
+                <CollapseButton bind:isCollapsed/>
+                <FullscreenButton {rootElement}/>
+            </div>
+        {/if}
     </div>
 
-    <div class="body">
-        <slot/>
-    </div>
+    {#if isReady && !isCollapsed}
+        <div class="body">
+            <slot/>
+        </div>
+    {/if}
 </div>
 <!--{JSON.stringify(formValue)}-->
 
@@ -33,29 +41,35 @@
         display: flex;
         flex-direction: column;
         min-height: var(--report-header-height);
+        max-height: 100vh;
         background: white;
         height: min-content;
-        /*     padding: var(--indent); */
-        gap: var(--indent);
         border-radius: var(--outer-border-radius);
-    }
-
-    .report > .body{
-        display: grid;
-        gap: var(--indent);
     }
 
     .report > .header {
         display:flex;
         width: auto;
-        height: var(--report-header-height);
+        height: 50px;
         align-items: center;
         margin: var(--indent);
-        background: var(--solid-color);
         border-radius: var(--border-radius);
     }
     .header > h2{
         margin-right: auto;
-        padding: 0 var(--strong-indent);
+        padding: 0 var(--indent);
+    }
+    .header > .buttons{
+        display: flex;
+        margin-left: auto;
+        padding: 0 var(--light-indent);
+        gap: var(--light-indent);
+    }
+
+    .report > .body {
+        display: grid;
+        gap: var(--indent);
+        overflow: auto;
+        margin-bottom: var(--outer-border-radius);
     }
 </style>

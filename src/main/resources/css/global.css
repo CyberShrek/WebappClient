@@ -15,8 +15,8 @@
 	--indent: 12px;
 	--light-indent: 6px;
 	--strong-indent: 18px;
-	--border-radius: 12px;
-	--outer-border-radius: 18px;
+	--border-radius: 6px;
+	--outer-border-radius: 9px;
 	--shadow: 0 12px 18px -6px rgba(0, 0, 0, 0.3);
 	--light-shadow: 0 6px 12px -6px rgba(0, 0, 0, 0.3);
 	--inner-shadow: inset var(--shadow);

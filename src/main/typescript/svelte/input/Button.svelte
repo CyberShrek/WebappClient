@@ -10,6 +10,7 @@
             | "medium"
             | "large" = "medium",
         design: "basic"
+            | "white"
             | "frameless"
             | "submit"
             | "cancel" = "basic",
@@ -24,6 +25,8 @@
 <button class:disabled
         class:active
         class="{size} {design}"
+        class:text
+        class:image
         title={hint}
         bind:this={root}
         on:click={event => event.preventDefault()}
@@ -39,8 +42,6 @@
     {/if}
 
     {text}
-
-    <slot/>
 
 </button>
 
@@ -64,19 +65,27 @@
     }
 
     button.small {
-        min-height: var(--button-height-small);
-        padding: 0 var(--indent);
+        height: var(--button-height-small);
+        padding: 0;
         font-size: small;
     }
     button.medium {
-        min-height: var(--button-height-medium);
-        padding: var(--light-indent) var(--indent);
+        height: var(--button-height-medium);
+        padding: var(--light-indent);
         font-size: medium;
     }
-    button.large {
-        min-height: var(--button-height-large);
-        padding: var(--indent) var(--strong-indent);
+    button {
+        height: var(--button-height-large);
+        padding: var(--indent);
         font-size: large;
+    }
+    button.text {
+        padding-left: var(--indent);
+        padding-right: var(--indent);
+    }
+    button.large.text {
+        padding-left: var(--strong-indent);
+        padding-right: var(--strong-indent);
     }
 
     button.submit {
@@ -84,6 +93,11 @@
         border: none;
         color: white;
         box-shadow: var(--shadow);
+    }
+
+    button.white {
+        background: white;
+        border: none;
     }
 
     button.frameless {
@@ -96,9 +110,13 @@
     button:hover {
         filter: brightness(1.2);
     }
+    button.white:hover {
+        filter: none;
+        background: var(--secondary-color);
+    }
 
     button:active {
-        filter: brightness(0.8);
+        filter: brightness(0.8) !important;
     }
 
 </style>
