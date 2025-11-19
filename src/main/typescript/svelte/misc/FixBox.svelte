@@ -4,19 +4,13 @@
 
     export let
         framed: boolean = false,
-        top    = false,
-        bottom = false,
-        left   = false,
-        right  = false
+        xAlign: "start" | "end" | "center" = "center",
+        yAlign: "start" | "end" | "center" = "center"
 
 </script>
 
-<div class="fix"
+<div class="fix x-{xAlign} y-{yAlign}"
      class:framed
-     class:top
-     class:bottom
-     class:left
-     class:right
      transition:fade>
 
     <slot/>
@@ -25,7 +19,7 @@
 <style>
     .fix {
         display: flex;
-        opacity: 0.6;
+        opacity: 0.8;
         position: fixed;
         z-index: 64;
         box-shadow: var(--shadow);
@@ -35,10 +29,12 @@
     .fix:hover {
         opacity: 1;
     }
-    .fix.bottom { top:  auto; }
-    .fix.top    { top:  0;    }
-    .fix.left   { left: 0;    }
-    .fix.right  { left: auto; }
+    .fix.y-start { top:  var(--strong-indent);  }
+    .fix.y-end   { bottom: var(--strong-indent);}
+    .fix.y-center{ top: 50%; transform: translateY(-50%);}
+    .fix.x-start { left: var(--strong-indent);  }
+    .fix.x-end   { right: var(--strong-indent); }
+    .fix.x-center{ left: 50%; transform: translateX(-50%);}
 
     .fix.framed {
         flex-wrap: wrap;

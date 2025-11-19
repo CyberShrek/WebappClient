@@ -5,10 +5,11 @@
     import Field from "../main/typescript/svelte/form/Field.svelte"
     import Calendar from "../main/typescript/svelte/input/Calendar.svelte"
     import Select from "../main/typescript/svelte/input/Select.svelte"
-    import Switch from "../main/typescript/svelte/input/Switch.svelte";
-    import Button from "../main/typescript/svelte/input/Button.svelte";
-    import Report from "../main/typescript/svelte/report/Report.svelte";
-    import Image from "../main/typescript/svelte/misc/Image.svelte";
+    import Switch from "../main/typescript/svelte/input/Switch.svelte"
+    import Button from "../main/typescript/svelte/input/Button.svelte"
+    import Report from "../main/typescript/svelte/report/Report.svelte"
+    import Image from "../main/typescript/svelte/misc/Image.svelte"
+    import ToTopButton from "../main/typescript/svelte/report/buttons/ToTopButton.svelte";
 
     const appInfo: AppInfo = {
         code: "debug"
@@ -63,7 +64,6 @@
             </Field>
             <Field hint="Информация">
                 <Switch title="Переключатель"
-
                         bind:value={values.switch}/>
             </Field>
         </Section>
@@ -72,6 +72,7 @@
     </Form>
 
     <Report title="Отчёт">
+<!--        values: {JSON.stringify(values)}-->
         <Image image="https://i.pinimg.com/originals/60/9f/79/609f79c036f54c4564ab72e0f89df98f.gif"/>
     </Report>
 

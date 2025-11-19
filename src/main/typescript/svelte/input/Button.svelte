@@ -1,6 +1,7 @@
 <script lang="ts">
 
     import Image from "../misc/Image.svelte"
+    import {slide} from "svelte/transition"
 
     export let
         disabled      = false,
@@ -18,6 +19,7 @@
         hint          = "",
         text          = "",
         image         = "",
+        slideAxis: "x" | "y" = "x",
         root: null |HTMLButtonElement = null
 
 </script>
@@ -33,7 +35,8 @@
         on:click
         on:mouseenter
         on:mousedown
-        on:mouseup>
+        on:mouseup
+        transition:slide={{axis: slideAxis}}>
 
     {#if image && image.length > 0}
         <Image {hint}
@@ -115,7 +118,7 @@
         background: var(--secondary-color);
     }
 
-    button:active {
+    button:is(.active, :active) {
         filter: brightness(0.8) !important;
     }
 

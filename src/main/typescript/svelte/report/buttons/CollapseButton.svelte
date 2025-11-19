@@ -8,5 +8,6 @@
 
 <Button {image}
         design="white"
+        active={isCollapsed}
         hint={isCollapsed ? "Развернуть" : "Свернуть"}
         on:click={() => isCollapsed = !isCollapsed}/>

@@ -42,15 +42,13 @@ export function scrollIntoElement(element: HTMLElement) {
     element.scrollIntoView({behavior: "smooth", block: "start"})
 }
 
-export function toggleFullscreen(element: HTMLElement){
-    if(!!getFullscreenElement())
+export function exitFullscreen() {
+    if(!!document.querySelector(":fullscreen")) {
         document.exitFullscreen()
-    else
-        element.requestFullscreen()
+    }
 }
-
-export function getFullscreenElement(): Element | null {
-    return document.querySelector(":fullscreen")
+export function enterFullscreen(element: HTMLElement) {
+    element.requestFullscreen()
 }
 
 // Each enable of cursor loading adds 1 item into this array, each disabling removes also 1 item.
