@@ -9,7 +9,6 @@
     import Button from "../main/typescript/svelte/input/Button.svelte"
     import Report from "../main/typescript/svelte/report/Report.svelte"
     import Image from "../main/typescript/svelte/misc/Image.svelte"
-    import ToTopButton from "../main/typescript/svelte/report/buttons/ToTopButton.svelte";
 
     const appInfo: AppInfo = {
         code: "debug"
@@ -20,6 +19,48 @@
     } = {}
 
     $: message = values.switch ? "Какое-то сообщение" : ''
+
+    function generateRandomData(
+        width: number,
+        height: number,
+        columnTypes: ('string' | 'number' | 'boolean')[]
+    ): any[][] {
+        const WORDS = [
+            'apple', 'banana', 'cherry', 'date', 'elderberry', 'fig', 'grape',
+            'honeydew', 'kiwi', 'lemon', 'mango', 'nectarine', 'orange', 'peach',
+            'quince', 'raspberry', 'strawberry', 'tangerine', 'watermelon'
+        ];
+
+        const result: any[][] = [];
+
+        for (let i = 0; i < height; i++) {
+            const row: any[] = [];
+
+            for (let j = 0; j < width; j++) {
+                const columnType = columnTypes[j] || 'string';
+
+                switch (columnType) {
+                    case 'string':
+                        row.push(WORDS[Math.floor(Math.random() * WORDS.length)]);
+                        break;
+                    case 'number':
+                        row.push(Math.floor(Math.random() * 1000)/10);
+                        break;
+                    case 'boolean':
+                        row.push(Math.random() > 0.5);
+                        break;
+                    default:
+                        row.push(null);
+                }
+            }
+
+            result.push(row);
+        }
+
+        return result;
+    }
+
+    console.log(generateRandomData(3, 100, ["string", "number", "boolean"]))
 
 </script>
 
@@ -51,7 +92,6 @@
                         search
                         showCodes
                         pickAllCheckbox
-                        maxValues={3}
                         placeholder="...placeholder..."
                         bind:value={values.multiselect}
                         options={{

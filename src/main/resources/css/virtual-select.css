@@ -13,20 +13,36 @@
 .vscomp-ele .vscomp-dropbox-container {
     border-radius: var(--border-radius);
     overflow: hidden;
-    box-shadow: var(--shadow) !important;
+    box-shadow: var(--box-shadow) !important;
 }
+
+.vscomp-ele .vscomp-search-input {
+    cursor: text;
+}
+
+.vscomp-ele .vscomp-toggle-all-button::after {
+    content: "Выбрать все";
+    white-space: nowrap;
+    margin-right: var(--indent);
+}
+
 .vscomp-ele .vscomp-option.selected {
     background: initial !important;
 }
-.vscomp-ele .vscomp-option.selected * {
+.vscomp-ele :is(
+  .vscomp-option.selected *,
+  .vscomp-toggle-all-button:has(.checkbox-icon.checked)
+) {
     color: var(--accent-color) !important;
-    font-weight: bold;
 }
-.vscomp-ele .vscomp-option.selected .checkbox-icon::after {
+.vscomp-ele :is(.vscomp-option.selected .checkbox-icon, .checkbox-icon.checked)::after {
     /*border-color: var(--accent-color) !important;*/
     border-bottom-color:  var(--accent-color) !important;
     border-right-color:  var(--accent-color) !important;
 }
 .vscomp-ele .vscomp-option.focused {
     background: var(--secondary-color) !important;
+}
+.vscomp-ele .checkbox-icon::after{
+    border-radius: 2px;
 }

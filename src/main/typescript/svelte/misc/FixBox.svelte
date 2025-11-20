@@ -22,7 +22,7 @@
         opacity: 0.8;
         position: fixed;
         z-index: 64;
-        box-shadow: var(--shadow);
+        filter: drop-shadow(var(--drop-shadow));
         transition:  opacity 0.3s;
         width: min-content;
     }

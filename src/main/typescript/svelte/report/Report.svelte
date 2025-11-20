@@ -1,6 +1,6 @@
 <script lang="ts">
 
-    import {slide} from "svelte/transition"
+    import {slide, blur} from "svelte/transition"
 
     import FullscreenButton from "./buttons/FullscreenButton.svelte"
     import CollapseButton from "./buttons/CollapseButton.svelte"
@@ -22,6 +22,7 @@
 </script>
 
 <div class="report"
+     class:collapsed={isCollapsed}
      bind:this={rootElement}>
 
     <div class="header">
@@ -29,17 +30,16 @@
             {title}
         </h2>
         {#if isReady}
-            <div class="buttons">
+            <div class="buttons"
+            transition:blur>
 
                 {#if !isFullscreen}
                     <ToTopButton/>
                 {/if}
-
-                {#if !isCollapsed}
+                {#if !isFullscreen && !isCollapsed}
                     <slot name="buttons"/>
                     <DownloadButton/>
                 {/if}
-
                 {#if !isFullscreen}
                     <CollapseButton bind:isCollapsed/>
                 {/if}
@@ -59,22 +59,33 @@
 <!--{JSON.stringify(formValue)}-->
 
 <style>
+
+    :root {
+        --report-header-height: 50px;
+    }
+
     .report {
         display: flex;
         flex-direction: column;
         min-height: var(--report-header-height);
         background: white;
         height: min-content;
+        overflow: clip;
         border-radius: var(--outer-border-radius);
     }
 
     .report > .header {
-        display:flex;
+        display: flex;
+        position: sticky;
+        top: 0;
         width: auto;
-        height: 50px;
+        min-height: var(--report-header-height);
         align-items: center;
-        margin: var(--indent);
-        border-radius: var(--border-radius);
+        padding: var(--light-indent);
+        background: white;
+    }
+    .report:not(.collapsed) > .header {
+        border-bottom: var(--light-border);
     }
     .header > h2{
         margin-right: auto;
@@ -94,8 +105,6 @@
         display: grid;
         gap: var(--indent);
         overflow: auto;
-        max-height: 100vh;
         margin-bottom: var(--outer-border-radius);
-        border-top: var(--light-border);
     }
 </style>

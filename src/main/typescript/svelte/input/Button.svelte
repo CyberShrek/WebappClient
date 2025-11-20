@@ -22,6 +22,8 @@
         slideAxis: "x" | "y" = "x",
         root: null |HTMLButtonElement = null
 
+    let showContent = true
+
 </script>
 
 <button class:disabled
@@ -95,7 +97,7 @@
         background: var(--accent-color);
         border: none;
         color: white;
-        box-shadow: var(--shadow);
+        box-shadow: var(--box-shadow);
     }
 
     button.white {

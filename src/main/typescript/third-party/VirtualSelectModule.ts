@@ -49,9 +49,7 @@ export class VirtualSelectModule extends InputModule<string[]>{
                 hasOptionDescription: !!config.showCodes,
                 disableSelectAll: !!config.disableSelectAll,
                 maxValues: config.maxValues,
-                searchPlaceholderText: (config.multiple && !config.disableSelectAll)
-                    ? virtualSelectProperties.selectAllText
-                    : virtualSelectProperties.searchPlaceholderText,
+                searchPlaceholderText: virtualSelectProperties.searchPlaceholderText,
                 autofocus: false
             })
             rootElement.addEventListener("change", event => {

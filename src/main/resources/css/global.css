@@ -17,9 +17,8 @@
 	--strong-indent: 18px;
 	--border-radius: 6px;
 	--outer-border-radius: 9px;
-	--shadow: 0 12px 18px -6px rgba(0, 0, 0, 0.3);
-	--light-shadow: 0 6px 12px -6px rgba(0, 0, 0, 0.3);
-	--inner-shadow: inset var(--shadow);
+	--box-shadow:  0 12px 18px -6px rgba(0, 0, 0, 0.3);
+	--drop-shadow: 0 12px 18px      rgba(0, 0, 0, 0.3);
 	
 	accent-color: var(--accent-color);
 }
@@ -39,6 +38,8 @@ body {
 	margin: var(--indent) var(--strong-indent);
 	min-height: 100vh;
 	background-color: var(--background-color);
+
+	padding-bottom: 50vh;
 }
 
 body.nested{
@@ -92,57 +93,4 @@ input {
 	font-display: swap;
 	src: url("../fonts/roboto-latin.woff2") format('woff2');
 	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
-/* STATES */
-.unframed {
-	border: none;
-	background: transparent;
-}
-
-.wrong {
-	color: var(--negative-color);
-}
-
-.error, .error * {
-	color: white;
-	background: var(--negative-color)
-}
-
-.collapsed, .collapsed * {
-	user-select: none !important;
-	pointer-events: none !important;
-	height: 0 !important;
-	padding: 0 !important;
-	font-size: 0 !important;
-	border-width: 0 !important;
-	opacity: 0 !important;
-
-}
-.collapsed input{
-	display: none;
-}
-
-.disabled, .hidden {
-	pointer-events: none;
-	user-select: none;
-}
-.disabled {
-	filter: grayscale(0.5) opacity(0.5);
-}
-
-.hidden, .hidden * {
-	opacity: 0;
-}
-
-.none{
-	display: none;
-}
-
-.positive, .positive > * {
-	color: var(--positive-color) !important;
-}
-
-.negative, .negative > * {
-	color: var(--negative-color) !important;
 }

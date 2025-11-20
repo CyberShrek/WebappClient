@@ -20,7 +20,7 @@ button.submit{
     color: white;
     padding: var(--indent) var(--strong-indent);
     background: var(--accent-color);
-    box-shadow: var(--shadow);
+    box-shadow: var(--box-shadow);
     height: var(--input-height);
 }
 
@@ -180,7 +180,7 @@ label.switch input:checked + .slider:before {
 }
 .textarea:focus{
     outline: var(--border);
-    box-shadow: var(--shadow)
+    box-shadow: var(--box-shadow)
 }
 
 /* SELECT */
@@ -211,7 +211,7 @@ select, .multiselect, .multiselect *:not(:is(.vscomp-option, .vscomp-option-text
     outline: var(--border);
 }
 .multiselect .vscomp-dropbox-container {
-    box-shadow: var(--shadow);
+    box-shadow: var(--box-shadow);
 }
 .multiselect > .vscomp-toggle-button{
     padding: var(--indent);

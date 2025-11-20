@@ -1,7 +1,6 @@
 <script lang="ts">
 
-    import {slide} from "svelte/transition"
-    import { onMount } from 'svelte'
+    import {blur} from "svelte/transition"
 
     export let
         image,
@@ -16,7 +15,8 @@
 <img src={image}
      title={hint}
      class={size}
-     alt=""/>
+     alt=""
+     transition:blur/>
 
 <style>
 

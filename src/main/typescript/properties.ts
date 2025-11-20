@@ -42,7 +42,6 @@ export const
         placeholder: "",
         noOptionsText: "Варианты не найдены",
         noSearchResultsText: "Результатов не найдено",
-        selectAllText: "Выбрать все",
         searchPlaceholderText: "Поиск...",
         optionsSelectedText: "(выбрано)",
         optionSelectedText: "вариант выбран",

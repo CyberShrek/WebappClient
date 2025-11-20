@@ -19,7 +19,7 @@
  height:auto !important;
  transform: scale(1) translateX(-46px) translateY(var(--light-indent)) !important;
  opacity: 1 !important;
- box-shadow: var(--shadow) !important;
+ box-shadow: var(--box-shadow) !important;
 }
 
 .container .calendar .days-grid .day{
