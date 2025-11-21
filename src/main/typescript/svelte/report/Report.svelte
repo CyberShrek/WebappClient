@@ -23,6 +23,7 @@
 
 <div class="report"
      class:collapsed={isCollapsed}
+     class:fullscreen={isFullscreen}
      bind:this={rootElement}>
 
     <div class="header">
@@ -61,7 +62,7 @@
 <style>
 
     :root {
-        --report-header-height: 50px;
+        --report-header-height: 60px;
     }
 
     .report {
@@ -73,6 +74,9 @@
         overflow: clip;
         border-radius: var(--outer-border-radius);
     }
+    .report.fullscreen {
+        overflow: scroll;
+    }
 
     .report > .header {
         display: flex;
@@ -81,7 +85,7 @@
         width: auto;
         min-height: var(--report-header-height);
         align-items: center;
-        padding: var(--light-indent);
+        padding: 0 var(--light-indent);
         background: white;
     }
     .report:not(.collapsed) > .header {
@@ -102,9 +106,7 @@
     }
 
     .report > .body {
-        display: grid;
         gap: var(--indent);
-        overflow: auto;
         margin-bottom: var(--outer-border-radius);
     }
 </style>

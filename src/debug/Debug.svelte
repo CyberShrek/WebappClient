@@ -8,8 +8,8 @@
     import Switch from "../main/typescript/svelte/input/Switch.svelte"
     import Button from "../main/typescript/svelte/input/Button.svelte"
     import Report from "../main/typescript/svelte/report/Report.svelte"
-    import Image from "../main/typescript/svelte/misc/Image.svelte"
-
+    import ContentBlock from "../main/typescript/svelte/report/content/ContentBlock.svelte";
+    import Table from "../main/typescript/svelte/report/content/table_new/Table.svelte";
     const appInfo: AppInfo = {
         code: "debug"
     }
@@ -60,7 +60,7 @@
         return result;
     }
 
-    console.log(generateRandomData(3, 100, ["string", "number", "boolean"]))
+    const randomData = generateRandomData(3, 100, ["string", "number", "boolean"]);
 
 </script>
 
@@ -112,8 +112,16 @@
     </Form>
 
     <Report title="Отчёт">
-<!--        values: {JSON.stringify(values)}-->
-        <Image image="https://i.pinimg.com/originals/60/9f/79/609f79c036f54c4564ab72e0f89df98f.gif"/>
+        <ContentBlock>
+            <Table head={["Столбец 1", "Столбец 2", "Столбец 3"]}
+                   data={randomData}>
+                <slot slot="cell"
+                      let:type
+                      let:value>
+                    {value}: {type}
+                </slot>
+            </Table>
+        </ContentBlock>
     </Report>
 
     <div>

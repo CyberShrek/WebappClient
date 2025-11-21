@@ -1,6 +1,6 @@
 <script lang="ts">
 
-    import Modal from "../../misc/Modal.svelte";
+    import Modal from "../../misc/Modal.svelte"
 
     export let
         title = "",
@@ -28,3 +28,11 @@
         <slot/>
     {/if}
 </div>
+
+<style>
+    /*.content {*/
+    /*    display: flex;*/
+    /*    height: 100vh;*/
+    /*    overflow: scroll;*/
+    /*}*/
+</style>
