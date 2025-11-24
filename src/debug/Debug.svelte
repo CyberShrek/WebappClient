@@ -21,10 +21,10 @@
     $: message = values.switch ? "Какое-то сообщение" : ''
 
     function generateRandomData(
-        width: number,
         height: number,
         columnTypes: ('string' | 'number' | 'boolean')[]
     ): any[][] {
+        const width = columnTypes.length;
         const WORDS = [
             'apple', 'banana', 'cherry', 'date', 'elderberry', 'fig', 'grape',
             'honeydew', 'kiwi', 'lemon', 'mango', 'nectarine', 'orange', 'peach',
@@ -60,7 +60,9 @@
         return result;
     }
 
-    const randomData = generateRandomData(3, 100, ["string", "number", "boolean"]);
+    const randomData = generateRandomData(50, ["string", "number", "boolean"]).sort(
+        (a, b) => a[0].localeCompare(b[0])
+    );
 
 </script>
 
@@ -113,7 +115,7 @@
 
     <Report title="Отчёт">
         <ContentBlock>
-            <Table head={["Столбец 1", "Столбец 2", "Столбец 3"]}
+            <Table head={["Столбец 1", "Столбец 2", "Столбец 3", "Столбец 4"]}
                    data={randomData}>
                 <slot slot="cell"
                       let:type

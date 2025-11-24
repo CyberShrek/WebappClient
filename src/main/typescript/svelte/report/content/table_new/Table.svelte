@@ -1,5 +1,7 @@
 <script lang="ts">
 
+    import RecursiveBody from "./RecursiveBody.svelte";
+
     export let
         head: string[],
         data: (string | number | boolean | null)[][]
@@ -36,25 +38,16 @@
     </thead>
 
     <tbody>
-        {#each data as row}
-            <tr>
-                {#each head as column, columnIndex}
-                    <td>
-                        {#if $$slots.cell}
-                            <slot name="cell"
-                                  {columnIndex}
-                                  {row}
-                                  {value}
-                                  type={types[columnIndex]}/>
-                        {:else}
-                            {value}
-                        {/if}
-                    </td>
-                {/each}
-            </tr>
-        {/each}
+    <RecursiveBody
+        {data}
+        {types}>
+        <svelte:fragment slot="cell" let:columnIndex let:row let:value let:type>
+            <slot name="cell" {columnIndex} {row} {value} {type}/>
+        </svelte:fragment>
+    </RecursiveBody>
     </tbody>
 </table>
+
 <style>
     table {
         border-spacing: 0;
