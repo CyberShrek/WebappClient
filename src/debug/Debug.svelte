@@ -60,8 +60,8 @@
         return result;
     }
 
-    const randomData = generateRandomData(50, ["string", "number", "boolean"]).sort(
-        (a, b) => a[0].localeCompare(b[0])
+    const randomData = generateRandomData(500, ["string", "string", "number", "boolean"]).sort(
+        (a, b) => a[0].localeCompare(b[0]) || a[1].localeCompare(b[1])
     );
 
 </script>
@@ -120,7 +120,7 @@
                 <slot slot="cell"
                       let:type
                       let:value>
-                    {value}: {type}
+                    {value}
                 </slot>
             </Table>
         </ContentBlock>
