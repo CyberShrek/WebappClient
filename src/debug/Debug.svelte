@@ -120,7 +120,7 @@
                 <slot slot="cell"
                       let:type
                       let:value>
-                    {value}
+                    {value} : {type}
                 </slot>
             </Table>
         </ContentBlock>

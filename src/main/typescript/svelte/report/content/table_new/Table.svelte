@@ -1,10 +1,13 @@
 <script lang="ts">
 
-    import RecursiveBody from "./RecursiveBody.svelte";
+    import BodyChunk from "./BodyChunk.svelte";
+    import TotalRow from "./TotalRow.svelte";
 
     export let
         head: string[],
-        data: (string | number | boolean | null)[][]
+        data: (string | number | boolean | null)[][],
+
+        addTotals = false
 
     let operations: {
             filter: string
@@ -37,14 +40,43 @@
         </tr>
     </thead>
 
+    <tfoot>
+        {#if addTotals}
+            <TotalRow
+                {data}
+                {types}>
+                <svelte:fragment slot="cell" let:columnIndex let:row let:value let:type>
+                    {#if $$slots.cell}
+                        <slot name="cell"
+                              {columnIndex}
+                              {row}
+                              {value}
+                              {type}/>
+                    {:else}
+                        {value}
+                    {/if}
+                </svelte:fragment>
+            </TotalRow>
+        {/if}
+    </tfoot>
+
     <tbody>
-    <RecursiveBody
+    <BodyChunk
         {data}
-        {types}>
+        {types}
+        {addTotals}>
         <svelte:fragment slot="cell" let:columnIndex let:row let:value let:type>
-            <slot name="cell" {columnIndex} {row} {value} {type}/>
+            {#if $$slots.cell}
+                <slot name="cell"
+                      {columnIndex}
+                      {row}
+                      {value}
+                      {type}/>
+            {:else}
+                {value}
+            {/if}
         </svelte:fragment>
-    </RecursiveBody>
+    </BodyChunk>
     </tbody>
 </table>
 
