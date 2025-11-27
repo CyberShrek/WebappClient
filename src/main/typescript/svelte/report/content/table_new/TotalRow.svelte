@@ -15,7 +15,7 @@
     function calculateTotalRow(rows: typeof data): typeof data[number] {
         const result: typeof data[number] = types.map((type, index) => {
             switch (type) {
-                case "string" : return index === nesting ? rows[0][index] : "Итого"
+                case "string" : return index === nesting ? rows[0][index] : types[index + 1] === "string" ? "" : "Итого"
                 case "number" : return 0
                 case "boolean": return ""
             }

@@ -6,7 +6,7 @@
     export let
         head: string[],
         data: (string | number | boolean | null)[][],
-
+        chunking: "none" | "simple" | "totals" | "collapsable" | "full" = "none",
         addTotals = false
 
     let operations: {
@@ -64,7 +64,7 @@
     <BodyChunk
         {data}
         {types}
-        {addTotals}>
+        {chunking}>
         <svelte:fragment slot="cell" let:columnIndex let:row let:value let:type>
             {#if $$slots.cell}
                 <slot name="cell"

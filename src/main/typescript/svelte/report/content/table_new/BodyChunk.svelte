@@ -1,26 +1,29 @@
 <script lang="ts">
     import Decimal from "decimal.js-light";
     import TotalRow from "./TotalRow.svelte";
+    import Button from "../../../input/Button.svelte";
 
     export let
         data: (string | number | boolean | null)[][],
         types: ("string" | "number" | "boolean")[],
+        chunking: "none" | "simple" | "totals" | "collapsable" | "full" = "none",
+
+        collapsed: boolean = false,
         nesting: number = 0,
-        chunksCount: number = 1,
-
-        addTotals = false
-
+        chunksCount: number = 1
 
     let dataChunks: typeof data[] = [],
         chunksCounter: number[] = [],
-        chunkTotals: typeof data[number][] = []
+        collapsedChunks: boolean[] = []
+
+    $: addTotals = chunking === "totals" || chunking === "full" || chunking === "collapsable" && collapsed
+    $: addCollapsing = chunking === "collapsable" || chunking === "full"
 
     $: chunksCount = dataChunks ? chunksCounter.reduce((a, b) => a + b + Number(addTotals), 1) : 1
 
-    // Дробление данных и предварительный расчет тоталов
-    $: if (data?.length > 0 && types?.[nesting] === "string") {
+    // Дробление данных и предварительный расчет итогов
+    $: if (chunking !== "none" && data?.length > 0 && types?.[nesting] === "string") {
         dataChunks = []
-        chunkTotals = []
         let lastName: string
         let lastChunk: typeof data = []
 
@@ -29,7 +32,6 @@
             if (name !== lastName) {
                 if (lastChunk.length > 0) {
                     dataChunks.push(lastChunk)
-                    chunkTotals.push(calculateChunkTotal(lastChunk))
                 }
                 lastChunk = [row]
             } else {
@@ -39,33 +41,11 @@
         })
         if (lastChunk.length > 0) {
             dataChunks.push(lastChunk)
-            chunkTotals.push(calculateChunkTotal(lastChunk))
         }
+
     }
     else {
         dataChunks = []
-        chunkTotals = []
-    }
-
-    function calculateChunkTotal(rows: typeof data): typeof data[number] {
-        const result: typeof data[number] = types.map((type, index) => {
-            switch (type) {
-                case "string" : return index === nesting ? rows[0][index] : "Итого"
-                case "number" : return 0
-                case "boolean": return ""
-            }
-        })
-        rows.forEach(row => {
-            row.forEach((cell, index) => {
-                    if (index > nesting && types[index] === "number") {
-                        const sum = new Decimal(result[index] as number)
-                        result[index] = sum.add(Number(cell)).toNumber()
-                    }
-                }
-            )
-        })
-
-        return result
     }
 
 </script>
@@ -73,27 +53,36 @@
 {#if dataChunks?.length > 0}
     {#each dataChunks as chunk, chunkIndex}
 
-        <!-- PRIMARY CELL -->
-        <tr>
-            <td rowspan={chunk.length + chunksCounter[chunkIndex] + (addTotals ? 1 : 0)}>
-                <slot name="cell"
-                      columnIndex={nesting}
-                      value={chunk[0][nesting]}
-                      type={types[nesting]}/>
-            </td>
-        </tr>
-
-        <!-- BODY -->
-        <svelte:self
-                data={chunk}
-                {types}
-                {addTotals}
-                nesting={nesting + 1}
-                bind:chunksCount={chunksCounter[chunkIndex]}>
-            <svelte:fragment slot="cell" let:columnIndex let:row let:value let:type>
-                <slot name="cell" {columnIndex} {row} {value} {type}/>
-            </svelte:fragment>
-        </svelte:self>
+        {#if !collapsed}
+            <!-- PRIMARY CELL -->
+            <tr>
+                <td rowspan={chunk.length + chunksCounter[chunkIndex] + (addTotals ? 1 : 0)}>
+                    <slot name="cell"
+                          columnIndex={nesting}
+                          value={chunk[0][nesting]}
+                          type={types[nesting]}/>
+                    {#if addCollapsing}
+                        <Button text={collapsedChunks[chunkIndex] ? '▼' : '▲'}
+                                hint={collapsedChunks[chunkIndex] ? 'Развернуть' : 'Свернуть'}
+                                on:click={() => collapsedChunks[chunkIndex] = !collapsedChunks[chunkIndex]}
+                                design="frameless"
+                                size="small"/>
+                    {/if}
+                </td>
+            </tr>
+            <!-- BODY -->
+            <svelte:self
+                    data={chunk}
+                    {types}
+                    {chunking}
+                    collapsed={collapsedChunks[chunkIndex]}
+                    nesting={nesting + 1}
+                    bind:chunksCount={chunksCounter[chunkIndex]}>
+                <svelte:fragment slot="cell" let:columnIndex let:row let:value let:type>
+                    <slot name="cell" {columnIndex} {row} {value} {type}/>
+                </svelte:fragment>
+            </svelte:self>
+        {/if}
 
         <!-- TOTAL -->
         {#if addTotals}
@@ -106,7 +95,7 @@
             </TotalRow>
         {/if}
     {/each}
-{:else}
+{:else if !collapsed}
     {#each data as row}
         <tr>
             {#each row as value, columnIndex}
