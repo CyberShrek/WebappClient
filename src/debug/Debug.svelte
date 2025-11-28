@@ -60,9 +60,12 @@
         return result;
     }
 
-    const randomData = generateRandomData(500, ["string", "string", "number", "boolean"]).sort(
-        (a, b) => a[0].localeCompare(b[0]) || a[1].localeCompare(b[1])
+    const randomData = generateRandomData(500, ["string", "string", "string", "number", "boolean"]).sort(
+        (a, b) => a[0].localeCompare(b[0]) || a[1].localeCompare(b[1]) || a[2].localeCompare(b[2])
     );
+    // const randomData = generateRandomData(500, ["string", "number", "boolean"]).sort(
+    //     (a, b) => a[0].localeCompare(b[0])
+    // );
 
 </script>
 
@@ -117,12 +120,12 @@
         <ContentBlock>
             <Table head={["Столбец 1", "Столбец 2", "Столбец 3", "Столбец 4"]}
                    data={randomData}
-                   chunking="collapsable"
+                   chunking="totals"
                    addTotals>
                 <slot slot="cell"
                       let:type
                       let:value>
-                    {value} : {type}
+                    {value}
                 </slot>
             </Table>
         </ContentBlock>

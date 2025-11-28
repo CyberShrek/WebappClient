@@ -35,17 +35,17 @@
 
 </script>
 
-<tr>
-    {#if data.length > 1}
+{#if data.length > 1}
+    <tr>
         {#each totalRow as value, columnIndex}
-            {#if columnIndex > nesting}
-                <td>
+            <td>
+                {#if columnIndex > nesting}
                     <slot name="cell" {columnIndex}
                           row={totalRow}
                           {value}
                           type={types[columnIndex]}/>
-                </td>
-            {/if}
+                {/if}
+            </td>
         {/each}
-    {/if}
-</tr>
+    </tr>
+{/if}

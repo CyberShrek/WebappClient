@@ -1,6 +1,6 @@
 <script lang="ts">
 
-    import BodyChunk from "./BodyChunk.svelte";
+    import Chunks from "./BodyChunks.svelte";
     import TotalRow from "./TotalRow.svelte";
 
     export let
@@ -9,7 +9,8 @@
         chunking: "none" | "simple" | "totals" | "collapsable" | "full" = "none",
         addTotals = false
 
-    let operations: {
+    let bodyElement: HTMLTableSectionElement,
+        operations: {
             filter: string
             sort:   "asc" | "desc"
         }[],
@@ -60,23 +61,24 @@
         {/if}
     </tfoot>
 
-    <tbody>
-    <BodyChunk
-        {data}
-        {types}
-        {chunking}>
-        <svelte:fragment slot="cell" let:columnIndex let:row let:value let:type>
-            {#if $$slots.cell}
-                <slot name="cell"
-                      {columnIndex}
-                      {row}
-                      {value}
-                      {type}/>
-            {:else}
-                {value}
-            {/if}
-        </svelte:fragment>
-    </BodyChunk>
+    <tbody bind:this={bodyElement}>
+        <Chunks
+            {data}
+            {types}
+            {chunking}
+            {bodyElement}>
+            <svelte:fragment slot="cell" let:columnIndex let:row let:value let:type>
+                {#if $$slots.cell}
+                    <slot name="cell"
+                          {columnIndex}
+                          {row}
+                          {value}
+                          {type}/>
+                {:else}
+                    {value}
+                {/if}
+            </svelte:fragment>
+        </Chunks>
     </tbody>
 </table>
 
