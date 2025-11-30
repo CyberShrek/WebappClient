@@ -5,7 +5,8 @@
     export let
         data: (string | number | boolean | null)[][],
         types: ("string" | "number" | "boolean")[],
-        nesting: number = -1
+        nesting: number = -1,
+        collapsed: boolean = false
 
     let totalRow: typeof data[number] = []
 
@@ -36,7 +37,7 @@
 </script>
 
 {#if data.length > 1}
-    <tr>
+    <tr class:collapsed>
         {#each totalRow as value, columnIndex}
             <td>
                 {#if columnIndex > nesting}

@@ -1,7 +1,7 @@
 <script lang="ts">
 
-    import Chunks from "./BodyChunks.svelte";
-    import TotalRow from "./TotalRow.svelte";
+    import Chunks from "./BodyChunks.svelte"
+    import TotalRow from "./TotalRow.svelte"
 
     export let
         head: string[],

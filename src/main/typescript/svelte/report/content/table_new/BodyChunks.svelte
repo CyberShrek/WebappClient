@@ -1,8 +1,8 @@
 <script lang="ts">
-    import Decimal from "decimal.js-light";
-    import TotalRow from "./TotalRow.svelte";
-    import Button from "../../../input/Button.svelte";
-    import {tick} from "svelte";
+
+    import TotalRow from "./TotalRow.svelte"
+    import Button from "../../../input/Button.svelte"
+    import {afterUpdate, beforeUpdate} from "svelte"
 
     export let
         data: (string | number | boolean | null)[][],
@@ -47,57 +47,38 @@
         dataChunks = []
     }
 
-    // Группировка чанков по rowspan
-    $: if (chunking != "none" && bodyElement) {
-        setTimeout(() => {
-            let chunkHead: HTMLTableCellElement | null = null
-            for (let row of bodyElement.rows) {
-                const cell = row.cells.item(nesting)
-                if (cell == null)
-                    continue
+    // Передача свойства collapsed дочерним чанкам
+    const collapseChunks = () => collapsedChunks = dataChunks.map(() => true)
+    const expandChunks = () => collapsedChunks = dataChunks.map(() => false)
+    $: collapsed ? collapseChunks() : expandChunks()
 
-                if (cell.textContent?.trim() !== '') {
-                    chunkHead = cell
-                    chunkHead.style.display = ''
-                    chunkHead.rowSpan = 1
-                }
-                else if (chunkHead != null) {
-                    chunkHead.rowSpan++
-                    cell.style.display = "none"
-                    cell.rowSpan = 1
-                }
+    // Группировка чанков по rowspan
+    beforeUpdate(respan)
+    afterUpdate(respan)
+
+    async function respan() {
+        if (chunking == "none" || !bodyElement)
+            return
+
+        let chunkHead: HTMLTableCellElement | null = null
+        for (let row of bodyElement.rows) {
+            const cell = row.cells.item(nesting)
+            if (cell == null)
+                continue
+
+            if (cell.textContent?.trim() !== '') {
+                chunkHead = cell
+                chunkHead.style.display = ''
+                chunkHead.rowSpan = 1
             }
-        }, 1000)
+            else if (chunkHead != null) {
+                chunkHead.rowSpan++
+                cell.style.display = "none"
+                cell.rowSpan = 1
+            }
+        }
     }
 
-    // Группировка чанков по rowspan
-    // $: if (chunking != "none" && bodyElement && nesting === 0) {
-    //     processRows();
-    // }
-    //
-    // async function processRows() {
-    //     await tick(); // Ждем обновления DOM
-    //
-    //     let chunkHead: HTMLTableCellElement | null = null;
-    //
-    //     for (let row of bodyElement.rows) {
-    //         const cell = row.cells.item(nesting);
-    //         if (cell == null) continue;
-    //
-    //         if (cell.textContent?.trim() !== '') {
-    //             chunkHead = cell;
-    //             chunkHead.style.display = '';
-    //             chunkHead.rowSpan = 1;
-    //         } else if (chunkHead != null) {
-    //             chunkHead.rowSpan++;
-    //             cell.style.display = "none";
-    //             cell.rowSpan = 1;
-    //         }
-    //
-    //         // Задержка между итерациями
-    //         await new Promise(resolve => setTimeout(resolve, 50));
-    //     }
-    // }
 
 </script>
 
@@ -106,13 +87,13 @@
 
         <!-- CHUNK HEAD -->
         {#if chunk.length > 1}
-            <tr>
+            <tr class:collapsed>
                 <!--{#if chunkIndex !== 0}-->
                 {#each Array(nesting) as _}
                     <td/>
                 {/each}
                 <!--{/if}-->
-                <td rowspan={1}>
+                <td>
                     <slot name="cell"
                           columnIndex={nesting}
                           value={chunk[0][nesting]}
@@ -129,24 +110,23 @@
         {/if}
 
         <!-- CHUNK BODY -->
-        {#if !collapsedChunks[chunkIndex]}
-            <svelte:self
-                    data={chunk}
-                    {types}
-                    {chunking}
-                    {bodyElement}
-                    collapsed={!!collapsedChunks[chunkIndex]}
-                    nesting={nesting + 1}>
-                <svelte:fragment slot="cell" let:columnIndex let:row let:value let:type>
-                    <slot name="cell" {columnIndex} {row} {value} {type}/>
-                </svelte:fragment>
-            </svelte:self>
-        {/if}
+        <svelte:self
+                data={chunk}
+                {types}
+                {chunking}
+                {bodyElement}
+                collapsed={!!collapsedChunks[chunkIndex]}
+                nesting={nesting + 1}>
+            <svelte:fragment slot="cell" let:columnIndex let:row let:value let:type>
+                <slot name="cell" {columnIndex} {row} {value} {type}/>
+            </svelte:fragment>
+        </svelte:self>
 
         <!-- CHUNK TOTAL -->
-        {#if chunking === "totals" || chunking === "full" || chunking === "collapsable" && !!collapsedChunks[chunkIndex]}
+        {#if chunking === "totals" || chunking === "full" || chunking === "collapsable"}
             <TotalRow data={chunk}
                       {types}
+                      collapsed={collapsed || chunking === "collapsable" && !collapsedChunks[chunkIndex]}
                       {nesting}>
                 <svelte:fragment slot="cell" let:columnIndex let:row let:value let:type>
                     <slot name="cell" {columnIndex} {row} {value} {type}/>
@@ -156,7 +136,7 @@
     {/each}
 {:else}
     {#each data as row }
-        <tr>
+        <tr class:collapsed>
             {#each row as value, columnIndex}
                 <td>
                     {#if columnIndex >= nesting || columnIndex === nesting - 1 && data.length === 1}
@@ -172,5 +152,10 @@
 <style>
     td {
         border: var(--light-border);
+    }
+
+    :global(tr.collapsed) {
+        /*opacity: 0;*/
+        transform: scaleY(0);
     }
 </style>

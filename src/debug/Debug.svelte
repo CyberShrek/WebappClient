@@ -8,8 +8,9 @@
     import Switch from "../main/typescript/svelte/input/Switch.svelte"
     import Button from "../main/typescript/svelte/input/Button.svelte"
     import Report from "../main/typescript/svelte/report/Report.svelte"
-    import ContentBlock from "../main/typescript/svelte/report/content/ContentBlock.svelte";
-    import Table from "../main/typescript/svelte/report/content/table_new/Table.svelte";
+    import ContentBlock from "../main/typescript/svelte/report/content/ContentBlock.svelte"
+    import Table from "../main/typescript/svelte/report/content/table_new/Table.svelte"
+
     const appInfo: AppInfo = {
         code: "debug"
     }
@@ -120,7 +121,7 @@
         <ContentBlock>
             <Table head={["Столбец 1", "Столбец 2", "Столбец 3", "Столбец 4"]}
                    data={randomData}
-                   chunking="totals"
+                   chunking="collapsable"
                    addTotals>
                 <slot slot="cell"
                       let:type
