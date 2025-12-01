@@ -121,8 +121,9 @@
         <ContentBlock>
             <Table head={["Ключи|Столбец 1", "Ключи|Столбец 2", "Ключи|Столбец 3", "Значения|Столбец 4", "Значения|Столбец 5", "Столбец 6"]}
                    data={randomData}
-                   chunking="collapsable"
-                   addTotals>
+                   chunking="none"
+                   addOperations
+                   addTotal>
                 <slot slot="cell"
                       let:type
                       let:value>

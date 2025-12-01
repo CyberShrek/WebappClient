@@ -12,11 +12,7 @@
         nesting: number = 0
 
     let dataChunks: typeof data[] = [],
-        collapsedChunks: boolean[] = [],
-        chunksWithTotals: boolean[] = []
-
-    $: addTotals = chunking === "totals" || chunking === "full"
-    $: addCollapsing = chunking === "collapsable" || chunking === "full"
+        collapsedChunks: boolean[] = []
 
     // Дробление данных и предварительный расчет итогов
     $: if (chunking !== "none" && data?.length > 0 && types?.[nesting + 1] === "string") {
@@ -59,17 +55,15 @@
         <!-- CHUNK HEAD -->
         {#if chunk.length > 1}
             <tr class:collapsed>
-                <!--{#if chunkIndex !== 0}-->
                 {#each Array(nesting) as _}
                     <td/>
                 {/each}
-                <!--{/if}-->
                 <td>
                     <slot name="cell"
                           columnIndex={nesting}
                           value={chunk[0][nesting]}
                           type={types[nesting]}/>
-                    {#if addCollapsing}
+                    {#if chunking === "collapsable" || chunking === "full"}
                         <Button text={collapsedChunks[chunkIndex] ? '▼' : '▲'}
                                 hint={collapsedChunks[chunkIndex] ? 'Развернуть' : 'Свернуть'}
                                 on:click={() => collapsedChunks[chunkIndex] = !collapsedChunks[chunkIndex]}

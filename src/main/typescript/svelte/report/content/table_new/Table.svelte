@@ -3,16 +3,19 @@
     import Chunks from "./body/BodyChunks.svelte"
     import TotalRow from "./TotalRow.svelte"
     import Headers from "./head/Headers.svelte"
+    import Operations from "./head/Operations.svelte"
 
     export let
         head: string[],
         data: (string | number | boolean | null)[][],
         chunking: ChunkingType = "none",
-        addTotals = false
+        addOperations = false,
+        addTotal = false
 
     let bodyElement: HTMLTableSectionElement,
         operations: ColumnOperation[],
-        types: ColumnType[] = []
+        types: ColumnType[] = [],
+        preparedData = data
 
 
     // Определение типов столбцов
@@ -53,18 +56,47 @@
         }
     }
 
+    // Фильтрация и сортировка
+    $: if (data && operations) processOperations()
+    function processOperations() {
+
+        // Фильтрация
+        preparedData = data.filter(row =>
+            operations.every((oper, i) =>
+                !oper.filter || String(row[i]).toLowerCase().includes(oper.filter.toLowerCase()))
+        )
+
+        // Сравнение значений для сортировки
+        const compareValues = (a: any, b: any, type: ColumnType) =>
+            type === 'number' ? Number(a) - Number(b) :
+                type === 'string' ? String(a).localeCompare(String(b)) :
+                    (a === b ? 0 : a ? 1 : -1)
+
+        // Сортировка
+        preparedData.sort((a, b) =>
+            operations.reduce((diff, oper, i) => diff || !oper.sort ? diff :
+                oper.sort === 'asc' ? compareValues(a[i], b[i], types[i]) :
+                    -compareValues(a[i], b[i], types[i]), 0)
+        )
+    }
+
+
 </script>
 
 <table>
 
     <thead>
         <Headers {head}/>
+        {#if addOperations}
+            <Operations {types}
+                        bind:operations/>
+        {/if}
     </thead>
 
     <tfoot>
-        {#if addTotals}
+        {#if addTotal}
             <TotalRow
-                {data}
+                data={preparedData}
                 {types}>
                 <svelte:fragment slot="cell" let:columnIndex let:row let:value let:type>
                     {#if $$slots.cell}
@@ -83,7 +115,7 @@
 
     <tbody bind:this={bodyElement}>
         <Chunks
-            {data}
+            data={preparedData}
             {types}
             {chunking}>
             <svelte:fragment slot="cell" let:columnIndex let:row let:value let:type>
