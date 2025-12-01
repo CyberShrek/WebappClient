@@ -61,7 +61,7 @@
         return result;
     }
 
-    const randomData = generateRandomData(500, ["string", "string", "string", "number", "boolean"]).sort(
+    const randomData = generateRandomData(500, ["string", "string", "string", "number", "number", "boolean"]).sort(
         (a, b) => a[0].localeCompare(b[0]) || a[1].localeCompare(b[1]) || a[2].localeCompare(b[2])
     );
     // const randomData = generateRandomData(500, ["string", "number", "boolean"]).sort(
@@ -119,7 +119,7 @@
 
     <Report title="Отчёт">
         <ContentBlock>
-            <Table head={["Столбец 1", "Столбец 2", "Столбец 3", "Столбец 4"]}
+            <Table head={["Ключи|Столбец 1", "Ключи|Столбец 2", "Ключи|Столбец 3", "Значения|Столбец 4", "Значения|Столбец 5", "Столбец 6"]}
                    data={randomData}
                    chunking="collapsable"
                    addTotals>

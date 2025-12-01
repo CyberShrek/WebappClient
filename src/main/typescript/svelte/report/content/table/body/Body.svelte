@@ -1,6 +1,6 @@
 <script lang="ts">
 
-    import {ColumnType} from "../types"
+    import {ColumnType} from "../../table_new/types"
 
     export let
         body: (string | number | boolean | null)[][],

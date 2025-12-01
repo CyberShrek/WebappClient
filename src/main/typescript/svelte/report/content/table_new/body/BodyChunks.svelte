@@ -1,14 +1,12 @@
 <script lang="ts">
 
-    import TotalRow from "./TotalRow.svelte"
-    import Button from "../../../input/Button.svelte"
-    import {afterUpdate, beforeUpdate} from "svelte"
+    import TotalRow from "../TotalRow.svelte"
+    import Button from "../../../../input/Button.svelte"
 
     export let
         data: (string | number | boolean | null)[][],
         types: ("string" | "number" | "boolean")[],
-        chunking: "none" | "simple" | "totals" | "collapsable" | "full" = "none",
-        bodyElement: HTMLTableSectionElement,
+        chunking: ChunkingType = "none",
 
         collapsed: boolean = false,
         nesting: number = 0
@@ -52,33 +50,6 @@
     const expandChunks = () => collapsedChunks = dataChunks.map(() => false)
     $: collapsed ? collapseChunks() : expandChunks()
 
-    // Группировка чанков по rowspan
-    beforeUpdate(respan)
-    afterUpdate(respan)
-
-    async function respan() {
-        if (chunking == "none" || !bodyElement)
-            return
-
-        let chunkHead: HTMLTableCellElement | null = null
-        for (let row of bodyElement.rows) {
-            const cell = row.cells.item(nesting)
-            if (cell == null)
-                continue
-
-            if (cell.textContent?.trim() !== '') {
-                chunkHead = cell
-                chunkHead.style.display = ''
-                chunkHead.rowSpan = 1
-            }
-            else if (chunkHead != null) {
-                chunkHead.rowSpan++
-                cell.style.display = "none"
-                cell.rowSpan = 1
-            }
-        }
-    }
-
 
 </script>
 
@@ -114,7 +85,6 @@
                 data={chunk}
                 {types}
                 {chunking}
-                {bodyElement}
                 collapsed={!!collapsedChunks[chunkIndex]}
                 nesting={nesting + 1}>
             <svelte:fragment slot="cell" let:columnIndex let:row let:value let:type>
@@ -151,11 +121,19 @@
 
 <style>
     td {
-        border: var(--light-border);
+        border-right: var(--light-border);
+        border-bottom: var(--light-border);
     }
 
-    :global(tr.collapsed) {
-        /*opacity: 0;*/
-        transform: scaleY(0);
+    :global(tr *) {
+        transition: 0.2s all;
+    }
+
+    :global(tr.collapsed *) {
+        opacity: 0   !important;
+        height: 0    !important;
+        font-size: 0 !important;
+        padding: 0   !important;
+        border: none !important;
     }
 </style>

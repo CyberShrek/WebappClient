@@ -2,7 +2,7 @@
 
     import ColumnHeaders from "./ColumnHeaders.svelte"
     import ColumnOperations from "./ColumnOperations.svelte"
-    import {ColumnType} from "../types";
+    import {ColumnType} from "../../table_new/types";
 
     export let
         head: string[],

@@ -4,7 +4,7 @@
     import {createEventDispatcher} from "svelte"
     import Head from "./head/Head.svelte"
     import Foot from "./foot/Foot.svelte"
-    import {ColumnType} from "./types"
+    import {ColumnType} from "../table_new/types"
 
     const dispatch = createEventDispatcher()
 

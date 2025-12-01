@@ -1,23 +1,22 @@
 <script lang="ts">
 
-    import Chunks from "./BodyChunks.svelte"
+    import Chunks from "./body/BodyChunks.svelte"
     import TotalRow from "./TotalRow.svelte"
+    import Headers from "./head/Headers.svelte"
 
     export let
         head: string[],
         data: (string | number | boolean | null)[][],
-        chunking: "none" | "simple" | "totals" | "collapsable" | "full" = "none",
+        chunking: ChunkingType = "none",
         addTotals = false
 
     let bodyElement: HTMLTableSectionElement,
-        operations: {
-            filter: string
-            sort:   "asc" | "desc"
-        }[],
-        types: ("string" | "number" | "boolean")[] = []
+        operations: ColumnOperation[],
+        types: ColumnType[] = []
 
+
+    // Определение типов столбцов
     $: if (data?.length > 0) determineTypes()
-
     function determineTypes() {
         types = head.map(() => "string")
         data.forEach(row => {
@@ -30,15 +29,36 @@
         })
     }
 
+    // Группировка заголовков чанков по rowspan
+    $: if (chunking !== "none" && bodyElement) respan()
+    function respan() {
+        for (let nesting = 0; types[nesting + 1] === "string"; nesting++) {
+            let chunkHead: HTMLTableCellElement | null = null
+            for (let row of bodyElement.rows) {
+                const cell = row.cells.item(nesting)
+                if (cell == null)
+                    continue
+
+                if (cell.textContent?.trim() !== '') {
+                    chunkHead = cell
+                    chunkHead.style.display = ''
+                    chunkHead.rowSpan = 1
+                }
+                else if (chunkHead != null) {
+                    chunkHead.rowSpan++
+                    cell.style.display = "none"
+                    cell.rowSpan = 1
+                }
+            }
+        }
+    }
+
 </script>
 
 <table>
+
     <thead>
-        <tr>
-            {#each head as cell}
-                <th>{cell}</th>
-            {/each}
-        </tr>
+        <Headers {head}/>
     </thead>
 
     <tfoot>
@@ -65,8 +85,7 @@
         <Chunks
             {data}
             {types}
-            {chunking}
-            {bodyElement}>
+            {chunking}>
             <svelte:fragment slot="cell" let:columnIndex let:row let:value let:type>
                 {#if $$slots.cell}
                     <slot name="cell"

@@ -2,19 +2,15 @@
 
     import Sort from "../../../../input/Sort.svelte"
     import Text from "../../../../input/Text.svelte"
-    import {ColumnType} from "../../table_new/types";
 
     export let
-        columnTypes: ColumnType[],
-        columnOperations: {
-            filter: string
-            sort: "asc" | "desc"
-        }[] = columnTypes.map(() => ({filter: "", sort: null}))
+        types: ColumnType[],
+        operations: ColumnOperation[] = types.map(() => ({filter: "", sort: null}))
 
 </script>
 
 <tr class="operations sort">
-    {#each columnOperations as operation}
+    {#each operations as operation}
         <th>
             <Sort bind:value={operation.sort}/>
         </th>
@@ -22,9 +18,9 @@
 </tr>
 
 <tr class="operations filter">
-    {#each columnOperations as operation, colI}
+    {#each operations as operation, colI}
         <th>
-            {#if columnTypes[colI] === "string"}
+            {#if types[colI] === "string"}
                 <Text bind:value={operation.filter}
                       placeholder="⌕ Поиск"/>
             {/if}
