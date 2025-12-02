@@ -3,27 +3,26 @@
     import Decimal from "decimal.js-light";
 
     export let
-        data: (string | number | boolean | null)[][],
-        types: ("string" | "number" | "boolean")[],
+        rows: TableRow[],
         nesting: number = -1,
         collapsed: boolean = false
 
-    let totalRow: typeof data[number] = []
+    let totalRow: (string | number)[] = []
 
-    $: totalRow = data?.length > 1 ? calculateTotalRow(data) : []
+    $: totalRow = rows?.length > 1 ? calculateTotalRow() : []
 
 
-    function calculateTotalRow(rows: typeof data): typeof data[number] {
-        const result: typeof data[number] = types.map((type, index) => {
-            switch (type) {
-                case "string" : return index === nesting ? rows[0][index] : index === nesting + 1 ? "Итого" : ""
+    function calculateTotalRow(): (string | number)[] {
+        const result: (string | number)[] = rows[0]?.cells.map((cell, index) => {
+            switch (cell.type) {
+                case "string" : return index === nesting ? String(rows[0]?.cells[index]?.value) : index === nesting + 1 ? "Итого" : ""
                 case "number" : return 0
                 case "boolean": return ""
             }
         })
         rows.forEach(row => {
-            row.forEach((cell, index) => {
-                    if (index > nesting && types[index] === "number") {
+            row.cells.forEach((cell, index) => {
+                    if (index > nesting && cell.type === "number") {
                         const sum = new Decimal(result[index] as number)
                         result[index] = sum.add(Number(cell)).toNumber()
                     }
@@ -36,7 +35,7 @@
 
 </script>
 
-{#if data.length > 1}
+{#if rows.length > 1}
     <tr class:collapsed>
         {#each totalRow as value, columnIndex}
             <td>

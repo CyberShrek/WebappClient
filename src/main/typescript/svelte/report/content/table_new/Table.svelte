@@ -1,109 +1,53 @@
 <script lang="ts">
 
-    import Chunks from "./body/BodyChunks.svelte"
+    import Chunk from "./body/Chunk.svelte"
     import TotalRow from "./TotalRow.svelte"
-    import Headers from "./head/Headers.svelte"
-    import Operations from "./head/Operations.svelte"
-    import {tick} from "svelte"
-    import SuperCheckbox from "../../../input/SuperCheckbox.svelte"
+    import {Table} from "./Table"
+    import TableHead from "./head/TableHead.svelte"
 
     export let
-        head: string[],
-        data: (string | number | boolean | null)[][],
-        chunking: ChunkingType = "none",
-        addOperations = false,
-        addTotal = false,
-        checkedData: typeof data | null = null
+        matrix: Matrix,
+        config: TableConfig = {}
 
-    let bodyElement: HTMLTableSectionElement,
-        types: ColumnType[] = [],
-        preparedData = data,
-        checkedRows: number[] | null = null
+    let element: HTMLTableElement,
+        table: Table
 
-    $: hasCheckboxes = checkedData != null
-    $: checked = hasCheckboxes ? false : null
-
-    // Определение типов столбцов
-    $: if (data?.length > 0) determineTypes()
-    function determineTypes() {
-        types = head.map(() => "string")
-        data.forEach(row => {
-            row.forEach((cell, cellI) => {
-                if (cell != null && typeof cell === "number")
-                    types[cellI] = "number"
-                else if (cell != null && typeof cell === "boolean")
-                    types[cellI] = "boolean"
-            })
-        })
-    }
+    $: if (matrix && config && element)
+        table = new Table(matrix, config, element)
 
     // Группировка заголовков чанков по rowspan
-    $: if (chunking !== "none" && bodyElement) respan()
-    function respan() {
-        for (let nesting = 0; types[nesting + 1] === "string"; nesting++) {
-            let chunkHead: HTMLTableCellElement | null = null
-            for (let row of bodyElement.rows) {
-                const cell = row.cells.item(nesting + (hasCheckboxes ? 1 : 0))
-                if (cell == null)
-                    continue
-
-                if (cell.textContent?.trim() !== '') {
-                    chunkHead = cell
-                    chunkHead.style.display = ''
-                    chunkHead.rowSpan = 1
-                }
-                else if (chunkHead != null) {
-                    chunkHead.rowSpan++
-                    cell.style.display = "none"
-                    cell.rowSpan = 1
-                }
-            }
-        }
-    }
 
 </script>
 
-<table>
+<table bind:this={element}>
 
-    <thead>
-        {#if hasCheckboxes}
-            <th rowspan={0}>
-                <SuperCheckbox checkedArray={[]}/>
-            </th>
-        {/if}
-        <Headers {head}/>
-        {#if addOperations}
-            <Operations {types}
-                        {data}
-                        bind:preparedData/>
-        {/if}
-    </thead>
+    <TableHead {table}/>
 
-    <tfoot>
-        {#if addTotal}
-            {#if hasCheckboxes}
-                <td rowspan={0}/>
-            {/if}
-            <TotalRow
-                data={preparedData}
-                {types}>
-                <svelte:fragment slot="cell" let:columnIndex let:row let:value let:type>
-                    {#if $$slots.cell}
-                        <slot name="cell"
-                              {columnIndex}
-                              {row}
-                              {value}
-                              {type}/>
-                    {:else}
-                        {value}
-                    {/if}
-                </svelte:fragment>
-            </TotalRow>
-        {/if}
-    </tfoot>
+<!--    <tfoot>-->
+<!--        {#if config.addTotal}-->
+<!--            &lt;!&ndash;{#if hasCheckboxes}&ndash;&gt;-->
+<!--            &lt;!&ndash;    <td rowspan={0}/>&ndash;&gt;-->
+<!--            &lt;!&ndash;{/if}&ndash;&gt;-->
+<!--            <TotalRow-->
+<!--                rows={preparedData}-->
+<!--                {types}>-->
+<!--                <svelte:fragment slot="cell" let:columnIndex let:row let:value let:type>-->
+<!--                    {#if $$slots.cell}-->
+<!--                        <slot name="cell"-->
+<!--                              {columnIndex}-->
+<!--                              {row}-->
+<!--                              {value}-->
+<!--                              {type}/>-->
+<!--                    {:else}-->
+<!--                        {value}-->
+<!--                    {/if}-->
+<!--                </svelte:fragment>-->
+<!--            </TotalRow>-->
+<!--        {/if}-->
+<!--    </tfoot>-->
 
-    <tbody bind:this={bodyElement}>
-        <Chunks
+    <tbody>
+        <Chunk
             data={preparedData}
             {types}
             {chunking}>
@@ -118,7 +62,7 @@
                     {value}
                 {/if}
             </svelte:fragment>
-        </Chunks>
+        </Chunk>
     </tbody>
 </table>
 

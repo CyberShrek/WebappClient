@@ -63,12 +63,11 @@
         return result;
     }
 
-    const randomData = generateRandomData(500, ["string", "string", "string", "number", "number", "boolean"]).sort(
-        (a, b) => a[0].localeCompare(b[0]) || a[1].localeCompare(b[1]) || a[2].localeCompare(b[2])
-    );
-    // const randomData = generateRandomData(500, ["string", "number", "boolean"]).sort(
-    //     (a, b) => a[0].localeCompare(b[0])
-    // );
+    const matrix: Matrix = {
+        head: ["Ключи|Столбец 1", "Ключи|Столбец 2", "Ключи|Столбец 3", "Значения|Столбец 4", "Значения|Столбец 5", "Столбец 6"],
+        data: generateRandomData(500, ["string", "string", "string", "number", "number", "boolean"]).sort(
+            (a, b) => a[0].localeCompare(b[0]) || a[1].localeCompare(b[1]) || a[2].localeCompare(b[2]))
+    }
 
 </script>
 
@@ -122,12 +121,8 @@
     <Report title="Отчёт">
         {checkedData?.length}
         <ContentBlock>
-            <Table head={["Ключи|Столбец 1", "Ключи|Столбец 2", "Ключи|Столбец 3", "Значения|Столбец 4", "Значения|Столбец 5", "Столбец 6"]}
-                   data={randomData}
-                   chunking="none"
-                   bind:checkedData
-                   addOperations
-                   addTotal>
+            <Table {matrix}
+                   config={{}}>
                 <slot slot="cell"
                       let:type
                       let:value>

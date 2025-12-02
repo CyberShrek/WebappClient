@@ -1,34 +1,47 @@
+import {TableBody} from "./body/TableBody"
+import {TableHead} from "./head/TableHead"
+
 export class Table {
 
-    public types: ("string" | "number" | "boolean")[] = []
+    public types: ColumnType[] = []
+    public head:  TableHead
+    public body:  TableBody
 
-    constructor(public head: string[],
-                public data: (string | number | boolean | null)[][]) {
+    constructor(private matrix: Matrix,
+                public  config: TableConfig,
+                public element: HTMLTableElement) {
+
+        // Определение типов столбцов
+        this.determineTypes()
 
     }
 
-    public isSpanned(rowIndex: number, columnIndex: number): boolean {
-        return rowIndex > 0
-            && this.types[columnIndex] === "string"
-            && this.getFullName(rowIndex, columnIndex) !== this.getFullName(rowIndex - 1, columnIndex)
-    }
+    // Группировка заголовков чанков по rowspan
+    respan() {
+        for (let nesting = 0; types[nesting + 1] === "string"; nesting++) {
+            let chunkHead: HTMLTableCellElement | null = null
+            for (let row of bodyElement.rows) {
+                const cell = row.cells.item(nesting + (hasCheckboxes ? 1 : 0))
+                if (cell == null)
+                    continue
 
-    public getRowspan(rowIndex: number, columnIndex: number): number {
-        if (this.types[columnIndex] === "string") {
-            const fullName = this.getFullName(rowIndex, columnIndex)
-            let count = 1
-            for (let i = rowIndex + 1; i < this.data.length; i++) {
-                if (this.getFullName(i, columnIndex) === fullName) count++
-                else break
+                if (cell.textContent?.trim() !== '') {
+                    chunkHead = cell
+                    chunkHead.style.display = ''
+                    chunkHead.rowSpan = 1
+                }
+                else if (chunkHead != null) {
+                    chunkHead.rowSpan++
+                    cell.style.display = "none"
+                    cell.rowSpan = 1
+                }
             }
-            return count
         }
-        return 1
     }
 
     private determineTypes() {
-        this.types = this.head.map(() => "string")
-        this.data.forEach(row => {
+        this.types = this.matrix.head.map(() => "string")
+        this.matrix.data.forEach(row => {
             row.forEach((cell, cellI) => {
                 if (cell != null && typeof cell === "number")
                     this.types[cellI] = "number"
@@ -36,12 +49,5 @@ export class Table {
                     this.types[cellI] = "boolean"
             })
         })
-    }
-
-    private getFullName(rowIndex: number, columnIndex: number): string {
-        return this.data
-            ?.[rowIndex]
-            ?.filter((_, i) => i <= columnIndex && this.types[i] === "string")
-            ?.join(" ")
     }
 }

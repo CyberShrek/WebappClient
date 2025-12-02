@@ -2,38 +2,25 @@
 
     import TotalRow from "../TotalRow.svelte"
     import Button from "../../../../input/Button.svelte"
-    import Switch from "../../../../input/Switch.svelte";
+    import {Chunk} from "./Chunk"
 
     export let
-        data: (string | number | boolean | null)[][],
-        types: ("string" | "number" | "boolean")[],
-        chunking: ChunkingType = "none",
+        chunk: Chunk,
+        collapsed: boolean = false
 
-        hasCheckboxes: boolean = false,
-        checkedRows: boolean[] = [],
-
-        collapsed: boolean = false,
-        nesting:   number = 0
-
-    let dataChunks: typeof data[] = [],
-        collapsedChunks: boolean[] = []
-
-
-    // Подготовка чекбоксов
-    $: if (data)
-        checkedRows = data.map(() => false)
+    let collapsedChunks: boolean[] = []
 
     // Дробление данных
-    $: if (chunking !== "none" && data?.length > 1 && types?.[nesting + 1] === "string") {
-        dataChunks = []
+    $: if (chunking && rows?.length > 1 && types?.[nesting + 1] === "string") {
+        chunks = []
         let lastName: string
-        let lastChunk: typeof data = []
+        let lastChunk: typeof rows = []
 
-        data.forEach(row => {
-            const name = row[nesting] as string
+        rows.forEach(row => {
+            const name = row.cells[nesting]?.value as string
             if (name !== lastName) {
                 if (lastChunk.length > 0) {
-                    dataChunks.push(lastChunk)
+                    chunks.push(lastChunk)
                 }
                 lastChunk = [row]
             } else {
@@ -42,24 +29,22 @@
             lastName = name
         })
         if (lastChunk.length > 0) {
-            dataChunks.push(lastChunk)
+            chunks.push(lastChunk)
         }
-
-        console.log(dataChunks)
     }
     else {
-        dataChunks = []
+        chunks = []
     }
 
     // Передача свойства collapsed дочерним чанкам
-    const collapseChunks = () => collapsedChunks = dataChunks.map(() => true)
-    const expandChunks = () => collapsedChunks = dataChunks.map(() => false)
+    const collapseChunks = () => collapsedChunks = chunks.map(() => true)
+    const expandChunks = () => collapsedChunks = chunks.map(() => false)
     $: collapsed ? collapseChunks() : expandChunks()
 
 </script>
 
-{#if dataChunks?.length > 0}
-    {#each dataChunks as chunk, chunkIndex}
+{#if chunks?.length > 0}
+    {#each chunks as chunk, chunkIndex}
 
         <!-- CHUNK HEAD -->
         {#if chunk.length > 1}
@@ -98,7 +83,7 @@
 
         <!-- CHUNK TOTAL -->
         {#if chunking === "totals" || chunking === "full" || chunking === "collapsable"}
-            <TotalRow data={chunk}
+            <TotalRow {chunk}
                       {types}
                       collapsed={collapsed || chunking === "collapsable" && !collapsedChunks[chunkIndex]}
                       {nesting}>
@@ -109,18 +94,18 @@
         {/if}
     {/each}
 {:else}
-    {#each data as row, rowIndex}
+    {#each rows as row}
         <tr class:collapsed>
-            {#if hasCheckboxes}
+            <!--{#if hasCheckboxes}-->
+            <!--    <td>-->
+            <!--        <Switch type="checkbox"-->
+            <!--                bind:value={checkedRows[rowIndex]}/>-->
+            <!--    </td>-->
+            <!--{/if}-->
+            {#each row.cells as cell, columnIndex}
                 <td>
-                    <Switch type="checkbox"
-                            bind:value={checkedRows[rowIndex]}/>
-                </td>
-            {/if}
-            {#each row as value, columnIndex}
-                <td>
-                    {#if columnIndex >= nesting || columnIndex === nesting - 1 && data.length === 1}
-                        <slot name="cell" {columnIndex} {row} {value}
+                    {#if columnIndex >= nesting || columnIndex === nesting - 1 && rows.length === 1}
+                        <slot name="cell" {columnIndex} {row} value={cell.value}
                               type={types[columnIndex]}/>
                     {/if}
                 </td>
