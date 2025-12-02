@@ -19,6 +19,8 @@
         [fieldId: string]: any
     } = {}
 
+    let checkedData: (string | number | boolean | null)[][] = []
+
     $: message = values.switch ? "Какое-то сообщение" : ''
 
     function generateRandomData(
@@ -118,10 +120,12 @@
     </Form>
 
     <Report title="Отчёт">
+        {checkedData?.length}
         <ContentBlock>
             <Table head={["Ключи|Столбец 1", "Ключи|Столбец 2", "Ключи|Столбец 3", "Значения|Столбец 4", "Значения|Столбец 5", "Столбец 6"]}
                    data={randomData}
                    chunking="none"
+                   bind:checkedData
                    addOperations
                    addTotal>
                 <slot slot="cell"

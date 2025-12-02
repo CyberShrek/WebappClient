@@ -4,7 +4,6 @@
         head: string[],
         splitter = "|"
 
-
     function prepareHead(): {name: string, rowspan: number, colspan: number}[][] {
         const separatedHead: typeof head[] = head.map(cell => cell.split(splitter))
         const result: {name: string, rowspan: number, colspan: number}[][] = []
@@ -48,7 +47,7 @@
 
 </script>
 
-{#each prepareHead() as row}
+{#each prepareHead() as row, i}
     <tr>
         {#each row as cell}
             <th rowspan={cell.rowspan}

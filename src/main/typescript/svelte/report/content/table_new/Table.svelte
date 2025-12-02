@@ -4,19 +4,24 @@
     import TotalRow from "./TotalRow.svelte"
     import Headers from "./head/Headers.svelte"
     import Operations from "./head/Operations.svelte"
+    import {tick} from "svelte"
+    import SuperCheckbox from "../../../input/SuperCheckbox.svelte"
 
     export let
         head: string[],
         data: (string | number | boolean | null)[][],
         chunking: ChunkingType = "none",
         addOperations = false,
-        addTotal = false
+        addTotal = false,
+        checkedData: typeof data | null = null
 
     let bodyElement: HTMLTableSectionElement,
-        operations: ColumnOperation[],
         types: ColumnType[] = [],
-        preparedData = data
+        preparedData = data,
+        checkedRows: number[] | null = null
 
+    $: hasCheckboxes = checkedData != null
+    $: checked = hasCheckboxes ? false : null
 
     // Определение типов столбцов
     $: if (data?.length > 0) determineTypes()
@@ -38,7 +43,7 @@
         for (let nesting = 0; types[nesting + 1] === "string"; nesting++) {
             let chunkHead: HTMLTableCellElement | null = null
             for (let row of bodyElement.rows) {
-                const cell = row.cells.item(nesting)
+                const cell = row.cells.item(nesting + (hasCheckboxes ? 1 : 0))
                 if (cell == null)
                     continue
 
@@ -56,45 +61,29 @@
         }
     }
 
-    // Фильтрация и сортировка
-    $: if (data && operations) processOperations()
-    function processOperations() {
-
-        // Фильтрация
-        preparedData = data.filter(row =>
-            operations.every((oper, i) =>
-                !oper.filter || String(row[i]).toLowerCase().includes(oper.filter.toLowerCase()))
-        )
-
-        // Сравнение значений для сортировки
-        const compareValues = (a: any, b: any, type: ColumnType) =>
-            type === 'number' ? Number(a) - Number(b) :
-                type === 'string' ? String(a).localeCompare(String(b)) :
-                    (a === b ? 0 : a ? 1 : -1)
-
-        // Сортировка
-        preparedData.sort((a, b) =>
-            operations.reduce((diff, oper, i) => diff || !oper.sort ? diff :
-                oper.sort === 'asc' ? compareValues(a[i], b[i], types[i]) :
-                    -compareValues(a[i], b[i], types[i]), 0)
-        )
-    }
-
-
 </script>
 
 <table>
 
     <thead>
+        {#if hasCheckboxes}
+            <th rowspan={0}>
+                <SuperCheckbox checkedArray={[]}/>
+            </th>
+        {/if}
         <Headers {head}/>
         {#if addOperations}
             <Operations {types}
-                        bind:operations/>
+                        {data}
+                        bind:preparedData/>
         {/if}
     </thead>
 
     <tfoot>
         {#if addTotal}
+            {#if hasCheckboxes}
+                <td rowspan={0}/>
+            {/if}
             <TotalRow
                 data={preparedData}
                 {types}>

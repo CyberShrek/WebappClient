@@ -2,20 +2,29 @@
 
     import TotalRow from "../TotalRow.svelte"
     import Button from "../../../../input/Button.svelte"
+    import Switch from "../../../../input/Switch.svelte";
 
     export let
         data: (string | number | boolean | null)[][],
         types: ("string" | "number" | "boolean")[],
         chunking: ChunkingType = "none",
 
+        hasCheckboxes: boolean = false,
+        checkedRows: boolean[] = [],
+
         collapsed: boolean = false,
-        nesting: number = 0
+        nesting:   number = 0
 
     let dataChunks: typeof data[] = [],
         collapsedChunks: boolean[] = []
 
-    // Дробление данных и предварительный расчет итогов
-    $: if (chunking !== "none" && data?.length > 0 && types?.[nesting + 1] === "string") {
+
+    // Подготовка чекбоксов
+    $: if (data)
+        checkedRows = data.map(() => false)
+
+    // Дробление данных
+    $: if (chunking !== "none" && data?.length > 1 && types?.[nesting + 1] === "string") {
         dataChunks = []
         let lastName: string
         let lastChunk: typeof data = []
@@ -36,6 +45,7 @@
             dataChunks.push(lastChunk)
         }
 
+        console.log(dataChunks)
     }
     else {
         dataChunks = []
@@ -45,7 +55,6 @@
     const collapseChunks = () => collapsedChunks = dataChunks.map(() => true)
     const expandChunks = () => collapsedChunks = dataChunks.map(() => false)
     $: collapsed ? collapseChunks() : expandChunks()
-
 
 </script>
 
@@ -80,7 +89,8 @@
                 {types}
                 {chunking}
                 collapsed={!!collapsedChunks[chunkIndex]}
-                nesting={nesting + 1}>
+                nesting={nesting + 1}
+                bind:checkedRows>
             <svelte:fragment slot="cell" let:columnIndex let:row let:value let:type>
                 <slot name="cell" {columnIndex} {row} {value} {type}/>
             </svelte:fragment>
@@ -99,8 +109,14 @@
         {/if}
     {/each}
 {:else}
-    {#each data as row }
+    {#each data as row, rowIndex}
         <tr class:collapsed>
+            {#if hasCheckboxes}
+                <td>
+                    <Switch type="checkbox"
+                            bind:value={checkedRows[rowIndex]}/>
+                </td>
+            {/if}
             {#each row as value, columnIndex}
                 <td>
                     {#if columnIndex >= nesting || columnIndex === nesting - 1 && data.length === 1}

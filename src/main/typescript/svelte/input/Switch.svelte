@@ -1,11 +1,11 @@
 <script lang="ts">
 
     export let
-        value = false,
+        value: boolean | null = false,
         title: string = "",
         type: "checkbox" | "switch" = "switch"
 
-    $: if (value === undefined)
+    $: if (value == null)
         value = false
 
 </script>
