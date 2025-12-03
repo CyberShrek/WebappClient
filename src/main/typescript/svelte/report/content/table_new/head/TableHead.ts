@@ -11,6 +11,10 @@ export class ConcreteTableHead implements TableHead {
         this.content = this.buildContent()
     }
 
+    findColIndex(name: string): number {
+        return this.head.findIndex(cell => cell.includes(name))
+    }
+
     private buildContent(): {name: string, rowspan: number, colspan: number}[][] {
         const separatedHead: typeof this.head[] = this.head.map(cell => cell.split(splitter))
         const content: typeof this.content = []

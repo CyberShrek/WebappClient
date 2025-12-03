@@ -10,11 +10,15 @@ interface Table {
     head: TableHead
     body: BodyChunk
     types: ColumnType[]
+
+    processOperations(operations: ColumnOperation[]): void
 }
 
 interface TableHead {
     content: {name: string, rowspan: number, colspan: number}[][]
     table: Table
+
+    findColIndex(name: string): number
 }
 
 interface BodyChunk {
@@ -24,14 +28,18 @@ interface BodyChunk {
 
     childChunks: BodyChunk[]
     nesting: number
+
+    collapsed?: boolean
 }
 interface TableRow {
     index: number
     cells: TableCell[]
 
-    findCellByColName(name: string): TableCell | null
-
     chunk: BodyChunk
+
+    checked?: boolean
+
+    findCellByColName(name: string): TableCell | null
 }
 interface TableCell {
     index: number

@@ -2,43 +2,47 @@
 
     import TotalRow from "./TotalRow.svelte"
     import Button from "../../../../input/Button.svelte"
-    import Switch from "../../../../input/Switch.svelte";
+    import Switch from "../../../../input/Switch.svelte"
+    import HeadCheckbox from "../head/HeadCheckbox.svelte"
 
     export let
-        chunk: BodyChunk,
-        collapsed: boolean = false
+        body: BodyChunk
 
-    let collapsedChunks: boolean[] = []
+    $: chunking  = body.table.config.chunking
+    $: nesting   = body.nesting
+    $: collapsed = body.collapsed
 
-    $: chunking = chunk.table.config.chunking
-    $: nesting = chunk.nesting
+    $: {collapsed; provideCollapsed()}
 
-    // Передача свойства collapsed дочерним чанкам
-    // const collapseChunks = () => collapsedChunks = childChunks.map(() => true)
-    // const expandChunks = () => collapsedChunks = childChunks.map(() => false)
-    // $: collapsed ? collapseChunks() : expandChunks()
+    function provideCollapsed() {
+        body.childChunks.forEach(chunk => chunk.collapsed = collapsed)
+    }
 
 </script>
 
-{#if chunking && chunk.childChunks?.length > 0}
-    {#each chunk.childChunks as childChunk, chunkIndex}
+{#if chunking && body.childChunks?.length > 0}
+    {#each body.childChunks as chunk, chunkIndex}
 
         <!-- CHUNK HEAD -->
-        {#if childChunk.rows.length > 1}
+        {#if chunk.rows.length > 1}
             <tr class:collapsed>
-                {#if chunk.table.config.addCheckboxes}
-                    <td/>
+                {#if body.table.config.addCheckboxes}
+                    <td>
+                        <!--{#if chunk.collapsed}-->
+                        <!--    <HeadCheckbox bind:body={chunk}/>-->
+                        <!--{/if}-->
+                    </td>
                 {/if}
                 {#each Array(nesting) as _}
                     <td/>
                 {/each}
                 <td>
                     <slot name="cell"
-                          cell={childChunk.totalRow.cells[nesting]}/>
+                          cell={chunk.totalRow.cells[nesting]}/>
                     {#if chunking === "collapsable" || chunking === "full"}
-                        <Button text={collapsedChunks[chunkIndex] ? '▼' : '▲'}
-                                hint={collapsedChunks[chunkIndex] ? 'Развернуть' : 'Свернуть'}
-                                on:click={() => collapsedChunks[chunkIndex] = !collapsedChunks[chunkIndex]}
+                        <Button text={chunk.collapsed ? '▼' : '▲'}
+                                hint={chunk.collapsed ? 'Развернуть' : 'Свернуть'}
+                                on:click={() => chunk.collapsed = !chunk.collapsed}
                                 design="frameless"
                                 size="small"/>
                     {/if}
@@ -48,16 +52,16 @@
 
         <!-- CHUNK BODY -->
         <svelte:self
-                chunk={childChunk}
-                collapsed={!!collapsedChunks[chunkIndex]}>
+                bind:body={chunk}>
             <svelte:fragment slot="cell" let:cell>
                 <slot name="cell" {cell}/>
             </svelte:fragment>
         </svelte:self>
 
         <!-- CHUNK TOTAL -->
-        {#if (chunking === "totals" || chunking === "full" || chunking === "collapsable") && childChunk.rows.length > 1}
-            <TotalRow totalRow={childChunk.totalRow}>
+        {#if (chunking === "totals" || chunking === "full" || chunking === "collapsable") && chunk.rows.length > 1}
+            <TotalRow totalRow={chunk.totalRow}
+                      collapsed={collapsed || !chunk.collapsed && chunking === "collapsable"}>
                 <svelte:fragment slot="cell" let:cell>
                     <slot name="cell" {cell}/>
                 </svelte:fragment>
@@ -65,16 +69,17 @@
         {/if}
     {/each}
 {:else}
-    {#each chunk.rows as row}
+    {#each body.rows as row}
         <tr class:collapsed>
-            {#if chunk.table.config.addCheckboxes}
+            {#if body.table.config.addCheckboxes}
                 <td>
-                    <Switch type="checkbox"/>
+                    <Switch type="checkbox"
+                            bind:checked={row.checked}/>
                 </td>
             {/if}
             {#each row.cells as cell, columnIndex}
                 <td>
-                    {#if columnIndex >= nesting || columnIndex === nesting - 1 && chunk.rows.length === 1}
+                    {#if columnIndex >= nesting || columnIndex === nesting - 1 && body.rows.length === 1}
                         <slot name="cell" {cell}/>
                     {/if}
                 </td>

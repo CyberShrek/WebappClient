@@ -1,7 +1,7 @@
 <script lang="ts">
 
     export let
-        value: number,
+        checked: number,
         range: boolean = false,
         min: number = null,
         max: number = null,

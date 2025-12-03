@@ -1,6 +1,6 @@
 <script lang="ts">
     import Chunk from "./BodyChunk.svelte"
-    import {tick} from "svelte";
+    import {tick} from "svelte"
 
     export let body: BodyChunk
 
@@ -38,7 +38,7 @@
 </script>
 
 <tbody bind:this={element}>
-    <Chunk chunk={body}>
+    <Chunk bind:body>
         <svelte:fragment slot="cell" let:cell>
             <slot name="cell" {cell}/>
         </svelte:fragment>

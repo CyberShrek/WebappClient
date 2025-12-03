@@ -1,10 +1,13 @@
 <script lang="ts">
 
     import TableHead from "./head/TableHead.svelte"
-    import TableBody from "./body/TableBody.svelte";
-    import {ConcreteTable} from "./Table";
-    import TableFoot from "./foot/TableFoot.svelte";
-    import {tick} from "svelte";
+    import TableBody from "./body/TableBody.svelte"
+    import {ConcreteTable} from "./Table"
+    import TableFoot from "./foot/TableFoot.svelte"
+    import {createEventDispatcher} from "svelte"
+
+    const dispatch = createEventDispatcher(),
+        SELECT_EVENT = "select"
 
     export let
         matrix: Matrix,
@@ -13,15 +16,19 @@
     let element: HTMLTableElement,
         table: ConcreteTable
 
-    $: if (matrix && config && element) {
+    $: if (matrix && config && element) rebuildTable()
+    function rebuildTable() {
         table = new ConcreteTable(matrix, config, element)
     }
+
+    $: selectedRows = config.addCheckboxes ? table?.body.rows.filter(row => row.checked) : null
+    $: selectedRows && dispatch(SELECT_EVENT, selectedRows.map(row => row.cells.map(cell => cell.value)))
 
 </script>
 
 <table bind:this={element}>
     {#if table}
-        <TableHead head={table.head}/>
+        <TableHead bind:head={table.head}/>
 
         <TableFoot totalRow={config.addTotal ? table.body.totalRow : null}>
             <svelte:fragment slot="cell" let:cell>
@@ -29,7 +36,7 @@
             </svelte:fragment>
         </TableFoot>
 
-        <TableBody body={table.body}>
+        <TableBody bind:body={table.body}>
             <svelte:fragment slot="cell" let:cell>
                 <slot name="cell" {cell}/>
             </svelte:fragment>

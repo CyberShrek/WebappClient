@@ -111,18 +111,21 @@
             </Field>
             <Field hint="Информация">
                 <Switch title="Переключатель"
-                        bind:value={values.switch}/>
+                        bind:checked={values.switch}/>
             </Field>
         </Section>
 
-<!--        values: {JSON.stringify(values)}-->
     </Form>
 
     <Report title="Отчёт">
-        {checkedData?.length}
         <ContentBlock>
             <Table {matrix}
-                   config={{chunking: "simple", addTotal: true, addCheckboxes: true}}>
+                   config={{
+                       chunking: "collapsable",
+                       addOperations: true,
+                       addCheckboxes: true,
+                       addTotal: true}}
+                   on:select={(event) => console.log(event.detail)}>
                 <slot slot="cell" let:cell>
                     {cell.value}
                 </slot>

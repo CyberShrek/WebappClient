@@ -14,7 +14,7 @@ export class ConcreteBodyChunk implements BodyChunk {
         return this._rows
     }
 
-    private _totalRow: TableRow
+    private _totalRow: TableRow | null = null
     get totalRow(): TableRow {
         if (this._totalRow == null) {
             this._totalRow = this.calculateTotalRow()
@@ -96,7 +96,7 @@ class ConcreteTableRow implements TableRow {
     }
 
     findCellByColName(name: string): TableCell | null {
-        return null
+        return this.cells[this.chunk.table.head.findColIndex(name)]
     }
 }
 

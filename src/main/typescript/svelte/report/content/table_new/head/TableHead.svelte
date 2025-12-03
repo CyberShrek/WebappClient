@@ -1,6 +1,7 @@
 <script lang="ts">
 
-    import Switch from "../../../../input/Switch.svelte";
+    import HeadCheckbox from "./HeadCheckbox.svelte"
+    import Operations from "./Operations.svelte";
 
     export let
         head: TableHead
@@ -10,8 +11,9 @@
 <thead>
     {#if head.table.config.addCheckboxes}
         <th rowspan={0}>
-            <Switch type="checkbox"/>
+            <HeadCheckbox bind:body={head.table.body}/>
         </th>
+
     {/if}
     {#each head.content as row, i}
         <tr>
@@ -23,9 +25,7 @@
             {/each}
         </tr>
     {/each}
-    <!--{#if addOperations}-->
-    <!--    <Operations {types}-->
-    <!--                {data}-->
-    <!--                bind:preparedData/>-->
-    <!--{/if}-->
+    {#if head.table.config.addOperations}
+        <Operations bind:table={head.table}/>
+    {/if}
 </thead>

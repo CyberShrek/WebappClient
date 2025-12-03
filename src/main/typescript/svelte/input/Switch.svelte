@@ -1,17 +1,19 @@
 <script lang="ts">
 
     export let
-        value: boolean | null = false,
+        checked: boolean | null = false,
         title: string = "",
         type: "checkbox" | "switch" = "switch"
 
-    $: if (value == null)
-        value = false
+    $: if (checked == null)
+        checked = false
 
 </script>
 
 <label class={type}>
-    <input type="checkbox" bind:checked={value}>
+    <input type="checkbox"
+           bind:checked
+           on:change>
     {#if type === "switch"}
         <span class="slider"></span>
     {/if}
