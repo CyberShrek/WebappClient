@@ -1,19 +1,19 @@
 const splitter = "|"
 
-export class TableHead {
+export class ConcreteTableHead implements TableHead {
     
     public content: {name: string, rowspan: number, colspan: number}[][]
     
     constructor(
-        private head: string[],
-        public types: string[]
+        private head: Matrix["head"],
+        public table: Table
     ) {
         this.content = this.buildContent()
     }
 
     private buildContent(): {name: string, rowspan: number, colspan: number}[][] {
-        const separatedHead: typeof separatedHead[] = this.head.map(cell => cell.split(splitter))
-        const content: typeof this.content[] = []
+        const separatedHead: typeof this.head[] = this.head.map(cell => cell.split(splitter))
+        const content: typeof this.content = []
 
         // Вставка пустых строк
         separatedHead.forEach(cells => {

@@ -1,9 +1,7 @@
 <script lang="ts">
 
-    import {Table} from "../Table"
-
     export let
-        table: Table
+        head: TableHead
 
 </script>
 
@@ -13,7 +11,7 @@
     <!--        <SuperCheckbox checkedArray={[]}/>-->
     <!--    </th>-->
     <!--{/if}-->
-    {#each table.head.content as row, i}
+    {#each head.content as row, i}
         <tr>
             {#each row as cell}
                 <th rowspan={cell.rowspan}

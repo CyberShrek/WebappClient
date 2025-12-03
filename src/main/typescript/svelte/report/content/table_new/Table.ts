@@ -1,42 +1,21 @@
-import {TableBody} from "./body/TableBody"
-import {TableHead} from "./head/TableHead"
+import {ConcreteTableHead} from "./head/TableHead"
+import {ConcreteBodyChunk} from "./body/TableBody"
 
-export class Table {
+export class ConcreteTable implements Table {
 
     public types: ColumnType[] = []
     public head:  TableHead
-    public body:  TableBody
+    public body:  BodyChunk
 
     constructor(private matrix: Matrix,
                 public  config: TableConfig,
-                public element: HTMLTableElement) {
+                private element: HTMLTableElement) {
 
         // Определение типов столбцов
         this.determineTypes()
 
-    }
-
-    // Группировка заголовков чанков по rowspan
-    respan() {
-        for (let nesting = 0; types[nesting + 1] === "string"; nesting++) {
-            let chunkHead: HTMLTableCellElement | null = null
-            for (let row of bodyElement.rows) {
-                const cell = row.cells.item(nesting + (hasCheckboxes ? 1 : 0))
-                if (cell == null)
-                    continue
-
-                if (cell.textContent?.trim() !== '') {
-                    chunkHead = cell
-                    chunkHead.style.display = ''
-                    chunkHead.rowSpan = 1
-                }
-                else if (chunkHead != null) {
-                    chunkHead.rowSpan++
-                    cell.style.display = "none"
-                    cell.rowSpan = 1
-                }
-            }
-        }
+        this.head = new ConcreteTableHead(this.matrix.head, this)
+        this.body = new ConcreteBodyChunk(this.matrix.data, this)
     }
 
     private determineTypes() {

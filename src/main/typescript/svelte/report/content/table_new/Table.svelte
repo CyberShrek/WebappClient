@@ -1,69 +1,40 @@
 <script lang="ts">
 
-    import Chunk from "./body/Chunk.svelte"
-    import TotalRow from "./TotalRow.svelte"
-    import {Table} from "./Table"
     import TableHead from "./head/TableHead.svelte"
+    import TableBody from "./body/TableBody.svelte";
+    import {ConcreteTable} from "./Table";
+    import TableFoot from "./foot/TableFoot.svelte";
+    import {tick} from "svelte";
 
     export let
         matrix: Matrix,
         config: TableConfig = {}
 
     let element: HTMLTableElement,
-        table: Table
+        table: ConcreteTable
 
-    $: if (matrix && config && element)
-        table = new Table(matrix, config, element)
-
-    // Группировка заголовков чанков по rowspan
+    $: if (matrix && config && element) {
+        table = new ConcreteTable(matrix, config, element)
+    }
 
 </script>
 
 <table bind:this={element}>
+    {#if table}
+        <TableHead head={table.head}/>
 
-    <TableHead {table}/>
-
-<!--    <tfoot>-->
-<!--        {#if config.addTotal}-->
-<!--            &lt;!&ndash;{#if hasCheckboxes}&ndash;&gt;-->
-<!--            &lt;!&ndash;    <td rowspan={0}/>&ndash;&gt;-->
-<!--            &lt;!&ndash;{/if}&ndash;&gt;-->
-<!--            <TotalRow-->
-<!--                rows={preparedData}-->
-<!--                {types}>-->
-<!--                <svelte:fragment slot="cell" let:columnIndex let:row let:value let:type>-->
-<!--                    {#if $$slots.cell}-->
-<!--                        <slot name="cell"-->
-<!--                              {columnIndex}-->
-<!--                              {row}-->
-<!--                              {value}-->
-<!--                              {type}/>-->
-<!--                    {:else}-->
-<!--                        {value}-->
-<!--                    {/if}-->
-<!--                </svelte:fragment>-->
-<!--            </TotalRow>-->
-<!--        {/if}-->
-<!--    </tfoot>-->
-
-    <tbody>
-        <Chunk
-            data={preparedData}
-            {types}
-            {chunking}>
-            <svelte:fragment slot="cell" let:columnIndex let:row let:value let:type>
-                {#if $$slots.cell}
-                    <slot name="cell"
-                          {columnIndex}
-                          {row}
-                          {value}
-                          {type}/>
-                {:else}
-                    {value}
-                {/if}
+        <TableFoot totalRow={config.addTotal ? table.body.totalRow : null}>
+            <svelte:fragment slot="cell" let:cell>
+                <slot name="cell" {cell}/>
             </svelte:fragment>
-        </Chunk>
-    </tbody>
+        </TableFoot>
+
+        <TableBody body={table.body}>
+            <svelte:fragment slot="cell" let:cell>
+                <slot name="cell" {cell}/>
+            </svelte:fragment>
+        </TableBody>
+    {/if}
 </table>
 
 <style>

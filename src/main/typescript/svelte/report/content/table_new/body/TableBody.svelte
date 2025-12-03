@@ -1,26 +1,43 @@
 <script lang="ts">
-    import {TableBody} from "./TableBody"
-    import Chunk from "./Chunk.svelte";
+    import Chunk from "./BodyChunk.svelte"
+    import {tick} from "svelte";
 
-    export let body: TableBody
+    export let body: BodyChunk
+
+    let element: HTMLTableSectionElement
+
+    // Группировка заголовков чанков по rowspan
+    $: if (body && element) tick().then(respan)
+    function respan() {
+        for (let nesting = 0; body.table.types[nesting + 1] === "string"; nesting++) {
+            let chunkHead: HTMLTableCellElement | null = null
+            for (let row of element.rows) {
+                const cell = row.cells.item(nesting)
+                if (cell == null)
+                    continue
+
+                if (cell.textContent?.trim() !== '') {
+                    chunkHead = cell
+                    if (chunkHead != null) {
+                        chunkHead.style.display = ''
+                        chunkHead.rowSpan = 1
+                    }
+                }
+                else if (chunkHead != null) {
+                    chunkHead.rowSpan++
+                    cell.style.display = "none"
+                    cell.rowSpan = 1
+                }
+            }
+        }
+    }
 
 </script>
 
-<tbody>
-    <Chunk
-            data={preparedData}
-            {types}
-            {chunking}>
-        <svelte:fragment slot="cell" let:columnIndex let:row let:value let:type>
-            {#if $$slots.cell}
-                <slot name="cell"
-                      {columnIndex}
-                      {row}
-                      {value}
-                      {type}/>
-            {:else}
-                {value}
-            {/if}
+<tbody bind:this={element}>
+    <Chunk chunk={body}>
+        <svelte:fragment slot="cell" let:cell>
+            <slot name="cell" {cell}/>
         </svelte:fragment>
     </Chunk>
 </tbody>
