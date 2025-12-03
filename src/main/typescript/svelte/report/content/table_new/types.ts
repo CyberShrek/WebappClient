@@ -2,6 +2,7 @@ type TableConfig = {
     chunking?: ChunkingType
     addOperations?: boolean
     addTotal?:      boolean
+    addCheckboxes?: boolean
 }
 
 interface Table {

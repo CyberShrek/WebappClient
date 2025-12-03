@@ -2,6 +2,7 @@
 
     import TotalRow from "./TotalRow.svelte"
     import Button from "../../../../input/Button.svelte"
+    import Switch from "../../../../input/Switch.svelte";
 
     export let
         chunk: BodyChunk,
@@ -25,6 +26,9 @@
         <!-- CHUNK HEAD -->
         {#if childChunk.rows.length > 1}
             <tr class:collapsed>
+                {#if chunk.table.config.addCheckboxes}
+                    <td/>
+                {/if}
                 {#each Array(nesting) as _}
                     <td/>
                 {/each}
@@ -63,12 +67,11 @@
 {:else}
     {#each chunk.rows as row}
         <tr class:collapsed>
-            <!--{#if hasCheckboxes}-->
-            <!--    <td>-->
-            <!--        <Switch type="checkbox"-->
-            <!--                bind:value={checkedRows[rowIndex]}/>-->
-            <!--    </td>-->
-            <!--{/if}-->
+            {#if chunk.table.config.addCheckboxes}
+                <td>
+                    <Switch type="checkbox"/>
+                </td>
+            {/if}
             {#each row.cells as cell, columnIndex}
                 <td>
                     {#if columnIndex >= nesting || columnIndex === nesting - 1 && chunk.rows.length === 1}

@@ -1,16 +1,18 @@
 <script lang="ts">
 
+    import Switch from "../../../../input/Switch.svelte";
+
     export let
         head: TableHead
 
 </script>
 
 <thead>
-    <!--{#if hasCheckboxes}-->
-    <!--    <th rowspan={0}>-->
-    <!--        <SuperCheckbox checkedArray={[]}/>-->
-    <!--    </th>-->
-    <!--{/if}-->
+    {#if head.table.config.addCheckboxes}
+        <th rowspan={0}>
+            <Switch type="checkbox"/>
+        </th>
+    {/if}
     {#each head.content as row, i}
         <tr>
             {#each row as cell}

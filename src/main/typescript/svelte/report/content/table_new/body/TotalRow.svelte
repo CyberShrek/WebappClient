@@ -10,6 +10,9 @@
 </script>
 
 <tr class:collapsed>
+    {#if totalRow.chunk.table.config.addCheckboxes}
+        <td/>
+    {/if}
     {#each totalRow.cells as cell, columnIndex}
         <td>
             {#if columnIndex === totalRow.chunk.nesting}

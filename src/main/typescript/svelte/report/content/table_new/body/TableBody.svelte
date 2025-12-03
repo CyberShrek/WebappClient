@@ -9,7 +9,10 @@
     // Группировка заголовков чанков по rowspan
     $: if (body && element) tick().then(respan)
     function respan() {
-        for (let nesting = 0; body.table.types[nesting + 1] === "string"; nesting++) {
+        const shift = body.table.config.addCheckboxes ? 1 : 0
+        for (let nesting = shift;
+             body.table.types[nesting + 1 - shift] === "string";
+             nesting++) {
             let chunkHead: HTMLTableCellElement | null = null
             for (let row of element.rows) {
                 const cell = row.cells.item(nesting)

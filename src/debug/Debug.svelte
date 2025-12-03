@@ -122,7 +122,7 @@
         {checkedData?.length}
         <ContentBlock>
             <Table {matrix}
-                   config={{chunking: "totals", addTotal: true}}>
+                   config={{chunking: "simple", addTotal: true, addCheckboxes: true}}>
                 <slot slot="cell" let:cell>
                     {cell.value}
                 </slot>
