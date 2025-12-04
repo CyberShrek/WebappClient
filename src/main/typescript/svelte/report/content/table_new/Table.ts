@@ -5,7 +5,7 @@ export class ConcreteTable implements Table {
 
     public types: ColumnType[] = []
     public head:  TableHead
-    public body:  BodyChunk
+    public body:  TableBodyChunk
 
     constructor(private matrix: Matrix,
                 public  config: TableConfig,

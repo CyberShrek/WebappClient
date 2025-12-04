@@ -3,10 +3,9 @@
     import TotalRow from "./TotalRow.svelte"
     import Button from "../../../../input/Button.svelte"
     import Switch from "../../../../input/Switch.svelte"
-    import HeadCheckbox from "../head/HeadCheckbox.svelte"
 
     export let
-        body: BodyChunk
+        body: TableBodyChunk
 
     $: chunking  = body.table.config.chunking
     $: nesting   = body.nesting
@@ -20,8 +19,8 @@
 
 </script>
 
-{#if chunking && body.childChunks?.length > 0}
-    {#each body.childChunks as chunk, chunkIndex}
+{#if chunking && body.childChunks.length > 0}
+    {#each body.childChunks as chunk}
 
         <!-- CHUNK HEAD -->
         {#if chunk.rows.length > 1}
@@ -33,10 +32,10 @@
                         <!--{/if}-->
                     </td>
                 {/if}
-                {#each Array(nesting) as _}
-                    <td/>
-                {/each}
-                <td>
+                <!--{#each Array(nesting) as _}-->
+                <!--    <td/>-->
+                <!--{/each}-->
+                <td rowspan={chunk.rowspan}>
                     <slot name="cell"
                           cell={chunk.totalRow.cells[nesting]}/>
                     {#if chunking === "collapsable" || chunking === "full"}
@@ -77,12 +76,12 @@
                             bind:checked={row.checked}/>
                 </td>
             {/if}
-            {#each row.cells as cell, columnIndex}
-                <td>
-                    {#if columnIndex >= nesting || columnIndex === nesting - 1 && body.rows.length === 1}
+            {#each row.cells as cell}
+                {#if !cell.spanned}
+                    <td>
                         <slot name="cell" {cell}/>
-                    {/if}
-                </td>
+                    </td>
+                {/if}
             {/each}
         </tr>
     {/each}

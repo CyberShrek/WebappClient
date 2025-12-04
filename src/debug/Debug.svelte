@@ -56,10 +56,8 @@
                         row.push(null);
                 }
             }
-
             result.push(row);
         }
-
         return result;
     }
 
@@ -125,10 +123,10 @@
                        addOperations: true,
                        addCheckboxes: true,
                        addTotal: true}}
-                   on:select={(event) => console.log(event.detail)}
-            >
+                   on:select={(event) => console.log(event.detail)}>
                 <slot slot="cell" let:cell>
                     {cell.value}
+                    {cell.row.chunk.nesting}
                 </slot>
             </Table>
         </ContentBlock>

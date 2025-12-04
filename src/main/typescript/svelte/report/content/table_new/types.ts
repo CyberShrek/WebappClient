@@ -7,27 +7,28 @@ type TableConfig = {
 
 interface Table {
     config: TableConfig
-    head: TableHead
-    body: BodyChunk
+    head:     TableHead
+    body:     TableBodyChunk
     types: ColumnType[]
 
     processOperations(operations: ColumnOperation[]): void
 }
 
 interface TableHead {
-    content: {name: string, rowspan: number, colspan: number}[][]
+    content: {value: string, rowspan: number, colspan: number}[][]
     table: Table
 
     findColIndex(name: string): number
 }
 
-interface BodyChunk {
+interface TableBodyChunk {
     rows:     TableRow[]
     totalRow: TableRow
-    table: Table
+    table:    Table
 
-    childChunks: BodyChunk[]
-    nesting: number
+    childChunks: TableBodyChunk[]
+    nesting:     number
+    rowspan:      number
 
     collapsed?: boolean
 }
@@ -35,7 +36,7 @@ interface TableRow {
     index: number
     cells: TableCell[]
 
-    chunk: BodyChunk
+    chunk: TableBodyChunk
 
     checked?: boolean
 
@@ -45,6 +46,8 @@ interface TableCell {
     index: number
     value: string | number | boolean | null
     type: ColumnType
+
+    spanned?: boolean
 
     row: TableRow
 }

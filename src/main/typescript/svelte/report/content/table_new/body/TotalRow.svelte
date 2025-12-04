@@ -14,12 +14,14 @@
         <td/>
     {/if}
     {#each totalRow.cells as cell, columnIndex}
-        <td>
-            {#if columnIndex === totalRow.chunk.nesting}
-                {totalWord}
-            {:else if columnIndex > totalRow.chunk.nesting && cell.type === "number"}
-                <slot name="cell" {cell}/>
-            {/if}
-        </td>
+        {#if !cell.spanned}
+            <td>
+                {#if columnIndex === totalRow.chunk.nesting}
+                    {totalWord}
+                {:else if columnIndex > totalRow.chunk.nesting && cell.type === "number"}
+                    <slot name="cell" {cell}/>
+                {/if}
+            </td>
+        {/if}
     {/each}
 </tr>

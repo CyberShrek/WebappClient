@@ -1,14 +1,14 @@
 <script lang="ts">
     import Chunk from "./BodyChunk.svelte"
-    import {tick} from "svelte"
 
-    export let body: BodyChunk
+    export let body: TableBodyChunk
 
     let element: HTMLTableSectionElement
 
     // Группировка заголовков чанков по rowspan
-    $: if (body && element) tick().then(respan)
+    // $: if (body && element) tick().then(respan)
     function respan() {
+        console.log("respan")
         const shift = body.table.config.addCheckboxes ? 1 : 0
         for (let nesting = shift;
              body.table.types[nesting + 1 - shift] === "string";
@@ -37,10 +37,10 @@
 
 </script>
 
-<!--<tbody bind:this={element}>-->
-<!--    <Chunk bind:body>-->
-<!--        <svelte:fragment slot="cell" let:cell>-->
-<!--            <slot name="cell" {cell}/>-->
-<!--        </svelte:fragment>-->
-<!--    </Chunk>-->
-<!--</tbody>-->
+<tbody bind:this={element}>
+    <Chunk bind:body>
+        <svelte:fragment slot="cell" let:cell>
+            <slot name="cell" {cell}/>
+        </svelte:fragment>
+    </Chunk>
+</tbody>

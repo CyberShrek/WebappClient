@@ -3,7 +3,7 @@
     import Switch from "../../../../input/Switch.svelte"
 
     export let
-        body: BodyChunk
+        body: TableBodyChunk
 
     let checked: boolean = false
 

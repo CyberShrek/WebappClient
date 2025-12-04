@@ -2,7 +2,7 @@ const splitter = "|"
 
 export class ConcreteTableHead implements TableHead {
     
-    public content: {name: string, rowspan: number, colspan: number}[][]
+    public content: TableHead["content"]
     
     constructor(
         private head: Matrix["head"],
@@ -15,7 +15,7 @@ export class ConcreteTableHead implements TableHead {
         return this.head.findIndex(cell => cell.includes(name))
     }
 
-    private buildContent(): {name: string, rowspan: number, colspan: number}[][] {
+    private buildContent(): TableHead["content"] {
         const separatedHead: typeof this.head[] = this.head.map(cell => cell.split(splitter))
         const content: typeof this.content = []
 
@@ -29,7 +29,7 @@ export class ConcreteTableHead implements TableHead {
         separatedHead.forEach((cells, i) => {
             cells.forEach((cell, j) => {
                 content[j].push({
-                    name: cell,
+                    value: cell,
                     rowspan: 1 + (j === cells.length - 1 ? content.length - cells.length : 0),
                     colspan: 1
                 })
@@ -41,11 +41,11 @@ export class ConcreteTableHead implements TableHead {
             const cellsToDelete: number[] = []
             let targetCell: typeof row[number] | null = null
             row.forEach((cell, i) => {
-                if (targetCell == null || targetCell.name !== cell.name) {
+                if (targetCell == null || targetCell.value !== cell.value) {
                     targetCell = cell
                     return
                 }
-                if (targetCell.name === cell.name && targetCell.rowspan === cell.rowspan){
+                if (targetCell.value === cell.value && targetCell.rowspan === cell.rowspan){
                     targetCell.colspan++
                     cellsToDelete.push(i)
                 }

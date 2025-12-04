@@ -20,7 +20,7 @@
             {#each row as cell}
                 <th rowspan={cell.rowspan}
                     colspan={cell.colspan}>
-                    {cell.name}
+                    {cell.value}
                 </th>
             {/each}
         </tr>
