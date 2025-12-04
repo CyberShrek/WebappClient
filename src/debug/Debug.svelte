@@ -65,7 +65,7 @@
 
     const matrix: Matrix = {
         head: ["Ключи|Столбец 1", "Ключи|Столбец 2", "Ключи|Столбец 3", "Значения|Столбец 4", "Значения|Столбец 5", "Столбец 6"],
-        data: generateRandomData(500, ["string", "string", "string", "number", "number", "boolean"]).sort(
+        data: generateRandomData(100, ["string", "string", "string", "number", "number", "boolean"]).sort(
             (a, b) => a[0].localeCompare(b[0]) || a[1].localeCompare(b[1]) || a[2].localeCompare(b[2]))
     }
 
@@ -121,11 +121,12 @@
         <ContentBlock>
             <Table {matrix}
                    config={{
-                       chunking: "collapsable",
+                       chunking: "simple",
                        addOperations: true,
                        addCheckboxes: true,
                        addTotal: true}}
-                   on:select={(event) => console.log(event.detail)}>
+                   on:select={(event) => console.log(event.detail)}
+            >
                 <slot slot="cell" let:cell>
                     {cell.value}
                 </slot>

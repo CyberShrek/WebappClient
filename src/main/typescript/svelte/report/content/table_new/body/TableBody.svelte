@@ -16,7 +16,7 @@
             let chunkHead: HTMLTableCellElement | null = null
             for (let row of element.rows) {
                 const cell = row.cells.item(nesting)
-                if (cell == null)
+                if (!cell)
                     continue
 
                 if (cell.textContent?.trim() !== '') {
@@ -37,10 +37,10 @@
 
 </script>
 
-<tbody bind:this={element}>
-    <Chunk bind:body>
-        <svelte:fragment slot="cell" let:cell>
-            <slot name="cell" {cell}/>
-        </svelte:fragment>
-    </Chunk>
-</tbody>
+<!--<tbody bind:this={element}>-->
+<!--    <Chunk bind:body>-->
+<!--        <svelte:fragment slot="cell" let:cell>-->
+<!--            <slot name="cell" {cell}/>-->
+<!--        </svelte:fragment>-->
+<!--    </Chunk>-->
+<!--</tbody>-->

@@ -15,7 +15,7 @@ export class ConcreteTable implements Table {
         this.determineTypes()
 
         this.head = new ConcreteTableHead(this.matrix.head, this)
-        this.body = new ConcreteBodyChunk(config.addOperations ? [] : this.matrix.data, this)
+        this.body = new ConcreteBodyChunk(this.matrix.data, this)
     }
 
     // Фильтрация и сортировка согласно пользовательским операциям

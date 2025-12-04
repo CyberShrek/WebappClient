@@ -22,7 +22,14 @@
     }
 
     $: selectedRows = config.addCheckboxes ? table?.body.rows.filter(row => row.checked) : null
-    $: selectedRows && dispatch(SELECT_EVENT, selectedRows.map(row => row.cells.map(cell => cell.value)))
+    $: selectedRows && dispatchSelect()
+
+    function dispatchSelect() {
+        dispatch(SELECT_EVENT, selectedRows?.map(row => row.cells.map(cell => cell.value))
+        )
+    }
+
+    setTimeout(rebuildTable, 5000)
 
 </script>
 

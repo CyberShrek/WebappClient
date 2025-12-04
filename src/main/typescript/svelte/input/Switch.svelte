@@ -1,7 +1,7 @@
 <script lang="ts">
 
     export let
-        checked: boolean | null = false,
+        checked: boolean = false,
         title: string = "",
         type: "checkbox" | "switch" = "switch"
 

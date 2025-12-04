@@ -7,7 +7,12 @@
 
     let operations: ColumnOperation[] = table.types.map(() => ({filter: "", sort: null}))
 
-    $: {table.processOperations(operations); table = table}
+    $: operations && processOperations()
+
+    function processOperations() {
+        table.processOperations(operations)
+        table.body = table.body
+    }
 
 </script>
 

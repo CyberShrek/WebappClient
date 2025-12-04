@@ -1,7 +1,7 @@
 <script lang="ts">
 
     import HeadCheckbox from "./HeadCheckbox.svelte"
-    import Operations from "./Operations.svelte";
+    import Operations from "./Operations.svelte"
 
     export let
         head: TableHead
