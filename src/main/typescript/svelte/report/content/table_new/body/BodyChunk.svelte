@@ -37,7 +37,7 @@
                 <!--{/each}-->
                 <td rowspan={chunk.rowspan}>
                     <slot name="cell"
-                          cell={chunk.totalRow.cells[nesting]}/>
+                          cell={chunk.total.cells[nesting]}/>
                     {#if chunking === "collapsable" || chunking === "full"}
                         <Button text={chunk.collapsed ? '▼' : '▲'}
                                 hint={chunk.collapsed ? 'Развернуть' : 'Свернуть'}
@@ -59,7 +59,7 @@
 
         <!-- CHUNK TOTAL -->
         {#if (chunking === "totals" || chunking === "full" || chunking === "collapsable") && chunk.rows.length > 1}
-            <TotalRow totalRow={chunk.totalRow}
+            <TotalRow totalRow={chunk.total}
                       collapsed={collapsed || !chunk.collapsed && chunking === "collapsable"}>
                 <svelte:fragment slot="cell" let:cell>
                     <slot name="cell" {cell}/>

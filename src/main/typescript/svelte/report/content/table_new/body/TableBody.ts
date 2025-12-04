@@ -2,26 +2,26 @@ import Decimal from "decimal.js-light";
 
 export class ConcreteBodyChunk implements TableBodyChunk {
 
-    constructor(private data:   Matrix["data"],
+    type: "chunk" = "chunk"
+
+    constructor(private data:   MatrixData,
                 public table:   Table,
                 public nesting: number = 0) {}
 
-    get childChunks(): TableBodyChunk[] {
-        return this.table.types[this.nesting + 1] === "string"
-            ? this.buildChildChunks()
-            : []
-    }
+    get content(): (TableBodyChunk | TableRow)[] {
+        const content: (TableBodyChunk | TableRow)[] = []
 
-    private _rows:  TableRow[] = []
-    get rows(): TableRow[] {
-        if (this._rows.length === 0 && this.data != null) {
-            this._rows = this.buildRows(this.data)
-        }
-        return this._rows
+        this.buildDataChunks().forEach(chunkData =>
+            content.push(chunkData.length > 1
+                ? new ConcreteBodyChunk(chunkData, this.table, this.nesting + 1)
+                : new ConcreteTableRow(chunkData[0], this))
+        )
+
+        return content
     }
 
     private _totalRow: TableRow | null = null
-    get totalRow(): TableRow {
+    get total(): TableRow {
         if (this._totalRow == null) {
             this._totalRow = this.calculateTotalRow()
         }
@@ -33,11 +33,10 @@ export class ConcreteBodyChunk implements TableBodyChunk {
         if (this._rowspan == -1) {
             const chunking = this.table.config.chunking
             this._rowspan = (
-                this.childChunks.length > 0
-                    ? this.childChunks.reduce((sum, childChunk) => sum + childChunk.rowspan, 0)
-                    : this.rows.length
+                this.content.reduce((sum, child) =>
+                        sum + (child.type == "chunk" ? child.rowspan : 1), 0)
             ) + (
-                Number(this.rows.length > 1)
+                Number(this.data.length > 1)
                     ? chunking == "totals" || chunking == "full"
                         ? 2
                         : 1
@@ -47,67 +46,66 @@ export class ConcreteBodyChunk implements TableBodyChunk {
         return this._rowspan
     }
 
-    // Рекурсивное дробление на чанки
-    private buildChildChunks(): TableBodyChunk[] {
-        const chunks: TableBodyChunk[] = [],
-            createChunk = (data: Matrix["data"] ) =>
-                new ConcreteBodyChunk(data, this.table, this.nesting + 1)
+    // Рекурсивное дробление сырых данных
+    private buildDataChunks(): MatrixData[] {
+        const dataChunks: MatrixData[] = []
 
-        let chunkName: string         = this.data[0][this.nesting] as string,
-            chunkData: Matrix["data"] = []
+        let chunkName: string     = this.data[0][this.nesting] as string,
+            chunkData: MatrixData = []
 
         this.data.forEach(row => {
             const currentName = row[this.nesting] as string
             if (currentName !== chunkName) {
-                chunks.push(createChunk(chunkData))
+                dataChunks.push(chunkData)
                 chunkData = []
             }
             chunkData.push(row)
             chunkName = currentName
         })
-        chunks.push(createChunk(chunkData))
-        return chunks
+        dataChunks.push(chunkData)
+        return dataChunks
     }
 
     // Подсчет итогов
     private calculateTotalRow(): TableRow {
-        const values: (string | number)[] = this.rows[0] ? this.rows[0].cells.map((cell, index) => {
-            switch (cell.type) {
-                case "string" : return String(this.rows[0]?.cells[index]?.value)
+        const rowData = this.data[0]
+        const values: (string | number)[] = rowData ? rowData.map((cell, index) => {
+            switch (this.table.types[index]) {
+                case "string" : return String(rowData[index])
                 case "number" : return 0
                 case "boolean": return ""
             }
         }) : []
-        this.rows.forEach(row => {
-            row.cells.forEach((cell, index) => {
-                    if (cell.type === "number") {
+        this.data.forEach(row => {
+            row.forEach((cell, index) => {
+                    if (this.table.types[index]) {
                         const sum = new Decimal(values[index] as number)
-                        values[index] = sum.add(Number(cell.value)).toNumber()
+                        values[index] = sum.add(Number(cell)).toNumber()
                     }
                 }
             )
         })
-        return new ConcreteTableRow(values, this, 0)
-    }
-
-    private buildRows(data: Matrix["data"]): TableRow[] {
-        return data.map((row, index) => new ConcreteTableRow(row, this, index))
+        return new ConcreteTableRow(values, this)
     }
 }
 
 class ConcreteTableRow implements TableRow {
 
+    type: "row" = "row"
+
     public cells: TableCell[]
 
     constructor(private values: TableCell["value"][],
-                public chunk: TableBodyChunk,
-                public index: number) {
+                public chunk: TableBodyChunk) {
 
         this.cells = values.map(
             (value, cellIndex) =>
                 new ConcreteTableCell(cellIndex, value, chunk.table.types[cellIndex], this)
         )
     }
+
+
+    checked?: boolean | undefined;
 
     findCellByColName(name: string): TableCell | null {
         return this.cells[this.chunk.table.head.findColIndex(name)]

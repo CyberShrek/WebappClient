@@ -22,24 +22,19 @@ interface TableHead {
 }
 
 interface TableBodyChunk {
-    rows:     TableRow[]
-    totalRow: TableRow
+    type: "chunk"
+    content: (TableRow | TableBodyChunk)[]
+    total: TableRow
     table:    Table
-
-    childChunks: TableBodyChunk[]
     nesting:     number
-    rowspan:      number
-
+    rowspan:     number
     collapsed?: boolean
 }
 interface TableRow {
-    index: number
+    type: "row"
     cells: TableCell[]
-
     chunk: TableBodyChunk
-
     checked?: boolean
-
     findCellByColName(name: string): TableCell | null
 }
 interface TableCell {

@@ -37,7 +37,7 @@
     {#if table}
         <TableHead bind:head={table.head}/>
 
-        <TableFoot totalRow={config.addTotal ? table.body.totalRow : null}>
+        <TableFoot totalRow={config.addTotal ? table.body.total : null}>
             <svelte:fragment slot="cell" let:cell>
                 <slot name="cell" {cell}/>
             </svelte:fragment>
