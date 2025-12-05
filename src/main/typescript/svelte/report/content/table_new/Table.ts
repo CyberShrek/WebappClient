@@ -8,8 +8,7 @@ export class ConcreteTable implements Table {
     public body:  TableBodyChunk
 
     constructor(private matrix: Matrix,
-                public  config: TableConfig,
-                private element: HTMLTableElement) {
+                public  config: TableConfig) {
 
         // Определение типов столбцов
         this.determineTypes()

@@ -11,72 +11,28 @@
     $: nesting   = body.nesting
     $: collapsed = body.collapsed
 
-    $: {collapsed; provideCollapsed()}
 
-    function provideCollapsed() {
-        body.childChunks.forEach(chunk => chunk.collapsed = collapsed)
-    }
+    // $: {collapsed; provideCollapsed()}
+    //
+    // function provideCollapsed() {
+    //     body.childChunks.forEach(chunk => chunk.collapsed = collapsed)
+    // }
 
 </script>
 
-{#if chunking && body.childChunks.length > 0}
-    {#each body.childChunks as chunk}
 
-        <!-- CHUNK HEAD -->
-        {#if chunk.rows.length > 1}
-            <tr class:collapsed>
-                {#if body.table.config.addCheckboxes}
-                    <td>
-                        <!--{#if chunk.collapsed}-->
-                        <!--    <HeadCheckbox bind:body={chunk}/>-->
-                        <!--{/if}-->
-                    </td>
-                {/if}
-                <!--{#each Array(nesting) as _}-->
-                <!--    <td/>-->
-                <!--{/each}-->
-                <td rowspan={chunk.rowspan}>
-                    <slot name="cell"
-                          cell={chunk.total.cells[nesting]}/>
-                    {#if chunking === "collapsable" || chunking === "full"}
-                        <Button text={chunk.collapsed ? '▼' : '▲'}
-                                hint={chunk.collapsed ? 'Развернуть' : 'Свернуть'}
-                                on:click={() => chunk.collapsed = !chunk.collapsed}
-                                design="frameless"
-                                size="small"/>
-                    {/if}
-                </td>
-            </tr>
-        {/if}
+{#each body.content as content}
 
-        <!-- CHUNK BODY -->
-        <svelte:self
-                bind:body={chunk}>
-            <svelte:fragment slot="cell" let:cell>
-                <slot name="cell" {cell}/>
-            </svelte:fragment>
-        </svelte:self>
+    {#if content.type === "row"}
 
-        <!-- CHUNK TOTAL -->
-        {#if (chunking === "totals" || chunking === "full" || chunking === "collapsable") && chunk.rows.length > 1}
-            <TotalRow totalRow={chunk.total}
-                      collapsed={collapsed || !chunk.collapsed && chunking === "collapsable"}>
-                <svelte:fragment slot="cell" let:cell>
-                    <slot name="cell" {cell}/>
-                </svelte:fragment>
-            </TotalRow>
-        {/if}
-    {/each}
-{:else}
-    {#each body.rows as row}
         <tr class:collapsed>
             {#if body.table.config.addCheckboxes}
                 <td>
                     <Switch type="checkbox"
-                            bind:checked={row.checked}/>
+                            bind:checked={content.checked}/>
                 </td>
             {/if}
-            {#each row.cells as cell}
+            {#each content.cells as cell}
                 {#if !cell.spanned}
                     <td>
                         <slot name="cell" {cell}/>
@@ -84,8 +40,50 @@
                 {/if}
             {/each}
         </tr>
-    {/each}
-{/if}
+
+    {:else if content.type === "chunk"}
+
+        <!-- CHUNK HEAD -->
+        <tr class:collapsed>
+            {#if body.table.config.addCheckboxes}
+                <td>
+                    <!--{#if chunk.collapsed}-->
+                    <!--    <HeadCheckbox bind:body={chunk}/>-->
+                    <!--{/if}-->
+                </td>
+            {/if}
+            <td rowspan={content.rowspan}>
+                <slot name="cell"
+                      cell={content.total.cells[nesting]}/>
+                {#if chunking === "collapsable" || chunking === "full"}
+                    <Button text={content.collapsed ? '▼' : '▲'}
+                            hint={content.collapsed ? 'Развернуть' : 'Свернуть'}
+                            on:click={() => content.collapsed = !content.collapsed}
+                            design="frameless"
+                            size="small"/>
+                {/if}
+            </td>
+        </tr>
+
+        <!-- CHUNK BODY -->
+        <svelte:self
+                bind:body={content}>
+            <svelte:fragment slot="cell" let:cell>
+                <slot name="cell" {cell}/>
+            </svelte:fragment>
+        </svelte:self>
+
+        <!-- CHUNK TOTAL -->
+        {#if chunking !== "simple"}
+            <TotalRow totalRow={content.content.length > 1 ? content.total : null}
+                      collapsed={collapsed || !content.collapsed && chunking === "collapsable"}>
+                <svelte:fragment slot="cell" let:cell>
+                    <slot name="cell" {cell}/>
+                </svelte:fragment>
+            </TotalRow>
+        {/if}
+    {/if}
+{/each}
 
 <style>
     td {

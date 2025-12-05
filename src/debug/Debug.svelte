@@ -119,14 +119,13 @@
         <ContentBlock>
             <Table {matrix}
                    config={{
-                       chunking: "simple",
+                       chunking: "totals",
                        addOperations: true,
-                       addCheckboxes: true,
+                       addCheckboxes: false,
                        addTotal: true}}
                    on:select={(event) => console.log(event.detail)}>
                 <slot slot="cell" let:cell>
                     {cell.value}
-                    {cell.row.chunk.nesting}
                 </slot>
             </Table>
         </ContentBlock>

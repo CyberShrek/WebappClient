@@ -13,27 +13,24 @@
         matrix: Matrix,
         config: TableConfig = {}
 
-    let element: HTMLTableElement,
-        table: ConcreteTable
+    let table: ConcreteTable
 
-    $: if (matrix && config && element) rebuildTable()
+    $: if (matrix && config) rebuildTable()
     function rebuildTable() {
-        table = new ConcreteTable(matrix, config, element)
+        table = new ConcreteTable(matrix, config)
     }
 
-    $: selectedRows = config.addCheckboxes ? table?.body.rows.filter(row => row.checked) : null
-    $: selectedRows && dispatchSelect()
-
-    function dispatchSelect() {
-        dispatch(SELECT_EVENT, selectedRows?.map(row => row.cells.map(cell => cell.value))
-        )
-    }
-
-    setTimeout(rebuildTable, 5000)
+    // $: selectedRows = config.addCheckboxes ? table?.body.rows.filter(row => row.checked) : null
+    // $: selectedRows && dispatchSelect()
+    //
+    // function dispatchSelect() {
+    //     dispatch(SELECT_EVENT, selectedRows?.map(row => row.cells.map(cell => cell.value))
+    //     )
+    // }
 
 </script>
 
-<table bind:this={element}>
+<table>
     {#if table}
         <TableHead bind:head={table.head}/>
 

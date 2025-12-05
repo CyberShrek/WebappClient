@@ -9,6 +9,9 @@ export class ConcreteBodyChunk implements TableBodyChunk {
                 public nesting: number = 0) {}
 
     get content(): (TableBodyChunk | TableRow)[] {
+        if (!this.table.config.chunking)
+            return this.data.map(row => new ConcreteTableRow(row, this))
+
         const content: (TableBodyChunk | TableRow)[] = []
 
         this.buildDataChunks().forEach(chunkData =>
@@ -50,7 +53,7 @@ export class ConcreteBodyChunk implements TableBodyChunk {
     private buildDataChunks(): MatrixData[] {
         const dataChunks: MatrixData[] = []
 
-        let chunkName: string     = this.data[0][this.nesting] as string,
+        let chunkName: string     = this.data[0]?.[this.nesting] as string,
             chunkData: MatrixData = []
 
         this.data.forEach(row => {
@@ -78,7 +81,7 @@ export class ConcreteBodyChunk implements TableBodyChunk {
         }) : []
         this.data.forEach(row => {
             row.forEach((cell, index) => {
-                    if (this.table.types[index]) {
+                    if (this.table.types[index] === "number") {
                         const sum = new Decimal(values[index] as number)
                         values[index] = sum.add(Number(cell)).toNumber()
                     }
@@ -95,7 +98,7 @@ class ConcreteTableRow implements TableRow {
 
     public cells: TableCell[]
 
-    constructor(private values: TableCell["value"][],
+    constructor(private values: TableCell["value"][] = [],
                 public chunk: TableBodyChunk) {
 
         this.cells = values.map(
@@ -103,7 +106,6 @@ class ConcreteTableRow implements TableRow {
                 new ConcreteTableCell(cellIndex, value, chunk.table.types[cellIndex], this)
         )
     }
-
 
     checked?: boolean | undefined;
 
@@ -120,10 +122,7 @@ class ConcreteTableCell implements TableCell {
 
     get spanned(): boolean {
         const chunk = this.row.chunk
-        return false
-
-        //this.index < chunk.nesting
-        // return this.index < chunk.nesting
-        //     || this.index === chunk.nesting - 1 && chunk.rows.length === 1
+        return this.index < chunk.nesting
+        // return false
     }
 }

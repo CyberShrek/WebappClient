@@ -35,6 +35,7 @@ interface TableRow {
     cells: TableCell[]
     chunk: TableBodyChunk
     checked?: boolean
+    collapsed?: boolean
     findCellByColName(name: string): TableCell | null
 }
 interface TableCell {
