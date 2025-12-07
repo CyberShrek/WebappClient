@@ -1,5 +1,6 @@
 type TableConfig = {
     chunking?: ChunkingType
+    pagination?:     number
     addOperations?: boolean
     addTotal?:      boolean
     addCheckboxes?: boolean
@@ -7,9 +8,10 @@ type TableConfig = {
 
 interface Table {
     config: TableConfig
-    head:     TableHead
-    body:     TableBodyChunk
-    types: ColumnType[]
+    head:   TableHead
+    pages:  TableBodyChunk[]
+    types:  ColumnType[]
+    total:  TableRow
 
     processOperations(operations: ColumnOperation[]): void
 }
@@ -28,6 +30,7 @@ interface TableBodyChunk {
     table:    Table
     nesting:     number
     rowspan:     number
+    checked?: boolean
     collapsed?: boolean
 }
 interface TableRow {

@@ -119,9 +119,9 @@
         <ContentBlock>
             <Table {matrix}
                    config={{
-                       chunking: "totals",
+                       chunking: null,
                        addOperations: true,
-                       addCheckboxes: false,
+                       addCheckboxes: true,
                        addTotal: true}}
                    on:select={(event) => console.log(event.detail)}>
                 <slot slot="cell" let:cell>

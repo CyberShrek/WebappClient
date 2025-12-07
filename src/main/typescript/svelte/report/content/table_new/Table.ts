@@ -3,25 +3,39 @@ import {ConcreteBodyChunk} from "./body/TableBody"
 
 export class ConcreteTable implements Table {
 
-    public types: ColumnType[] = []
     public head:  TableHead
-    public body:  TableBodyChunk
+    public pages: TableBodyChunk[]
 
     constructor(private matrix: Matrix,
                 public  config: TableConfig) {
 
-        // Определение типов столбцов
-        this.determineTypes()
+        this.head  = new ConcreteTableHead(this.matrix.head, this)
+        this.pages = [new ConcreteBodyChunk(this.clientData, this)]
+    }
 
-        this.head = new ConcreteTableHead(this.matrix.head, this)
-        this.body = new ConcreteBodyChunk(this.matrix.data, this)
+    public get types(): ColumnType[] {
+        const types: ColumnType[] = this.matrix.head.map(() => "string")
+        this.matrix.data.forEach(row => {
+            row.forEach((cell, cellI) => {
+                if (cell != null && typeof cell === "number")
+                    types[cellI] = "number"
+                else if (cell != null && typeof cell === "boolean")
+                    types[cellI] = "boolean"
+            })
+        })
+        return types
+    }
+
+    public get total(): TableRow {
+        return new ConcreteBodyChunk(this.clientData, this).total
     }
 
     // Фильтрация и сортировка согласно пользовательским операциям
+    private clientData: Matrix["data"] = this.matrix.data
     public processOperations(operations: ColumnOperation[]) {
 
         // Фильтрация
-        const resultData = this.matrix.data.filter(row =>
+        this.clientData = this.matrix.data.filter(row =>
             operations.every((oper, i) =>
                 !oper.filter || String(row[i]).toLowerCase().includes(oper.filter.toLowerCase()))
         )
@@ -33,24 +47,12 @@ export class ConcreteTable implements Table {
                     (a === b ? 0 : a ? 1 : -1)
 
         // Сортировка
-        resultData.sort((a, b) =>
+        this.clientData.sort((a, b) =>
             operations.reduce((diff, oper, i) => diff || !oper.sort ? diff :
                 oper.sort === 'asc' ? compareValues(a[i], b[i], this.types[i]) :
                     -compareValues(a[i], b[i], this.types[i]), 0)
         )
 
-        this.body = new ConcreteBodyChunk(resultData, this)
-    }
-
-    private determineTypes() {
-        this.types = this.matrix.head.map(() => "string")
-        this.matrix.data.forEach(row => {
-            row.forEach((cell, cellI) => {
-                if (cell != null && typeof cell === "number")
-                    this.types[cellI] = "number"
-                else if (cell != null && typeof cell === "boolean")
-                    this.types[cellI] = "boolean"
-            })
-        })
+        this.pages = [new ConcreteBodyChunk(this.clientData, this)]
     }
 }

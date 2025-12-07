@@ -11,7 +11,7 @@
 <thead>
     {#if head.table.config.addCheckboxes}
         <th rowspan={0}>
-            <HeadCheckbox bind:body={head.table.body}/>
+            <HeadCheckbox bind:body={head.table.pages}/>
         </th>
 
     {/if}

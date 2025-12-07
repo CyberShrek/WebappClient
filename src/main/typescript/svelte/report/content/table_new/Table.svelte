@@ -34,13 +34,13 @@
     {#if table}
         <TableHead bind:head={table.head}/>
 
-        <TableFoot totalRow={config.addTotal ? table.body.total : null}>
+        <TableFoot totalRow={config.addTotal ? table.total : null}>
             <svelte:fragment slot="cell" let:cell>
                 <slot name="cell" {cell}/>
             </svelte:fragment>
         </TableFoot>
 
-        <TableBody bind:body={table.body}>
+        <TableBody bind:pages={table.pages}>
             <svelte:fragment slot="cell" let:cell>
                 <slot name="cell" {cell}/>
             </svelte:fragment>

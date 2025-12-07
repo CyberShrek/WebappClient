@@ -1,7 +1,5 @@
 <script lang="ts">
 
-    import Decimal from "decimal.js-light"
-
     export let
         totalRow: TableRow | null,
         collapsed: boolean = false,
