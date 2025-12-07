@@ -23,6 +23,9 @@ export class ConcreteBodyChunk implements TableBodyChunk {
         }
         return this._content
     }
+    set content(content) {
+        this._content = content
+    }
 
     private _totalRow?: TableRow
     get total(): TableRow {
@@ -40,7 +43,9 @@ export class ConcreteBodyChunk implements TableBodyChunk {
                         sum + (child.type == "chunk" ? child.rowspan : 1), 0)
             ) + (
                 Number(this.data.length > 1)
-                        ? 2
+                        ? this.table.config.chunking === "simple"
+                        ? 1
+                        : 2
                     : 0
             )
         }

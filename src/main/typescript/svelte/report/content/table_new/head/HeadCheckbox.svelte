@@ -3,21 +3,33 @@
     import Switch from "../../../../input/Switch.svelte"
 
     export let
-        dependents: (TableBodyChunk | TableRow)[]
+        dependent: (TableBodyChunk | TableRow)[]
 
     let checked: boolean = false
 
-    $: if (dependents) {
+    $: if (dependent) {
         importSelection()
     }
 
     function exportSelection() {
-        dependents.forEach(content => content.checked = checked)
-        dependents = dependents
+        const select = (content: TableBodyChunk | TableRow) => {
+            switch (content.type) {
+                case "row"  : content.checked = checked; break
+                case "chunk": content.content.forEach(select)
+            }
+        }
+        dependent.forEach(select)
+        dependent = dependent
     }
 
     function importSelection() {
-        checked = dependents.every(content => content.checked)
+        const selected = (content: TableBodyChunk | TableRow) => {
+            switch (content.type) {
+                case "row"  : return content.checked
+                case "chunk": return content.content.every(selected)
+            }
+        }
+        checked = dependent.every(selected)
     }
 
 </script>

@@ -3,13 +3,14 @@
     export let
         totalRow: TableRow | null,
         collapsed: boolean = false,
-        totalWord = "Итого"
+        totalWord = "Итого",
+        checkboxSpan: boolean = true
 
 </script>
 
 <tr class:collapsed>
     {#if totalRow}
-        {#if totalRow.chunk.table.config.addCheckboxes}
+        {#if totalRow.chunk.table.config.addCheckboxes && checkboxSpan}
             <td/>
         {/if}
         {#each totalRow.cells as cell, columnIndex}

@@ -2,24 +2,19 @@
 
     import Chunk from "./BodyChunk.svelte"
 
-    export let pages: TableBodyChunk[]
-
+    export let pages: TableBodyChunk[],
+        pageIndex: number = 0
 
 </script>
 
-<div class="spacer"/>
-<tbody>
-    {#each pages as page, pageIndex}
-        <Chunk bind:body={page}>
-            <svelte:fragment slot="cell" let:cell>
-                <slot name="cell" {cell}/>
-            </svelte:fragment>
-        </Chunk>
-    {/each}
-</tbody>
-<div class="spacer"/>
-<style>
-    .spacer {
-        display: none;
-    }
-</style>
+{#each pages as page, index}
+    {#if index === pageIndex}
+        <tbody>
+            <Chunk bind:body={page}>
+                <svelte:fragment slot="cell" let:cell>
+                    <slot name="cell" {cell}/>
+                </svelte:fragment>
+            </Chunk>
+        </tbody>
+    {/if}
+{/each}

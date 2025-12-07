@@ -20,6 +20,8 @@
         table = new ConcreteTable(matrix, config)
     }
 
+    let pageIndex: number
+
     // $: selectedRows = config.addCheckboxes ? table?.body.rows.filter(row => row.checked) : null
     // $: selectedRows && dispatchSelect()
     //
@@ -32,7 +34,8 @@
 
 <table>
     {#if table}
-        <TableHead bind:head={table.head}/>
+        <TableHead bind:head={table.head}
+                   bind:pageIndex/>
 
         <TableFoot totalRow={config.addTotal ? table.total : null}>
             <svelte:fragment slot="cell" let:cell>
@@ -40,7 +43,8 @@
             </svelte:fragment>
         </TableFoot>
 
-        <TableBody bind:pages={table.pages}>
+        <TableBody bind:pages={table.pages}
+                   {pageIndex}>
             <svelte:fragment slot="cell" let:cell>
                 <slot name="cell" {cell}/>
             </svelte:fragment>

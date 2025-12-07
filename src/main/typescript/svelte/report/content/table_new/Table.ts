@@ -10,7 +10,7 @@ export class ConcreteTable implements Table {
                 public  config: TableConfig) {
 
         this.head  = new ConcreteTableHead(this.matrix.head, this)
-        this.pages = [new ConcreteBodyChunk(this.clientData, this)]
+        this.pages = this.buildPages()
     }
 
     public get types(): ColumnType[] {
@@ -53,6 +53,30 @@ export class ConcreteTable implements Table {
                     -compareValues(a[i], b[i], this.types[i]), 0)
         )
 
-        this.pages = [new ConcreteBodyChunk(this.clientData, this)]
+        this.pages = this.buildPages()
+    }
+
+    private buildPages(): typeof this.pages {
+        if (!this.config.pagination)
+            return [new ConcreteBodyChunk(this.clientData, this)]
+
+        const pages: typeof this.pages = []
+
+        let pageData: MatrixData = [],
+            chunkName: string = ""
+
+        this.clientData.forEach(rowData => {
+            const currChunkName = String(rowData[0])
+            if (pageData.length >= (this.config.pagination ?? 1)
+                && currChunkName != chunkName) {
+                pages.push(new ConcreteBodyChunk(pageData, this))
+                pageData = []
+            }
+            pageData.push(rowData)
+            chunkName = currChunkName
+        })
+        pages.push(new ConcreteBodyChunk(pageData, this))
+
+        return pages
     }
 }

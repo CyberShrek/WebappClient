@@ -30,7 +30,7 @@ interface TableBodyChunk {
     table:    Table
     nesting:     number
     rowspan:     number
-    checked?: boolean
+
     collapsed?: boolean
 }
 interface TableRow {
