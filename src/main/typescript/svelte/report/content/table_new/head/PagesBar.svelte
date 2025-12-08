@@ -1,6 +1,6 @@
 <script lang="ts">
 
-    import Button from "../../../../input/Button.svelte";
+    import Button from "../../../../input/Button.svelte"
 
     export let
         pagesLength: number,

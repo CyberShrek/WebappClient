@@ -10,6 +10,7 @@
     import Report from "../main/typescript/svelte/report/Report.svelte"
     import ContentBlock from "../main/typescript/svelte/report/content/ContentBlock.svelte"
     import Table from "../main/typescript/svelte/report/content/table_new/Table.svelte"
+    import Chart from "../main/typescript/svelte/report/content/chart/Chart.svelte";
 
     const appInfo: AppInfo = {
         code: "debug"
@@ -61,10 +62,14 @@
         return result;
     }
 
-    const matrix: Matrix = {
+    const tableMatrix: Matrix = {
         head: ["Ключи|Столбец 1", "Ключи|Столбец 2", "Ключи|Столбец 3", "Значения|Столбец 4", "Значения|Столбец 5", "Столбец 6", "some nulls"],
         data: generateRandomData(300, ["string", "string", "string", "number", "number", "boolean"]).sort(
             (a, b) => a[0].localeCompare(b[0]) || a[1].localeCompare(b[1]) || a[2].localeCompare(b[2])).map(row => [...row, undefined])
+    }
+    const chartMatrix: Matrix = {
+        head: ["Label-1", "Label-2", "Label-3"],
+        data: generateRandomData(10, ["string", "number", "number", "number"])
     }
 
 </script>
@@ -117,18 +122,22 @@
 
     <Report title="Отчёт">
         <ContentBlock>
-            <Table {matrix}
-                   config={{
-                       chunking: "full",
-                       pagination: 100,
-                       addOperations: true,
-                       addCheckboxes: false,
-                       addTotal: true}}
-                   on:select={(event) => console.log(event.detail)}>
-                <slot slot="cell" let:cell>
-                    {cell.value}
-                </slot>
-            </Table>
+            <Chart matrix={chartMatrix}
+            config={{
+                type: "bar"
+            }}/>
+<!--            <Table {matrix}-->
+<!--                   config={{-->
+<!--                       chunking: "full",-->
+<!--                       pagination: 100,-->
+<!--                       addOperations: true,-->
+<!--                       addCheckboxes: false,-->
+<!--                       addTotal: true}}-->
+<!--                   on:select={(event) => console.log(event.detail)}>-->
+<!--                <slot slot="cell" let:cell>-->
+<!--                    {cell.value}-->
+<!--                </slot>-->
+<!--            </Table>-->
         </ContentBlock>
     </Report>
 

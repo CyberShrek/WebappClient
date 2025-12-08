@@ -1,4 +1,26 @@
+<script lang="ts">
+    import {SimpleChart} from "./Chart"
+    import {ChartConfig} from "./types"
 
+    export let
+        config: ChartConfig,
+        matrix: Matrix
+
+    let canvas: HTMLCanvasElement,
+        chart: SimpleChart
+
+    $: canvas && config && matrix && (chart = new SimpleChart(config, matrix, canvas))
+
+</script>
+
+<div class="chart">
+    <p>
+
+    </p>
+
+    <canvas bind:this={canvas}/>
+
+</div>
 
 <style>
     .chart {

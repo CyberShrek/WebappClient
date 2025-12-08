@@ -89,7 +89,7 @@ export class ConcreteBodyChunk implements TableBodyChunk {
             switch (this.table.types[index]) {
                 case "string" : return String(rowData[index])
                 case "number" : return 0
-                case "boolean": return ""
+                default       : return ""
             }
         }) : []
         this.data.forEach(row => {
