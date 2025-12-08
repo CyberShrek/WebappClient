@@ -14,7 +14,7 @@
             <td/>
         {/if}
         {#each totalRow.cells as cell, columnIndex}
-            {#if !cell.spanned}
+            {#if !cell.hidden}
                 <td>
                     {#if columnIndex === totalRow.chunk.nesting}
                         {totalWord}

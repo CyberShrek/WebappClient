@@ -25,7 +25,7 @@
                 {/if}
             {/if}
             {#each content.cells as cell}
-                {#if !cell.spanned}
+                {#if !cell.hidden}
                     <td>
                         <slot name="cell" {cell}/>
                     </td>

@@ -2,16 +2,19 @@
 
     import Sort from "../../../../input/Sort.svelte"
     import Text from "../../../../input/Text.svelte"
+    import {type} from "node:os";
 
     export let table: Table
 
-    let operations: ColumnOperation[] = table.types.map(() => ({filter: "", sort: null}))
+    let operations: ColumnOperation[] = table.types
+        .filter(type => !!type)
+        .map(() => ({filter: "", sort: null}))
 
     $: operations && processOperations()
 
     function processOperations() {
         table.processOperations(operations)
-        table.body = table.body
+        table = table
     }
 
 </script>

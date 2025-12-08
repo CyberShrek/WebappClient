@@ -20,38 +20,39 @@ interface TableHead {
     content: {value: string, rowspan: number, colspan: number}[][]
     table: Table
 
+    findColName(index: number): string
     findColIndex(name: string): number
 }
 
 interface TableBodyChunk {
-    type: "chunk"
+    type:        "chunk"
     content: (TableRow | TableBodyChunk)[]
-    total: TableRow
-    table:    Table
+    total:     TableRow
+    table:        Table
     nesting:     number
     rowspan:     number
-
     collapsed?: boolean
 }
 interface TableRow {
     type: "row"
     cells: TableCell[]
     chunk: TableBodyChunk
-    checked?: boolean
+    checked?:   boolean
     collapsed?: boolean
     findCellByColName(name: string): TableCell | null
 }
 interface TableCell {
     index: number
+    column: string
     value: string | number | boolean | null
     type: ColumnType
 
-    spanned?: boolean
+    hidden?: boolean
 
     row: TableRow
 }
 
-type ColumnType = "string" | "number" | "boolean"
+type ColumnType = "string" | "number" | "boolean" | null
 
 type ColumnOperation = {
     filter: string

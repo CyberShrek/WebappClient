@@ -22,13 +22,21 @@
 
     let pageIndex: number
 
-    // $: selectedRows = config.addCheckboxes ? table?.body.rows.filter(row => row.checked) : null
-    // $: selectedRows && dispatchSelect()
-    //
-    // function dispatchSelect() {
-    //     dispatch(SELECT_EVENT, selectedRows?.map(row => row.cells.map(cell => cell.value))
-    //     )
-    // }
+    $: table && config.addCheckboxes && dispatchSelection()
+
+    function dispatchSelection() {
+        const
+            selection: MatrixData = [],
+            collectSelection = (chunk: TableBodyChunk) => chunk.content.forEach(content => {
+                switch (content.type) {
+                    case "row": content.checked && selection.push(content.cells.map(cell => cell.value)); break
+                    case "chunk": collectSelection(content); break
+                }
+            })
+        table.pages.forEach(collectSelection)
+
+        dispatch(SELECT_EVENT, selection)
+    }
 
 </script>
 

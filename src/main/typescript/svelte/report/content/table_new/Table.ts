@@ -13,17 +13,22 @@ export class ConcreteTable implements Table {
         this.pages = this.buildPages()
     }
 
+    private _types: ColumnType[] = []
     public get types(): ColumnType[] {
-        const types: ColumnType[] = this.matrix.head.map(() => "string")
-        this.matrix.data.forEach(row => {
-            row.forEach((cell, cellI) => {
-                if (cell != null && typeof cell === "number")
-                    types[cellI] = "number"
-                else if (cell != null && typeof cell === "boolean")
-                    types[cellI] = "boolean"
+        if (this._types.length == 0) {
+            this._types = this.matrix.head.map(() => null)
+            this.matrix.data.forEach(row => {
+                row.forEach((cell, cellI) => {
+                    switch (typeof cell) {
+                        case "string" : this._types[cellI] = "string"; break
+                        case "number" : this._types[cellI] = (this._types[cellI] === null || this._types[cellI] === "number")  ? "number"  : "string"; break
+                        case "boolean": this._types[cellI] = (this._types[cellI] === null || this._types[cellI] === "boolean") ? "boolean" : "string"; break
+                    }
+                })
             })
-        })
-        return types
+            console.log("types", this._types)
+        }
+        return this._types
     }
 
     public get total(): TableRow {

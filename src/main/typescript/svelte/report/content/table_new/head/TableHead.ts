@@ -14,9 +14,13 @@ export class ConcreteTableHead implements TableHead {
     findColIndex(name: string): number {
         return this.head.findIndex(cell => cell.includes(name))
     }
+    findColName(index: number): string {
+        return this.head[index]
+    }
 
     private buildContent(): TableHead["content"] {
-        const separatedHead: typeof this.head[] = this.head.map(cell => cell.split(splitter))
+        const separatedHead: typeof this.head[] = this.head.filter((_, index) =>
+            !!this.table.types[index]).map(cell => cell.split(splitter))
         const content: typeof this.content = []
 
         // Вставка пустых строк

@@ -2,7 +2,8 @@ import Decimal from "decimal.js-light";
 
 export class ConcreteBodyChunk implements TableBodyChunk {
 
-    type: "chunk" = "chunk"
+    type: "chunk"
+        = "chunk"
 
     constructor(private data:   MatrixData,
                 public table:   Table,
@@ -11,7 +12,7 @@ export class ConcreteBodyChunk implements TableBodyChunk {
     private _content: typeof this.content = []
     get content(): (TableBodyChunk | TableRow)[] {
         if (this._content.length == 0) {
-            if (!this.table.config.chunking)
+            if (!(this.table.config.chunking && this.table.types[this.nesting + 1] === "string"))
                 this.data.forEach(row =>
                     this._content.push(new ConcreteTableRow(row, this)))
             else
@@ -61,7 +62,7 @@ export class ConcreteBodyChunk implements TableBodyChunk {
         return this._collapsed
     }
 
-    // Рекурсивное дробление сырых данных
+    // Дробление сырых данных
     private buildDataChunks(): MatrixData[] {
         const dataChunks: MatrixData[] = []
 
@@ -93,12 +94,11 @@ export class ConcreteBodyChunk implements TableBodyChunk {
         }) : []
         this.data.forEach(row => {
             row.forEach((cell, index) => {
-                    if (this.table.types[index] === "number") {
-                        const sum = new Decimal(values[index] as number)
-                        values[index] = sum.add(Number(cell)).toNumber()
-                    }
+                if (this.table.types[index] === "number" && typeof cell === "number") {
+                    const sum = new Decimal(values[index] as number)
+                    values[index] = sum.add(Number(cell)).toNumber()
                 }
-            )
+            })
         })
         return new ConcreteTableRow(values, this)
     }
@@ -106,7 +106,8 @@ export class ConcreteBodyChunk implements TableBodyChunk {
 
 class ConcreteTableRow implements TableRow {
 
-    type: "row" = "row"
+    type: "row"
+        = "row"
 
     public cells: TableCell[]
 
@@ -115,7 +116,7 @@ class ConcreteTableRow implements TableRow {
 
         this.cells = values.map(
             (value, cellIndex) =>
-                new ConcreteTableCell(cellIndex, value, chunk.table.types[cellIndex], this)
+                new ConcreteTableCell(cellIndex, chunk.table.head.findColName(cellIndex), value, chunk.table.types[cellIndex], this)
         )
     }
 
@@ -128,13 +129,13 @@ class ConcreteTableRow implements TableRow {
 
 class ConcreteTableCell implements TableCell {
     constructor(public index: number,
+                public column: string,
                 public value: TableCell["value"],
                 public type:  ColumnType,
                 public row:   TableRow) {}
 
-    get spanned(): boolean {
+    get hidden(): boolean {
         const chunk = this.row.chunk
-        return this.index < chunk.nesting
-        // return false
+        return !this.type || this.index < chunk.nesting
     }
 }
