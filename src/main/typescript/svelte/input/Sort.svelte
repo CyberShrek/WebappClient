@@ -16,3 +16,21 @@
         ⇅
     {/if}
 </button>
+
+<style>
+    .sort {
+        position: absolute;
+        right: 0;
+        cursor: pointer;
+        opacity: 0.5;
+        height: 20px;
+        width: 20px;
+        padding: 0;
+        transform: translateX(calc(0px - var(--indent))) translateY(calc(-20px - var(--indent)));
+        border-radius: 100px;
+        border: none;
+    }
+    .sort:is(:hover, .asc, .desc) {
+        opacity: 1;
+    }
+</style>

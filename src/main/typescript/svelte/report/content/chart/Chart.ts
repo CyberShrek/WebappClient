@@ -45,7 +45,7 @@ export class SimpleChart {
                     type: config.type,
                     fill,
                     borderColor: config.palette?.map(rgba => rgbaToString(rgba)),
-                    backgroundColor: config.palette?.map(rgba => rgbaToString([...rgba.slice(0, 3), rgba[3] * fill ? 0.7 : 0] as RGBA)),
+                    backgroundColor: config.palette?.map(rgba => rgbaToString([...rgba.slice(0, 3), rgba[3] * (fill ? 0.7 : 0)] as RGBA)),
                     ...getSpecialProperties(config)
 
                 } as ChartDataset

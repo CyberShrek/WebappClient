@@ -1,4 +1,5 @@
 .swal2-container {
+    --swal2-container-padding: var(--strong-indent);
 
     /* animate.css */
     --animate-duration: 0.4s;

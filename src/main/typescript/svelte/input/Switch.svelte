@@ -81,4 +81,8 @@
     label.switch input:checked + .slider:before {
         transform: translateX(calc(var(--switch-width) - var(--switch-height)));
     }
+
+    label.checkbox input {
+        transform: scale(1.2);
+    }
 </style>

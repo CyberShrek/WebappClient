@@ -64,7 +64,7 @@
 
     const tableMatrix: Matrix = {
         head: ["Ключи|Столбец 1", "Ключи|Столбец 2", "Ключи|Столбец 3", "Значения|Столбец 4", "Значения|Столбец 5", "Столбец 6", "some nulls"],
-        data: generateRandomData(300, ["string", "string", "string", "number", "number", "boolean"]).sort(
+        data: generateRandomData(200, ["string", "string", "string", "number", "number", "boolean"]).sort(
             (a, b) => a[0].localeCompare(b[0]) || a[1].localeCompare(b[1]) || a[2].localeCompare(b[2])).map(row => [...row, undefined])
     }
     const chartMatrix: Matrix = {
@@ -149,10 +149,10 @@
 <!--                    }]}/>-->
             <Table matrix={tableMatrix}
                    config={{
-                       chunking: "full",
-                       pagination: 100,
+                       chunking: "collapsable",
+                       // pagination: 0,
                        addOperations: true,
-                       addCheckboxes: false,
+                       addCheckboxes: true,
                        addTotal: true}}
                    on:select={(event) => console.log(event.detail)}>
                 <slot slot="cell" let:cell>

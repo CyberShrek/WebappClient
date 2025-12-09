@@ -13,15 +13,15 @@
 </script>
 
 <thead>
-    {#if head.table.config.addCheckboxes}
-        <th rowspan={0}>
-            <HeadCheckbox bind:dependent={head.table.pages}/>
-        </th>
-
-    {/if}
     {#if pagesLength > 1}
         <PagesBar {pagesLength}
                   bind:pageIndex/>
+    {/if}
+    {#if head.table.config.addCheckboxes}
+        <th rowspan={0} class="checkbox">
+            <HeadCheckbox bind:dependent={head.table.pages}/>
+        </th>
+
     {/if}
     {#each head.content as row}
         <tr>
@@ -37,3 +37,22 @@
         <Operations bind:table={head.table}/>
     {/if}
 </thead>
+
+<style>
+    thead {
+        position: sticky;
+        top: calc(var(--report-header-height) + 1px);
+        z-index: 10;
+    }
+
+    th {
+        color: white;
+        font-weight: normal;
+        background: var(--accent-color);
+    }
+    th:not(.checkbox) {
+        padding-left: 30px !important;
+        padding-right: 30px !important;
+        min-width: 100px;
+    }
+</style>

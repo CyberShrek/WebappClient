@@ -81,12 +81,16 @@
     .report > .header {
         display: flex;
         position: sticky;
+        z-index: 10;
         top: 0;
         width: auto;
         min-height: var(--report-header-height);
         align-items: center;
         padding: 0 var(--light-indent);
         background: white;
+    }
+    .report > .header:hover {
+        top: 0;
     }
     .report:not(.collapsed) > .header {
         border-bottom: var(--light-border);

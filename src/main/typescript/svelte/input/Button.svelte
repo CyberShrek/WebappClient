@@ -15,6 +15,8 @@
             | "frameless"
             | "submit"
             | "cancel" = "basic",
+        shape: "circle"
+            | "rectangle" = "rectangle",
 
         hint          = "",
         text          = "",
@@ -28,7 +30,7 @@
 
 <button class:disabled
         class:active
-        class="{size} {design}"
+        class="{size} {design} {shape}"
         class:text
         class:image
         title={hint}
@@ -70,7 +72,7 @@
     }
 
     button.small {
-        height: var(--button-height-small);
+        max-height: var(--button-height-small);
         padding: 0;
         font-size: small;
     }
@@ -110,6 +112,10 @@
         padding: 0;
         border: 0;
         background: transparent;
+    }
+
+    button.circle {
+        border-radius: 1000px;
     }
 
     button:hover {

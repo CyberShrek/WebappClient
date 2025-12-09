@@ -30,9 +30,9 @@
 </div>
 
 <style>
-    /*.content {*/
-    /*    display: flex;*/
-    /*    height: 100vh;*/
-    /*    overflow: scroll;*/
-    /*}*/
+    .content {
+        display: flex;
+        /*height: 100vh;*/
+        /*overflow: scroll;*/
+    }
 </style>

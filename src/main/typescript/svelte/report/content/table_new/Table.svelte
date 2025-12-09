@@ -63,13 +63,32 @@
 <style>
     table {
         border-spacing: 0;
-        overflow-x: scroll;
-        background: white;
-        padding-bottom: var(--indent);
+        border-left: var(--light-border);
+        /*border-top: var(--light-border);*/
+        width: 100%;
     }
 
-    table thead {
-        position: sticky;
-        top: var(--report-header-height);
+    :global(table :is(td, th)) {
+        border-right: var(--light-border);
+        border-bottom: var(--light-border);
+        height: 24px;
+        padding: var(--light-indent) var(--indent);
+    }
+    :global(table td.number) {
+        text-align: end;
+        font-family: Roboto Mono, serif;
+    }
+    :global(table td.boolean) {
+        text-align: center;
+    }
+    :global(table :is(th, td).checkbox) {
+        width: 0;
+    }
+    :global(table :is(.collapsed, .collapsed *)) {
+        opacity: 0   !important;
+        height: 0    !important;
+        font-size: 0 !important;
+        padding: 0   !important;
+        border: none !important;
     }
 </style>

@@ -11,11 +11,11 @@
 <tr class:collapsed>
     {#if totalRow}
         {#if totalRow.chunk.table.config.addCheckboxes && checkboxSpan}
-            <td/>
+            <td class="checkbox"/>
         {/if}
         {#each totalRow.cells as cell, columnIndex}
             {#if !cell.hidden}
-                <td>
+                <td class={totalRow.chunk.table.types[columnIndex]}>
                     {#if columnIndex === totalRow.chunk.nesting}
                         {totalWord}
                     {:else if columnIndex > totalRow.chunk.nesting && cell.type === "number"}
@@ -26,3 +26,10 @@
         {/each}
     {/if}
 </tr>
+
+<style>
+    tr {
+        background: var(--secondary-color);
+        font-weight: bold;
+    }
+</style>

@@ -10,7 +10,7 @@ export type ChartConfig =
     RadarChartConfig |
     PolarAreaChartConfig
 
-interface CommonChartConfig extends ChartConfig {
+interface CommonChartConfig {
     type: ChartType
     palette?: RGBA[]
     fill?: boolean

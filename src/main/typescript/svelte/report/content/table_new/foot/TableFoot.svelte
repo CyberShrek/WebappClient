@@ -16,3 +16,11 @@
         </TotalRow>
     {/if}
 </tfoot>
+
+<style>
+    tfoot {
+        position: sticky;
+        bottom: 0;
+        z-index: 10;
+    }
+</style>

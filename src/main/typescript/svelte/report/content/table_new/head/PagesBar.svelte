@@ -27,37 +27,55 @@
 <tr>
     <td colspan=1000>
         <div class="pages-bar">
-            <Button text="❰"
-                    size="small"
-                    design="white"
-                    on:click={prev}/>
+            <div class="buttons">
+                <Button text="❰"
+                        size="small"
+                        design="white"
+                        shape="circle"
+                        on:click={prev}/>
 
-            <div class="pages">
-                {#each Array(pagesLength) as _, index}
-                    <Button text={String(index + 1)}
-                            size="small"
-                            design="white"
-                            active={index === pageIndex}
-                            on:click={() => pageIndex = index}/>
-                {/each}
+                <div class="pages">
+                    {#each Array(pagesLength) as _, index}
+                        <Button text={String(index + 1)}
+                                size="small"
+                                design="white"
+                                shape="circle"
+                                active={index === pageIndex}
+                                on:click={() => pageIndex = index}/>
+                    {/each}
+                </div>
+
+                <Button text="❱"
+                        size="small"
+                        design="white"
+                        shape="circle"
+                        on:click={next}/>
             </div>
-
-            <Button text="❱"
-                    size="small"
-                    design="white"
-                    on:click={next}/>
         </div>
     </td>
 </tr>
 
 <style>
 
+    td {
+        background: white;
+    }
     .pages-bar {
         display: flex;
+        justify-content: flex-end;
+
     }
 
-    .pages {
+    .buttons {
         display: flex;
+        justify-content: flex-end;
+        max-width: calc(100vw - 2 * var(--strong-indent) - 2 * var(--indent));
+    }
+
+    .buttons .pages {
+        display: flex;
+        overflow-x: auto;
+        /*max-width: 50vw;*/
     }
 
 </style>

@@ -20,9 +20,11 @@
 </script>
 
 <tr class="operations sort">
-    {#each operations as operation}
+    {#each operations as operation, colI}
         <th>
-            <Sort bind:value={operation.sort}/>
+            <div class="sort">
+                <Sort bind:value={operation.sort}/>
+            </div>
         </th>
     {/each}
 </tr>
@@ -31,9 +33,41 @@
     {#each operations as operation, colI}
         <th>
             {#if table.types[colI] === "string"}
-                <Text bind:value={operation.filter}
-                      placeholder="⌕ Поиск"/>
+                <input class="filter"
+                       type="text"
+                       placeholder="⌕ Фильтр"
+                       bind:value={operation.filter}/>
             {/if}
         </th>
     {/each}
 </tr>
+
+<style>
+    th {
+        position: relative;
+        padding: 0;
+        height: 0;
+        border: 0;
+        /*max-height: 0 !important;*/
+        border-top: none;
+        background: var(--accent-color);
+    }
+
+    div.sort {
+        position: absolute;
+        right: -3px;
+        bottom: -3px;
+    }
+    input.filter {
+        position: absolute;
+        right: 0;
+        top: -1px;
+        width: 150px;
+        opacity: 0.5;
+        cursor: text;
+        border: var(--light-border);
+    }
+    input.filter:is(:focus, :hover) {
+        opacity: 1;
+    }
+</style>

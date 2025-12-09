@@ -14,3 +14,10 @@
        on:focus={() => isFocused = true}
        on:blur={() => isFocused = false}
        bind:value/>
+
+<style>
+    input[type=text] {
+        cursor: text;
+        border: var(--light-border);
+    }
+</style>

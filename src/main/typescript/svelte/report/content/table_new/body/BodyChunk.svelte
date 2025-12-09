@@ -18,15 +18,15 @@
         <tr class:collapsed={content.collapsed}>
             {#if body.table.config.addCheckboxes}
                 {#if !content.collapsed}
-                    <td>
+                    <td class="checkbox">
                         <Switch type="checkbox"
                                 bind:checked={content.checked}/>
                     </td>
                 {/if}
             {/if}
-            {#each content.cells as cell}
+            {#each content.cells as cell, i}
                 {#if !cell.hidden}
-                    <td>
+                    <td class={body.table.types[i]}>
                         <slot name="cell" {cell}/>
                     </td>
                 {/if}
@@ -39,23 +39,28 @@
         <tr class:collapsed={body.collapsed}>
             {#if body.table.config.addCheckboxes}
                 {#if content.collapsed}
-                    <td rowspan={content.rowspan}>
+                    <td class="checkbox"
+                        rowspan={content.rowspan}>
                         <HeadCheckbox bind:dependent={content.content}/>
                     </td>
                 {:else}
                     <span/>
                 {/if}
             {/if}
-            <td rowspan={content.rowspan}>
-                <slot name="cell"
-                      cell={content.total.cells[body.nesting]}/>
-                {#if chunking === "collapsable" || chunking === "full"}
-                    <Button text={content.collapsed ? '▼' : '▲'}
-                            hint={content.collapsed ? 'Развернуть' : 'Свернуть'}
-                            on:click={() => content.collapsed = !content.collapsed}
-                            design="frameless"
-                            size="small"/>
-                {/if}
+            <td rowspan={content.rowspan}
+                class:content-collapsed={content.collapsed}
+                class="primary {chunking}">
+                <div>
+                    <slot name="cell"
+                          cell={content.total.cells[body.nesting]}/>
+                    {#if chunking === "collapsable" || chunking === "full"}
+                        <Button text={content.collapsed ? '▼' : '▲'}
+                                hint={content.collapsed ? 'Развернуть' : 'Свернуть'}
+                                on:click={() => content.collapsed = !content.collapsed}
+                                design="frameless"
+                                size="small"/>
+                    {/if}
+                </div>
             </td>
         </tr>
 
@@ -81,27 +86,22 @@
 {/each}
 
 <style>
-    td {
-        border-right: var(--light-border);
-        border-bottom: var(--light-border);
+    td.primary {
+        vertical-align: top;
+    }
+
+    td.primary:is(.full, .total, .collapsable.content-collapsed){
+        background: var(--secondary-color);
+    }
+
+    td.primary > div {
+        display: flex;
+        gap: var(--light-indent);
+        align-items: center;
     }
 
     :global(tr *) {
         transition: 0.2s all;
     }
 
-    /*:global(tr.collapsed *) {*/
-    /*    opacity: 0   !important;*/
-    /*    height: 0    !important;*/
-    /*    font-size: 0 !important;*/
-    /*    padding: 0   !important;*/
-    /*    border: none !important;*/
-    /*}*/
-    :global(table :is(.collapsed, .collapsed *)) {
-        opacity: 0   !important;
-        height: 0    !important;
-        font-size: 0 !important;
-        padding: 0   !important;
-        border: none !important;
-    }
 </style>
