@@ -3,20 +3,23 @@
     import {ChartConfig} from "./types"
 
     export let
-        config: ChartConfig,
+        title: string = "",
+        configs: ChartConfig[],
         matrix: Matrix
 
     let canvas: HTMLCanvasElement,
         chart: SimpleChart
 
-    $: canvas && config && matrix && (chart = new SimpleChart(config, matrix, canvas))
+    $: canvas && configs && matrix && (chart = new SimpleChart(configs, matrix, canvas))
 
 </script>
 
 <div class="chart">
-    <p>
-
-    </p>
+    {#if title.length > 0}
+        <p>
+            {title}
+        </p>
+    {/if}
 
     <canvas bind:this={canvas}/>
 

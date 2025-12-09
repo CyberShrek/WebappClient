@@ -1,50 +1,22 @@
-import {ChartConfig} from "./types"
+import {BarChartConfig, ChartConfig, LineChartConfig, RGBA} from "./types"
 import {registerTypeIfNone} from "./registrator"
-import {Chart} from "chart.js";
+import {Chart, ChartDataset} from "chart.js"
 
 export class SimpleChart {
     constructor(
-        public  config: ChartConfig,
-        matrix: Matrix,
-        canvas : HTMLCanvasElement
+        public  configs: ChartConfig[],
+        private matrix : Matrix,
+        private canvas : HTMLCanvasElement
     ) {
-        registerTypeIfNone(config.type)
+        configs.forEach(config => registerTypeIfNone(config.type))
 
         new Chart(canvas, {
+            type: configs[0].type,
             data: {
                 labels: matrix.data.map(row => row[0]),
-                datasets: matrix.data
-                    .filter((_, i) => i != 0)
-                    .map((data, index) => {
-                    return {
-                        type: config.type,
-                        label: matrix.head[index],
-                        data,
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.5)',
-                            'rgba(54, 162, 235, 0.5)',
-                            'rgba(255, 206, 86, 0.5)',
-                            'rgba(75, 192, 192, 0.5)',
-                            'rgba(153, 102, 255, 0.5)'
-                        ],
-                        borderColor: [
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)'
-                        ],
-                        borderWidth: 1
-                    }
-                })
+                datasets: this.buildDatasets()
             },
             options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    }
-                },
                 scales: {
                     y: {
                         beginAtZero: true
@@ -53,4 +25,62 @@ export class SimpleChart {
             }
         });
     }
+
+    private buildDatasets(): ChartDataset[] {
+
+        const datasets: ChartDataset[] = []
+
+        for (let i = 1; i < this.matrix.head.length; i++) {
+            let dataset = {
+                label: this.matrix.head[i],
+                data: this.matrix.data.map(row => row[i]),
+                borderWidth: 1
+            } as ChartDataset
+
+            let config = this.configs[i - 1]
+            if (config) {
+                const fill = config.fill == undefined ? true : config.fill
+                dataset = {
+                    ...dataset,
+                    type: config.type,
+                    fill,
+                    borderColor: config.palette?.map(rgba => rgbaToString(rgba)),
+                    backgroundColor: config.palette?.map(rgba => rgbaToString([...rgba.slice(0, 3), rgba[3] * fill ? 0.7 : 0] as RGBA)),
+                    ...getSpecialProperties(config)
+
+                } as ChartDataset
+            }
+
+            datasets.push(dataset)
+        }
+
+        return datasets
+    }
+}
+
+function getSpecialProperties(config: ChartConfig) {
+    switch (config.type) {
+        case "line": return getLineProperties(config)
+        case "bar" : return getBarProperties()
+    }
+    return {}
+}
+
+function getLineProperties(config: LineChartConfig) {
+    return {
+        borderWidth: config.dash ? 2 : 1,
+        borderDash: config.dash ? [4, 4] : undefined
+    } as
+        ChartDataset
+}
+
+function getBarProperties() {
+    return {
+        borderRadius: 6
+    } as
+        ChartDataset
+}
+
+function rgbaToString(rgba: RGBA): string {
+    return `rgba(${rgba[0]}, ${rgba[1]}, ${rgba[2]}, ${rgba[3]})`
 }

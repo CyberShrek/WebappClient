@@ -68,8 +68,8 @@
             (a, b) => a[0].localeCompare(b[0]) || a[1].localeCompare(b[1]) || a[2].localeCompare(b[2])).map(row => [...row, undefined])
     }
     const chartMatrix: Matrix = {
-        head: ["Label-1", "Label-2", "Label-3"],
-        data: generateRandomData(10, ["string", "number", "number", "number"])
+        head:                        ["key",    "Label-1", "Label-2", "Label-3"],
+        data: generateRandomData(10, ["string", "number",  "number",  "number" ])
     }
 
 </script>
@@ -122,22 +122,43 @@
 
     <Report title="Отчёт">
         <ContentBlock>
-            <Chart matrix={chartMatrix}
-            config={{
-                type: "bar"
-            }}/>
-<!--            <Table {matrix}-->
-<!--                   config={{-->
-<!--                       chunking: "full",-->
-<!--                       pagination: 100,-->
-<!--                       addOperations: true,-->
-<!--                       addCheckboxes: false,-->
-<!--                       addTotal: true}}-->
-<!--                   on:select={(event) => console.log(event.detail)}>-->
-<!--                <slot slot="cell" let:cell>-->
-<!--                    {cell.value}-->
-<!--                </slot>-->
-<!--            </Table>-->
+<!--            <Chart  title="График"-->
+<!--                    matrix={chartMatrix}-->
+<!--                    configs={[{-->
+<!--                        type: "line",-->
+<!--                        dash: true,-->
+<!--                        fill: true,-->
+<!--                        palette: [-->
+<!--                            [100, 150, 100, 1],-->
+<!--                            [200, 150, 100, 1],-->
+<!--                            [50, 150, 100, 1]-->
+<!--                        ]-->
+<!--                    },{-->
+<!--                        type: "bar",-->
+<!--                        palette: [-->
+<!--                            [200, 150, 100, 1],-->
+<!--                            [50, 150, 100, 1]-->
+<!--                        ]-->
+<!--                    },{-->
+<!--                        type: "pie",-->
+<!--                        // fill: false,-->
+<!--                        palette: [-->
+<!--                            [200, 150, 100, 1],-->
+<!--                            [50, 150, 100, 1]-->
+<!--                        ]-->
+<!--                    }]}/>-->
+            <Table matrix={tableMatrix}
+                   config={{
+                       chunking: "full",
+                       pagination: 100,
+                       addOperations: true,
+                       addCheckboxes: false,
+                       addTotal: true}}
+                   on:select={(event) => console.log(event.detail)}>
+                <slot slot="cell" let:cell>
+                    {cell.value}
+                </slot>
+            </Table>
         </ContentBlock>
     </Report>
 
