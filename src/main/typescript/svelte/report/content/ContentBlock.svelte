@@ -14,7 +14,7 @@
     {#if modal}
         <a href=""
            on:click={(ev) => {ev.preventDefault() ; show = true}}>
-            {title ?? "Показать"}
+            {title.length > 0 ? title : "Показать"}
         </a>
         <Modal bind:show>
             <slot/>
@@ -31,8 +31,7 @@
 
 <style>
     .content {
-        display: flex;
-        /*height: 100vh;*/
-        /*overflow: scroll;*/
+        padding: 0 var(--indent);
+        /*background: white !important;*/
     }
 </style>

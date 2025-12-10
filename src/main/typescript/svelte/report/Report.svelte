@@ -33,11 +33,10 @@
         {#if isReady}
             <div class="buttons"
             transition:blur>
-
                 {#if !isFullscreen}
                     <ToTopButton/>
                 {/if}
-                {#if !isFullscreen && !isCollapsed}
+                {#if !isCollapsed}
                     <slot name="buttons"/>
                     <DownloadButton/>
                 {/if}
@@ -62,7 +61,8 @@
 <style>
 
     :root {
-        --report-header-height: 60px;
+        --report-header-full-height: 60px;
+        --report-header-height: calc(var(--report-header-full-height) - 2 * var(--light-indent));
     }
 
     .report {
@@ -72,28 +72,36 @@
         background: white;
         height: min-content;
         overflow: clip;
+        padding: var(--light-indent) 0;
+        gap: var(--light-indent);
         border-radius: var(--outer-border-radius);
     }
     .report.fullscreen {
-        overflow: scroll;
+        overflow-y: scroll;
+        padding: 0;
     }
 
     .report > .header {
         display: flex;
         position: sticky;
-        z-index: 10;
+        z-index: 1;
         top: 0;
         width: auto;
-        min-height: var(--report-header-height);
+        height: var(--report-header-height);
         align-items: center;
         padding: 0 var(--light-indent);
-        background: white;
+        background: RGBA(255, 255, 255, 0.8);
+        /*Blur*/
+        backdrop-filter: blur(5px) !important;
+        -webkit-backdrop-filter: blur(5px) !important;
     }
-    .report > .header:hover {
-        top: 0;
+    .report.fullscreen > .header {
+        padding-top: var(--indent);
+        padding-bottom: var(--indent);
+        /*top: calc(-1 * var(--indent));*/
     }
     .report:not(.collapsed) > .header {
-        border-bottom: var(--light-border);
+        /*border-bottom: var(--light-border);*/
     }
     .header > h2{
         margin-right: auto;
@@ -110,6 +118,8 @@
     }
 
     .report > .body {
+        display: flex;
+        flex-direction: column;
         gap: var(--indent);
         margin-bottom: var(--outer-border-radius);
     }

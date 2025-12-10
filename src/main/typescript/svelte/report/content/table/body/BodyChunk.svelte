@@ -39,7 +39,7 @@
         <tr class:collapsed={body.collapsed}>
             {#if body.table.config.addCheckboxes}
                 {#if content.collapsed}
-                    <td class="checkbox"
+                    <td class="primary checkbox"
                         rowspan={content.rowspan}>
                         <HeadCheckbox bind:dependent={content.content}/>
                     </td>
@@ -90,7 +90,7 @@
         vertical-align: top;
     }
 
-    td.primary:is(.full, .total, .collapsable.content-collapsed){
+    td.primary:is(.full, .total, .collapsable.content-collapsed, .checkbox){
         background: var(--secondary-color);
     }
 

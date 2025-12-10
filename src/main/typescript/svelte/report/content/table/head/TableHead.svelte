@@ -21,7 +21,6 @@
         <th rowspan={0} class="checkbox">
             <HeadCheckbox bind:dependent={head.table.pages}/>
         </th>
-
     {/if}
     {#each head.content as row}
         <tr>
@@ -41,8 +40,15 @@
 <style>
     thead {
         position: sticky;
-        top: calc(var(--report-header-height) + 1px);
-        z-index: 10;
+        top: var(--report-header-height);
+        z-index: 100;
+    }
+
+    :global(.report.fullscreen) thead {
+        top: var(--report-header-full-height);
+    }
+    :global(.modal) thead {
+        top: 0;
     }
 
     th {
@@ -51,8 +57,8 @@
         background: var(--accent-color);
     }
     th:not(.checkbox) {
-        padding-left: 30px !important;
-        padding-right: 30px !important;
+        padding-left: 20px !important;
+        padding-right: 20px !important;
         min-width: 100px;
     }
 </style>

@@ -1,6 +1,6 @@
-import {BarChartConfig, ChartConfig, LineChartConfig, RGBA} from "./types"
+import {ChartConfig, LineChartConfig} from "./types"
 import {registerTypeIfNone} from "./registrator"
-import {Chart, ChartDataset} from "chart.js"
+import {Chart, ChartConfiguration, ChartDataset} from "chart.js"
 
 export class SimpleChart {
     constructor(
@@ -21,9 +21,14 @@ export class SimpleChart {
                     y: {
                         beginAtZero: true
                     }
+                },
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
                 }
             }
-        });
+        } as ChartConfiguration);
     }
 
     private buildDatasets(): ChartDataset[] {

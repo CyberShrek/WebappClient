@@ -80,9 +80,11 @@
     .modal-backdrop > .modal {
         position: absolute;
         display: block;
+        background: white;
         top: 10vh;
         max-width: calc(100vw - var(--strong-indent) * 10);
         filter: drop-shadow(0 2px 5px);
+        overflow: clip;
         border-radius: var(--border-radius);
     }
     .modal-backdrop > .modal.full-size {

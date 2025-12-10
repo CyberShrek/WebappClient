@@ -4,3 +4,5 @@ type Matrix = {
 }
 
 type MatrixData = (string | number | boolean | null)[][]
+
+type RGBA = [number, number, number, number]

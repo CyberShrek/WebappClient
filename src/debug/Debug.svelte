@@ -9,8 +9,11 @@
     import Button from "../main/typescript/svelte/input/Button.svelte"
     import Report from "../main/typescript/svelte/report/Report.svelte"
     import ContentBlock from "../main/typescript/svelte/report/content/ContentBlock.svelte"
-    import Table from "../main/typescript/svelte/report/content/table_new/Table.svelte"
+    import Table from "../main/typescript/svelte/report/content/./table/Table.svelte"
     import Chart from "../main/typescript/svelte/report/content/chart/Chart.svelte";
+    import Grid from "../main/typescript/svelte/misc/Grid.svelte";
+    import Tile from "../main/typescript/svelte/report/content/tiles/Tile.svelte";
+    import image from "../main/resources/img/ruble.svg"
 
     const appInfo: AppInfo = {
         code: "debug"
@@ -64,12 +67,12 @@
 
     const tableMatrix: Matrix = {
         head: ["Ключи|Столбец 1", "Ключи|Столбец 2", "Ключи|Столбец 3", "Значения|Столбец 4", "Значения|Столбец 5", "Столбец 6", "some nulls"],
-        data: generateRandomData(200, ["string", "string", "string", "number", "number", "boolean"]).sort(
+        data: generateRandomData(300, ["string", "string", "string", "number", "number", "boolean"]).sort(
             (a, b) => a[0].localeCompare(b[0]) || a[1].localeCompare(b[1]) || a[2].localeCompare(b[2])).map(row => [...row, undefined])
     }
     const chartMatrix: Matrix = {
-        head:                        ["key",    "Label-1", "Label-2", "Label-3"],
-        data: generateRandomData(10, ["string", "number",  "number",  "number" ])
+        head:                         ["key",    "Label-1", "Label-2", "Label-3"],
+        data: generateRandomData(100, ["string", "number",  "number",  "number" ])
     }
 
 </script>
@@ -122,44 +125,106 @@
 
     <Report title="Отчёт">
         <ContentBlock>
-<!--            <Chart  title="График"-->
-<!--                    matrix={chartMatrix}-->
-<!--                    configs={[{-->
-<!--                        type: "line",-->
-<!--                        dash: true,-->
-<!--                        fill: true,-->
-<!--                        palette: [-->
-<!--                            [100, 150, 100, 1],-->
-<!--                            [200, 150, 100, 1],-->
-<!--                            [50, 150, 100, 1]-->
-<!--                        ]-->
-<!--                    },{-->
-<!--                        type: "bar",-->
-<!--                        palette: [-->
-<!--                            [200, 150, 100, 1],-->
-<!--                            [50, 150, 100, 1]-->
-<!--                        ]-->
-<!--                    },{-->
-<!--                        type: "pie",-->
-<!--                        // fill: false,-->
-<!--                        palette: [-->
-<!--                            [200, 150, 100, 1],-->
-<!--                            [50, 150, 100, 1]-->
-<!--                        ]-->
-<!--                    }]}/>-->
-            <Table matrix={tableMatrix}
-                   config={{
-                       chunking: "collapsable",
-                       // pagination: 0,
-                       addOperations: true,
-                       addCheckboxes: true,
-                       addTotal: true}}
-                   on:select={(event) => console.log(event.detail)}>
-                <slot slot="cell" let:cell>
-                    {cell.value}
-                </slot>
-            </Table>
+            <Grid area={2}>
+                <Chart  title="График"
+                        matrix={chartMatrix}
+                        configs={[{
+                        type: "line",
+                        dash: true,
+                        fill: true,
+                        palette: [
+                            [100, 150, 100, 1],
+                            [200, 150, 100, 1],
+                            [50, 150, 100, 1]
+                        ]
+                    },{
+                        type: "bar",
+                        palette: [
+                            [200, 150, 100, 1],
+                            [50, 150, 100, 1]
+                        ]
+                    },{
+                        type: "pie",
+                        // fill: false,
+                        palette: [
+                            [200, 150, 100, 1],
+                            [50, 150, 100, 1]
+                        ]
+                    }]}/>
+                <Chart  title="График"
+                        matrix={chartMatrix}
+                        configs={[{
+                        type: "line",
+                        dash: true,
+                        fill: true,
+                        palette: [
+                            [100, 150, 100, 1],
+                            [200, 150, 100, 1],
+                            [50, 150, 100, 1]
+                        ]
+                    },{
+                        type: "bar",
+                        palette: [
+                            [200, 150, 100, 1],
+                            [50, 150, 100, 1]
+                        ]
+                    },{
+                        type: "pie",
+                        // fill: false,
+                        palette: [
+                            [200, 150, 100, 1],
+                            [50, 150, 100, 1]
+                        ]
+                    }]}/>
+            </Grid>
         </ContentBlock>
+        <ContentBlock>
+            <Grid area={4}>
+                <Tile title="Плитка-1"
+                      value={100}
+                      label="ед."
+                      color="#FFD2C2"
+                      {image}/>
+
+                <Tile title="Плитка-2"
+                      value={2132132}
+                      label="ед."
+                      color="#D1F7E8FF"
+                      {image}/>
+
+                <Tile title="Плитка-3"
+                      value={1044440}
+                      label="ед."
+                      color="#D2E0FAFF"
+                      {image}/>
+
+                <Tile title="Плитка-4"
+                      value={876}
+                      label="ед."
+                      color="#C8C2E4FF"
+                      {image}/>
+            </Grid>
+        </ContentBlock>
+
+        <Table matrix={tableMatrix}
+               config={{
+               chunking: "simple",
+               pagination: 50,
+               addOperations: true,
+               addCheckboxes: true,
+               addTotal: true}}
+               on:select={(event) => console.log(event.detail)}>
+            <slot slot="cell" let:cell>
+                {cell.value}
+            </slot>
+            <!--{#if message}-->
+            <slot slot="foot">
+                $$slots.foot
+                <button>213</button>
+            </slot>
+            <!--{/if}-->
+        </Table>
+
     </Report>
 
     <div>

@@ -48,5 +48,3 @@ export interface RadarChartConfig extends CommonChartConfig {
 export interface PolarAreaChartConfig extends CommonChartConfig {
     type: "polarArea"
 }
-
-export type RGBA = [number, number, number, number]

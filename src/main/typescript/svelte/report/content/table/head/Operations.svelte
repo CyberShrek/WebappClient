@@ -55,8 +55,8 @@
 
     div.sort {
         position: absolute;
-        right: -3px;
-        bottom: -3px;
+        right: -5px;
+        bottom: -5px;
     }
     input.filter {
         position: absolute;

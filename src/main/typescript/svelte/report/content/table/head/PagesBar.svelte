@@ -59,11 +59,11 @@
 
     td {
         background: white;
+        border-top: var(--light-border);
     }
     .pages-bar {
         display: flex;
         justify-content: flex-end;
-
     }
 
     .buttons {
