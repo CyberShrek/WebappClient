@@ -1,4 +1,4 @@
-import {TableModel} from "./TableModel";
+import {TableModel} from "./TableModel"
 
 export class ExportReport {
 

@@ -76,8 +76,6 @@
 <style>
     table {
         border-spacing: 0;
-        border-left: var(--light-border);
-        /*border-top: var(--light-border);*/
         width: 100%;
     }
 
@@ -86,6 +84,9 @@
         border-bottom: var(--light-border);
         height: 24px;
         padding: 4px 8px;
+    }
+    :global(table td:not(.primary):last-child) {
+        border-right: none;
     }
     :global(table td.number) {
         text-align: end;

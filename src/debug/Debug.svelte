@@ -208,7 +208,7 @@
 
         <Table matrix={tableMatrix}
                config={{
-               chunking: "simple",
+               // chunking: "simple",
                pagination: 50,
                addOperations: true,
                addCheckboxes: true,

@@ -7,8 +7,14 @@
     --primary-color: var(--accent-color);
 }
 
+.swal2-container {
+    filter: drop-shadow(var(--drop-shadow)) !important;
+}
+
 .swal2-container > .swal2-popup {
     border-radius: var(--outer-border-radius) !important;
+    overflow: hidden;
+    box-shadow: none !important;
 }
 
 .swal2-container * {
