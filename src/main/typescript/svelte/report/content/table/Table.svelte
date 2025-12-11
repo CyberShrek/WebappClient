@@ -5,7 +5,7 @@
     import {ConcreteTable} from "./Table"
     import TableFoot from "./foot/TableFoot.svelte"
     import {createEventDispatcher} from "svelte"
-    import {TableExport} from "../../../../model/export/TableExport";
+    import {TableExport} from "../../../../model/export/TableExport"
 
     const dispatch = createEventDispatcher(),
         SELECT_EVENT = "select"

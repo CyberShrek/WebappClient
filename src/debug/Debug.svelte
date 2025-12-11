@@ -14,6 +14,10 @@
     import Grid from "../main/typescript/svelte/misc/Grid.svelte"
     import Tile from "../main/typescript/svelte/report/content/tiles/Tile.svelte"
     import image from "../main/resources/img/ruble.svg"
+    import {SimpleHttp} from "../main/typescript/api/http/SimpleHttp";
+    import {getUserInfo} from "../main/typescript/api/info";
+    import {downloadReport} from "../main/typescript/api/report";
+    import {serverLocations} from "../main/typescript/properties";
 
     const appInfo: AppInfo = {
         code: "debug"
@@ -78,8 +82,11 @@
     let getExportableTable: () => ExportableTable,
         getExportableChart: () => ExportableImage
 
-    $: getExportableTable && console.log("ExportableTable", getExportableTable())
-    $: getExportableChart && console.log("ExportableChart", getExportableChart())
+    // $: getExportableTable && console.log("ExportableTable", getExportableTable())
+    // $: getExportableChart && console.log("ExportableChart", getExportableChart())
+
+    downloadReport({title: "Fuck off"})
+
 
 </script>
 

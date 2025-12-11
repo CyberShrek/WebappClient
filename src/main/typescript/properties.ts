@@ -1,18 +1,14 @@
-const rootPath = '/' + document.location.pathname.split('/')[1],
-    resourcesPath = rootPath + '/WEB-RES'
+const apiPath = "/api"
 
 export const
 
     serverLocations: {[key: string]: string} = {
-        images: `${resourcesPath}/img/`,
-        styles: `${resourcesPath}/css/`,
-        modules: `${resourcesPath}/js/`,
-        appinfo: `${rootPath}/appinfo`,
-        userinfo: `${rootPath}/userinfo`,
-        export: `${rootPath}/export`,
-        options: `${rootPath}/options`,
-        query: `${rootPath}/query`,
-        dataSources: `${rootPath}/datasources`,
+        appinfo: `${apiPath}/appinfo`,
+        userinfo: `${apiPath}/userinfo`,
+        export: `${apiPath}/export`,
+        options: `${apiPath}/options`,
+        query: `${apiPath}/query`,
+        dataSources: `${apiPath}/datasources`,
         serviceBank: `/servicebank/getdata`
     },
     serverErrors: {[name in (keyof typeof serverLocations)]: string} = {
