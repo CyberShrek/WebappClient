@@ -65,6 +65,8 @@
         return result;
     }
 
+    let getExport: () => void
+
     const tableMatrix: Matrix = {
         head: ["Ключи|Столбец 1", "Ключи|Столбец 2", "Ключи|Столбец 3", "Значения|Столбец 4", "Значения|Столбец 5", "Столбец 6", "some nulls"],
         data: generateRandomData(300, ["string", "string", "string", "number", "number", "boolean"]).sort(
@@ -74,6 +76,8 @@
         head:                         ["key",    "Label-1", "Label-2", "Label-3"],
         data: generateRandomData(100, ["string", "number",  "number",  "number" ])
     }
+
+    $: getExport && getExport()
 
 </script>
 
@@ -213,6 +217,7 @@
                addOperations: true,
                addCheckboxes: true,
                addTotal: true}}
+               bind:getExport
                on:select={(event) => console.log(event.detail)}>
             <slot slot="cell" let:cell>
                 {cell.value}

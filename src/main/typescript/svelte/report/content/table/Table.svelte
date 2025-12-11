@@ -11,9 +11,12 @@
 
     export let
         matrix: Matrix,
-        config: TableConfig = {}
+        config: TableConfig = {},
+        getExport: () => void
 
     let table: ConcreteTable
+
+    getExport = () => console.log("getExport")
 
     $: if (matrix && config) rebuildTable()
     function rebuildTable() {
@@ -94,7 +97,6 @@
     }
     :global(table td.boolean) {
         text-align: center;
-
     }
     :global(table :is(th, td).checkbox) {
         width: 0;
