@@ -71,7 +71,6 @@
         min-height: var(--report-header-height);
         background: white;
         height: min-content;
-        overflow: clip;
         padding: var(--light-indent) 0;
         gap: var(--light-indent);
         border-radius: var(--outer-border-radius);
@@ -90,12 +89,13 @@
         height: var(--report-header-height);
         align-items: center;
         padding: 0 var(--light-indent);
-        background: RGBA(255, 255, 255, 0.8);
+        background: RGBA(255, 255, 255, 0.3);
         /*Blur*/
-        backdrop-filter: blur(5px) !important;
-        -webkit-backdrop-filter: blur(5px) !important;
+        backdrop-filter: blur(6px)  !important;
+        -webkit-backdrop-filter: blur(6px) !important;
     }
     .report.fullscreen > .header {
+        background: white;
         padding-top: var(--indent);
         padding-bottom: var(--indent);
         /*top: calc(-1 * var(--indent));*/

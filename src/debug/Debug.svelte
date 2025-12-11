@@ -10,9 +10,9 @@
     import Report from "../main/typescript/svelte/report/Report.svelte"
     import ContentBlock from "../main/typescript/svelte/report/content/ContentBlock.svelte"
     import Table from "../main/typescript/svelte/report/content/./table/Table.svelte"
-    import Chart from "../main/typescript/svelte/report/content/chart/Chart.svelte";
-    import Grid from "../main/typescript/svelte/misc/Grid.svelte";
-    import Tile from "../main/typescript/svelte/report/content/tiles/Tile.svelte";
+    import Chart from "../main/typescript/svelte/report/content/chart/Chart.svelte"
+    import Grid from "../main/typescript/svelte/misc/Grid.svelte"
+    import Tile from "../main/typescript/svelte/report/content/tiles/Tile.svelte"
     import image from "../main/resources/img/ruble.svg"
 
     const appInfo: AppInfo = {
@@ -65,8 +65,6 @@
         return result;
     }
 
-    let getExport: () => void
-
     const tableMatrix: Matrix = {
         head: ["Ключи|Столбец 1", "Ключи|Столбец 2", "Ключи|Столбец 3", "Значения|Столбец 4", "Значения|Столбец 5", "Столбец 6", "some nulls"],
         data: generateRandomData(300, ["string", "string", "string", "number", "number", "boolean"]).sort(
@@ -77,7 +75,11 @@
         data: generateRandomData(100, ["string", "number",  "number",  "number" ])
     }
 
-    $: getExport && getExport()
+    let getExportableTable: () => ExportableTable,
+        getExportableChart: () => ExportableImage
+
+    $: getExportableTable && console.log("ExportableTable", getExportableTable())
+    $: getExportableChart && console.log("ExportableChart", getExportableChart())
 
 </script>
 
@@ -132,29 +134,35 @@
             <Grid area={2}>
                 <Chart  title="График"
                         matrix={chartMatrix}
-                        configs={[{
-                        type: "line",
-                        dash: true,
-                        fill: true,
-                        palette: [
-                            [100, 150, 100, 1],
-                            [200, 150, 100, 1],
-                            [50, 150, 100, 1]
-                        ]
-                    },{
-                        type: "bar",
-                        palette: [
-                            [200, 150, 100, 1],
-                            [50, 150, 100, 1]
-                        ]
-                    },{
-                        type: "pie",
-                        // fill: false,
-                        palette: [
-                            [200, 150, 100, 1],
-                            [50, 150, 100, 1]
-                        ]
-                    }]}/>
+                        configs={[
+                            {
+                                type: "line",
+                                dash: true,
+                                fill: true,
+                                palette: [
+                                    [100, 150, 100, 1],
+                                    [200, 150, 100, 1],
+                                    [50, 150, 100, 1]
+                                ]
+                            },
+                            {
+                                type: "bar",
+                                palette: [
+                                    [200, 150, 100, 1],
+                                    [50, 150, 100, 1]
+                                ]
+                            },
+                            {
+                                type: "pie",
+                                // fill: false,
+                                palette: [
+                                    [200, 150, 100, 1],
+                                    [50, 150, 100, 1]
+                                ]
+                            }
+                        ]}
+                        bind:getExportableChart
+                />
                 <Chart  title="График"
                         matrix={chartMatrix}
                         configs={[{
@@ -217,7 +225,7 @@
                addOperations: true,
                addCheckboxes: true,
                addTotal: true}}
-               bind:getExport
+               bind:getExportableTable
                on:select={(event) => console.log(event.detail)}>
             <slot slot="cell" let:cell>
                 {cell.value}

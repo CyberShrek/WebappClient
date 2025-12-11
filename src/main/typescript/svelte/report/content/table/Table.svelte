@@ -5,6 +5,7 @@
     import {ConcreteTable} from "./Table"
     import TableFoot from "./foot/TableFoot.svelte"
     import {createEventDispatcher} from "svelte"
+    import {TableExport} from "../../../../model/export/TableExport";
 
     const dispatch = createEventDispatcher(),
         SELECT_EVENT = "select"
@@ -12,15 +13,14 @@
     export let
         matrix: Matrix,
         config: TableConfig = {},
-        getExport: () => void
+        getExportableTable: (() => ExportableTable) | null = null
 
     let table: ConcreteTable
-
-    getExport = () => console.log("getExport")
 
     $: if (matrix && config) rebuildTable()
     function rebuildTable() {
         table = new ConcreteTable(matrix, config)
+        getExportableTable = () => new TableExport("Таблица", table)
     }
 
     let pageIndex: number

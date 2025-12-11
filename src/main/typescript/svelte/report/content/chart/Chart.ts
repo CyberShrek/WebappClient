@@ -3,6 +3,9 @@ import {registerTypeIfNone} from "./registrator"
 import {Chart, ChartConfiguration, ChartDataset} from "chart.js"
 
 export class SimpleChart {
+
+    private chartJS: Chart
+
     constructor(
         public  configs: ChartConfig[],
         private matrix : Matrix,
@@ -10,7 +13,7 @@ export class SimpleChart {
     ) {
         configs.forEach(config => registerTypeIfNone(config.type))
 
-        new Chart(canvas, {
+        this.chartJS = new Chart(canvas, {
             type: configs[0].type,
             data: {
                 labels: matrix.data.map(row => row[0]),
@@ -29,6 +32,10 @@ export class SimpleChart {
                 }
             }
         } as ChartConfiguration);
+    }
+
+    destroy() {
+        this.chartJS.destroy()
     }
 
     private buildDatasets(): ChartDataset[] {

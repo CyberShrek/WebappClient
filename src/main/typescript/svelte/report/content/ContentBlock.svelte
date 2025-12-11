@@ -5,7 +5,6 @@
     export let
         title = "",
         modal = false
-
     let show: boolean
 
 </script>

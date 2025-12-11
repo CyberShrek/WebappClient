@@ -1,16 +1,30 @@
 <script lang="ts">
     import {SimpleChart} from "./Chart"
     import {ChartConfig} from "./types"
+    import {onDestroy} from "svelte";
 
     export let
         title: string = "",
         configs: ChartConfig[],
-        matrix: Matrix
+        matrix: Matrix,
+        getExportableChart: (() => ExportableImage) | null = null
 
     let canvas: HTMLCanvasElement,
         chart: SimpleChart
 
-    $: canvas && configs && matrix && (chart = new SimpleChart(configs, matrix, canvas))
+    $: if (configs && matrix && canvas)
+        chart = new SimpleChart(configs, matrix, canvas)
+
+    $: if (chart)
+        getExportableChart = () => {
+        return {
+            type: "image",
+            title,
+            dataURL: canvas?.toDataURL("image/jpeg")
+        }
+    }
+
+    onDestroy(() => chart?.destroy())
 
 </script>
 
@@ -29,15 +43,14 @@
     .chart {
         display: flex;
         flex-direction: column;
-        gap: var(--indent);
-        /*width: 100%;*/
-        /*height: 100%;*/
         border: var(--light-border);
         border-radius: var(--border-radius);
+        padding: var(--indent) var(--light-indent) var(--light-indent);
     }
     .chart > p {
-        padding: var(--light-indent) var(--indent);
+        padding: 0 var(--indent);
         margin: 0;
+        text-align: center;
     }
     .chart > canvas{
         height: 100%;

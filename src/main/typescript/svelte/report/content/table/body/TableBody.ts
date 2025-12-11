@@ -6,8 +6,8 @@ export class ConcreteBodyChunk implements TableBodyChunk {
         = "chunk"
 
     constructor(private data:   MatrixData,
-                public table:   Table,
-                public nesting: number = 0) {}
+                public readonly table:   Table,
+                public readonly nesting: number = 0) {}
 
     private _content: typeof this.content = []
     get content(): (TableBodyChunk | TableRow)[] {
@@ -112,7 +112,7 @@ class ConcreteTableRow implements TableRow {
     public cells: TableCell[]
 
     constructor(private values: TableCell["value"][] = [],
-                public chunk: TableBodyChunk) {
+                public readonly chunk: TableBodyChunk) {
 
         this.cells = values.map(
             (value, cellIndex) =>
@@ -128,11 +128,11 @@ class ConcreteTableRow implements TableRow {
 }
 
 class ConcreteTableCell implements TableCell {
-    constructor(public index: number,
-                public column: string,
-                public value: TableCell["value"],
-                public type:  ColumnType,
-                public row:   TableRow) {}
+    constructor(public readonly index: number,
+                public readonly column: string,
+                public readonly value: TableCell["value"],
+                public readonly type:  ColumnType,
+                public readonly row:   TableRow) {}
 
     get hidden(): boolean {
         const chunk = this.row.chunk

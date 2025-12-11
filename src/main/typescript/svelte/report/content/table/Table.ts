@@ -7,7 +7,7 @@ export class ConcreteTable implements Table {
     public pages: TableBodyChunk[]
 
     constructor(private matrix: Matrix,
-                public  config: TableConfig) {
+                public readonly config: TableConfig) {
 
         this.head  = new ConcreteTableHead(this.matrix.head, this)
         this.pages = this.buildPages()

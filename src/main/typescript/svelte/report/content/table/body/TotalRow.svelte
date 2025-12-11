@@ -28,7 +28,7 @@
 </tr>
 
 <style>
-    td:not(.checkbox){
+    td{
         background: var(--secondary-color);
         font-weight: bold;
         border-top: var(--light-border);
