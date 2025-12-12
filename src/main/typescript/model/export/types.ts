@@ -1,33 +1,27 @@
 
 interface ExportableDocument {
     title: string
-    form: ExportableForm
+    form:  {
+        [section: string]: {
+            [field: string]: string
+        }
+    }
     report: (ExportableTable | ExportableImage)[]
 }
 
-
-
-interface ExportableForm {
-    title: string
-    sections: ExportableFormSection[]
-}
-interface ExportableFormSection {
-    title?: string
-    fields: ExportableFormField[]
-}
-interface ExportableFormField {
-    title: string
-    value: string
+type FormExport = {
+    [section: string]: {
+        [field: string]: string
+    }
 }
 
 
-
-interface ExportableContent {
+interface ExportableReport {
     type: "image" | "table"
     title: string
 }
 
-interface ExportableTable extends ExportableContent {
+interface ExportableTable extends ExportableReport {
     type: "table"
     types: ColumnType[]
     head: ExportableCell[][]
@@ -39,7 +33,7 @@ interface ExportableCell {
     rowspan?: number
 }
 
-interface ExportableImage extends ExportableContent {
+interface ExportableImage extends ExportableReport {
     type: "image"
     dataURL: string
 }

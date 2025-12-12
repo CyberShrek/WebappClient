@@ -41,7 +41,7 @@ export abstract class Http {
             url, {
                 method,
                 headers: prepareHeaders(headers ?? {}),
-                body: payload ? JSON.stringify(payload) : undefined
+                body: payload ? JSON.stringify(payload) : ""
             })
             .finally(() => removeCursorLoader())
         if(response.ok) {

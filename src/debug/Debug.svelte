@@ -85,7 +85,21 @@
     // $: getExportableTable && console.log("ExportableTable", getExportableTable())
     // $: getExportableChart && console.log("ExportableChart", getExportableChart())
 
-    downloadReport({title: "Fuck off"})
+    $: if (getExportableTable && getExportableChart) {
+        console.log("downloadReport")
+        downloadReport({
+            title: "Fuck off",
+            form: {
+                section: {
+                    field: "value"
+                }
+            },
+            report: [
+                getExportableTable(),
+                getExportableChart()
+            ]
+        })
+    }
 
 
 </script>

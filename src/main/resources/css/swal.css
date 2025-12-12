@@ -17,6 +17,6 @@
     box-shadow: none !important;
 }
 
-.swal2-container * {
+.swal2-container *:not(.swal2-icon) {
     border-radius: var(--border-radius);
 }
