@@ -87,7 +87,7 @@ export class ConcreteBodyChunk implements TableBodyChunk {
         const rowData = this.data[0]
         const values: (string | number)[] = rowData ? rowData.map((cell, index) => {
             switch (this.table.types[index]) {
-                case "string" : return String(rowData[index])
+                case "string" : return index == this.nesting ? "Итого" : ""
                 case "number" : return 0
                 default       : return ""
             }

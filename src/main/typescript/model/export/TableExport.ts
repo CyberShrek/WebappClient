@@ -5,6 +5,7 @@ export class TableExport implements ExportableTable {
     readonly types: ColumnType[]
     readonly head: ExportableCell[][]
     readonly body: ExportableCell[][]
+    readonly foot: ExportableCell[][]
 
     constructor(
         readonly title: string,
@@ -12,31 +13,38 @@ export class TableExport implements ExportableTable {
     ) {
         this.types = table.types.filter(type => !!type)
         this.head  = table.head.content
-        this.body  = buildBody(table.pages)
+        this.body  = this.buildBody(table)
+        this.foot  = this.buildFoot(table)
     }
 
-    private
-}
+    buildBody(table: Table): typeof this.body {
+        function collectRow (row: TableRow)  {
+            body.push(row.cells.filter(cell => !!cell.type).map(cell => {
+                return {
+                    value: String(cell.value)
+                }
+            }))
+        }
+        function collectRows (content: TableBodyChunk | TableRow) {
+            if (content.type === "row")
+                collectRow(content)
+            else if (content.type === "chunk")
+                content.content.forEach(collectRows)
+        }
+        const body: ExportableCell[][] = []
 
-function buildBody(pages: TableBodyChunk[]): ExportableCell[][] {
-    function collectRow (row: TableRow)  {
-        body.push(row.cells.filter(cell => !!cell.type).map(cell => {
+        table.pages.forEach(page => {
+            page.content.forEach(collectRows)
+        })
+
+        return body
+    }
+
+    buildFoot(table: Table): typeof this.foot {
+        return [table.total.cells.filter(cell => !!cell.type).map(cell => {
             return {
                 value: String(cell.value)
             }
-        }))
+        })]
     }
-    function collectRows (content: TableBodyChunk | TableRow) {
-        if (content.type === "row")
-            collectRow(content)
-        else if (content.type === "chunk")
-            content.content.forEach(collectRows)
-    }
-    const body: ExportableCell[][] = []
-
-    pages.forEach(page => {
-        page.content.forEach(collectRows)
-    })
-
-    return body
 }

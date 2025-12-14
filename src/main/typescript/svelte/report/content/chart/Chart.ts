@@ -30,7 +30,8 @@ export class SimpleChart {
                         position: 'bottom'
                     }
                 }
-            }
+            },
+            backgroundColor: "white"
         } as ChartConfiguration);
     }
 

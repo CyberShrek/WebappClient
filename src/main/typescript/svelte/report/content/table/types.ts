@@ -17,7 +17,7 @@ interface Table {
 }
 
 interface TableHead {
-    content: {value: string, rowspan: number, colspan: number}[][]
+    content: ({value: string, rowspan?: number, colspan?: number} | null)[][]
     table: Table
 
     findColName(index: number): string

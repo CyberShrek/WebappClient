@@ -20,7 +20,7 @@
         return {
             type: "image",
             title,
-            dataURL: canvas?.toDataURL("image/jpeg")
+            base64: canvas.toDataURL('image/png').replace("data:image/png;base64,", "")
         }
     }
 

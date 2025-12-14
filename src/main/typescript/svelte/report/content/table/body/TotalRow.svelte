@@ -3,7 +3,6 @@
     export let
         totalRow: TableRow | null,
         collapsed: boolean = false,
-        totalWord = "Итого",
         checkboxSpan: boolean = true
 
 </script>
@@ -13,13 +12,13 @@
         {#if totalRow.chunk.table.config.addCheckboxes && checkboxSpan}
             <td class="checkbox"/>
         {/if}
-        {#each totalRow.cells as cell, columnIndex}
+        {#each totalRow.cells as cell}
             {#if !cell.hidden}
-                <td class={totalRow.chunk.table.types[columnIndex]}>
-                    {#if columnIndex === totalRow.chunk.nesting}
-                        {totalWord}
-                    {:else if columnIndex > totalRow.chunk.nesting && cell.type === "number"}
+                <td class={cell.type}>
+                    {#if cell.type === "number"}
                         <slot name="cell" {cell}/>
+                    {:else}
+                        {cell.value}
                     {/if}
                 </td>
             {/if}
@@ -32,5 +31,8 @@
         background: var(--secondary-color);
         font-weight: bold;
         border-top: var(--light-border);
+    }
+    td.checkbox{
+        background: white;
     }
 </style>

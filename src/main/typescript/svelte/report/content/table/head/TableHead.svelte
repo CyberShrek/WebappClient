@@ -25,10 +25,12 @@
     {#each head.content as row}
         <tr>
             {#each row as cell}
-                <th rowspan={cell.rowspan}
-                    colspan={cell.colspan}>
-                    {cell.value}
-                </th>
+                {#if !!cell}
+                    <th rowspan={cell.rowspan}
+                        colspan={cell.colspan}>
+                        {cell.value}
+                    </th>
+                {/if}
             {/each}
         </tr>
     {/each}

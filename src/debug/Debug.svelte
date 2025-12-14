@@ -71,7 +71,7 @@
 
     const tableMatrix: Matrix = {
         head: ["Ключи|Столбец 1", "Ключи|Столбец 2", "Ключи|Столбец 3", "Значения|Столбец 4", "Значения|Столбец 5", "Столбец 6", "some nulls"],
-        data: generateRandomData(300, ["string", "string", "string", "number", "number", "boolean"]).sort(
+        data: generateRandomData(10, ["string", "string", "string", "number", "number", "boolean"]).sort(
             (a, b) => a[0].localeCompare(b[0]) || a[1].localeCompare(b[1]) || a[2].localeCompare(b[2])).map(row => [...row, undefined])
     }
     const chartMatrix: Matrix = {
@@ -95,8 +95,8 @@
                 }
             },
             report: [
-                getExportableTable(),
-                getExportableChart()
+                getExportableChart(),
+                getExportableTable()
             ]
         })
     }
@@ -241,7 +241,7 @@
 
         <Table matrix={tableMatrix}
                config={{
-               // chunking: "simple",
+               chunking: "full",
                pagination: 50,
                addOperations: true,
                addCheckboxes: true,

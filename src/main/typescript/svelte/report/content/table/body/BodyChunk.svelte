@@ -90,10 +90,6 @@
         vertical-align: top;
     }
 
-    td.primary:is(.full, .total, .collapsable.content-collapsed, .checkbox){
-        background: var(--secondary-color);
-    }
-
     td.primary > div {
         display: flex;
         gap: var(--light-indent);

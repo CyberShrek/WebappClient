@@ -19,24 +19,25 @@ export class ConcreteTableHead implements TableHead {
     }
 
     private buildContent(): TableHead["content"] {
-        const separatedHead: typeof this.head[] = this.head.filter((_, index) =>
-            !!this.table.types[index]).map(cell => cell.split(splitter))
+
+        const filteredHead:  typeof this.head   = this.head.filter((_, index) => !!this.table.types[index])
+        const separatedHead: typeof this.head[] = filteredHead.map(cell => cell.split(splitter))
         const content: typeof this.content = []
 
         // Вставка пустых строк
         separatedHead.forEach(cells => {
             while (content.length < cells.length)
-                content.push([])
+                content.push(filteredHead.map(_ => null))
         })
 
         // Первичное заполнение с вертикальной группировкой
         separatedHead.forEach((cells, i) => {
             cells.forEach((cell, j) => {
-                content[j].push({
+                content[j][i] = {
                     value: cell,
                     rowspan: 1 + (j === cells.length - 1 ? content.length - cells.length : 0),
                     colspan: 1
-                })
+                }
             })
         })
 
@@ -45,17 +46,19 @@ export class ConcreteTableHead implements TableHead {
             const cellsToDelete: number[] = []
             let targetCell: typeof row[number] | null = null
             row.forEach((cell, i) => {
-                if (targetCell == null || targetCell.value !== cell.value) {
+                if (targetCell == null || targetCell.value !== cell?.value) {
                     targetCell = cell
                     return
                 }
-                if (targetCell.value === cell.value && targetCell.rowspan === cell.rowspan){
-                    targetCell.colspan++
-                    cellsToDelete.push(i)
+                if (targetCell && targetCell.value === cell.value && targetCell.rowspan === cell.rowspan){
+                    targetCell.colspan = Number(targetCell.colspan) + 1
+                    row[i] = null
                 }
             })
-            cellsToDelete.reverse().forEach(i => row.splice(i, 1))
         })
+
+
+        console.log("head content", content)
 
         return content
     }

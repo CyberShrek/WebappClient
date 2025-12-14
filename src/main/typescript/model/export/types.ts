@@ -26,14 +26,15 @@ interface ExportableTable extends ExportableReport {
     types: ColumnType[]
     head: ExportableCell[][]
     body: ExportableCell[][]
+    foot: ExportableCell[][]
 }
-interface ExportableCell {
+type ExportableCell = {
     value: string
     colspan?: number
     rowspan?: number
-}
+} | null
 
 interface ExportableImage extends ExportableReport {
     type: "image"
-    dataURL: string
+    base64: string
 }
