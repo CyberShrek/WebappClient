@@ -2,6 +2,9 @@
     import {createEventDispatcher} from "svelte"
     import {fade} from "svelte/transition"
     import Button from "../input/Button.svelte"
+    import {DocumentExport} from "../../model/export/DocumentExport";
+
+    export let documentExport: DocumentExport | null = null
 
     const dispatch = createEventDispatcher(),
         SUBMIT_EVENT = "submit"
@@ -13,6 +16,7 @@
 
 
     async function dispatchSubmit(){
+        documentExport?.saveForm()
         dispatch(SUBMIT_EVENT, values)
     }
 

@@ -6,23 +6,20 @@
     export let
         title: string = "",
         configs: ChartConfig[],
-        matrix: Matrix,
-        getExportableChart: (() => ExportableImage) | null = null
+        matrix: Matrix
 
+    export const exportCallback: (() => ExportableReport) = () => {
+        return {
+            type: "image",
+            title,
+            base64: canvas.toDataURL('image/png', 1).replace("data:image/png;base64,", "")
+        }
+    }
     let canvas: HTMLCanvasElement,
         chart: SimpleChart
 
     $: if (configs && matrix && canvas)
         chart = new SimpleChart(configs, matrix, canvas)
-
-    $: if (chart)
-        getExportableChart = () => {
-        return {
-            type: "image",
-            title,
-            base64: canvas.toDataURL('image/png').replace("data:image/png;base64,", "")
-        }
-    }
 
     onDestroy(() => chart?.destroy())
 

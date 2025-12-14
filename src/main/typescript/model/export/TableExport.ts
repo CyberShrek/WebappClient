@@ -5,7 +5,6 @@ export class TableExport implements ExportableTable {
     readonly types: ColumnType[]
     readonly head: ExportableCell[][]
     readonly body: ExportableCell[][]
-    readonly foot: ExportableCell[][]
 
     constructor(
         readonly title: string,
@@ -14,7 +13,6 @@ export class TableExport implements ExportableTable {
         this.types = table.types.filter(type => !!type)
         this.head  = table.head.content
         this.body  = this.buildBody(table)
-        this.foot  = this.buildFoot(table)
     }
 
     buildBody(table: Table): typeof this.body {
@@ -28,23 +26,45 @@ export class TableExport implements ExportableTable {
         function collectRows (content: TableBodyChunk | TableRow) {
             if (content.type === "row")
                 collectRow(content)
-            else if (content.type === "chunk")
+            else if (content.type === "chunk") {
                 content.content.forEach(collectRows)
+                if (table.config.chunking && table.config.chunking != "simple") {
+                    collectRow(content.total)
+                }
+            }
         }
+
         const body: ExportableCell[][] = []
 
         table.pages.forEach(page => {
             page.content.forEach(collectRows)
         })
 
+        if (table.config.chunking)
+            this.groupBodyRows(body)
+
+        if (table.config.addTotal)
+            collectRow(table.total)
+
         return body
     }
 
-    buildFoot(table: Table): typeof this.foot {
-        return [table.total.cells.filter(cell => !!cell.type).map(cell => {
-            return {
-                value: String(cell.value)
-            }
-        })]
+    private groupBodyRows(body: ExportableCell[][]) {
+        for (let columnIndex = 0;
+             this.types[columnIndex + 1] === "string";
+             columnIndex++) {
+            let groupCell: ExportableCell = null
+            body.forEach((cells) => {
+                const cell = cells[columnIndex]
+                if (groupCell != null &&
+                    (cell == null || cell?.value == groupCell?.value || cell?.value == "" || cell?.value == null) &&
+                    (columnIndex == 0 || cells[columnIndex - 1] == null)) {
+                    groupCell.rowspan = (groupCell.rowspan || 1) + 1
+                    cells[columnIndex] = null
+                } else if (cell != null) {
+                    groupCell = cell
+                }
+            })
+        }
     }
 }

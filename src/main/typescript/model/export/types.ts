@@ -6,7 +6,7 @@ interface ExportableDocument {
             [field: string]: string
         }
     }
-    report: (ExportableTable | ExportableImage)[]
+    report: (ExportableReport)[]
 }
 
 type FormExport = {
@@ -26,7 +26,6 @@ interface ExportableTable extends ExportableReport {
     types: ColumnType[]
     head: ExportableCell[][]
     body: ExportableCell[][]
-    foot: ExportableCell[][]
 }
 type ExportableCell = {
     value: string

@@ -7,7 +7,11 @@ export class ConcreteBodyChunk implements TableBodyChunk {
 
     constructor(private data:   MatrixData,
                 public readonly table:   Table,
-                public readonly nesting: number = 0) {}
+                public readonly nesting: number = 0) {
+        this.head = new ConcreteTableRow(data[0], this)
+    }
+
+    head: TableRow;
 
     private _content: typeof this.content = []
     get content(): (TableBodyChunk | TableRow)[] {

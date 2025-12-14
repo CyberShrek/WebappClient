@@ -12,15 +12,15 @@
 
     export let
         matrix: Matrix,
-        config: TableConfig = {},
-        getExportableTable: (() => ExportableTable) | null = null
+        config: TableConfig = {}
+
+    export const exportCallback: () => ExportableReport = () => new TableExport("Таблица", table)
 
     let table: ConcreteTable
 
     $: if (matrix && config) rebuildTable()
     function rebuildTable() {
         table = new ConcreteTable(matrix, config)
-        getExportableTable = () => new TableExport("Таблица", table)
     }
 
     let pageIndex: number

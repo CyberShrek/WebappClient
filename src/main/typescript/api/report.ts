@@ -21,12 +21,12 @@ export function getReportData(queryId: string, formValues: { [fieldId: string]: 
         .json<(string | number | boolean)[][]>()
 }
 
-export async function downloadReport(report: DocumentExport) {
+export async function downloadReport(document: ExportableDocument) {
     download(await SimpleHttp
         .withHeaders()
-        .andBody(report)
+        .andBody(document)
         .post(serverLocations.export)
-        .blob(), report.title)
+        .blob(), document.title)
 }
 
 function download(blob: Blob, name: string) {

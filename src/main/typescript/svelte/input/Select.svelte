@@ -14,6 +14,30 @@
         placeholder     = '',
         maxValues       = 0
 
+    export const prettifyCallback: () => string = () => {
+
+        const pickedEntries = Object.entries(value || {})
+        if (pickedEntries.length == 0)
+            return ""
+
+        const prepare = (entry: [string, string]) => entry[1] + (showCodes ? " (" + entry[0] + ")" : "")
+
+        if (!multiple || pickedEntries.length == 1) return prepare(pickedEntries[0])
+
+        const notPickedEntries = Object.entries(options).filter(([key]) => value[key] == null)
+        let prettified: string
+
+        if (notPickedEntries.length == 0) {
+            prettified = `все (${pickedEntries.length})`
+        } else if (notPickedEntries.length < pickedEntries.length / 2){
+            prettified = `все, кроме ${notPickedEntries.length}: ` + notPickedEntries.map(prepare).join(", ")
+        } else {
+            prettified = pickedEntries.map(prepare).join(", ")
+        }
+
+        return prettified
+    }
+
     let rootElement: HTMLDivElement,
         module: VirtualSelectModule
 

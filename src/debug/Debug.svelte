@@ -18,6 +18,7 @@
     import {getUserInfo} from "../main/typescript/api/info";
     import {downloadReport} from "../main/typescript/api/report";
     import {serverLocations} from "../main/typescript/properties";
+    import {DocumentExport} from "../main/typescript/model/export/DocumentExport";
 
     const appInfo: AppInfo = {
         code: "debug"
@@ -71,7 +72,7 @@
 
     const tableMatrix: Matrix = {
         head: ["Ключи|Столбец 1", "Ключи|Столбец 2", "Ключи|Столбец 3", "Значения|Столбец 4", "Значения|Столбец 5", "Столбец 6", "some nulls"],
-        data: generateRandomData(10, ["string", "string", "string", "number", "number", "boolean"]).sort(
+        data: generateRandomData(100, ["string", "string", "string", "number", "number", "boolean"]).sort(
             (a, b) => a[0].localeCompare(b[0]) || a[1].localeCompare(b[1]) || a[2].localeCompare(b[2])).map(row => [...row, undefined])
     }
     const chartMatrix: Matrix = {
@@ -79,42 +80,27 @@
         data: generateRandomData(100, ["string", "number",  "number",  "number" ])
     }
 
-    let getExportableTable: () => ExportableTable,
-        getExportableChart: () => ExportableImage
+    let documentExport: DocumentExport = new DocumentExport("Охуеть! Оно работает!")
 
-    // $: getExportableTable && console.log("ExportableTable", getExportableTable())
-    // $: getExportableChart && console.log("ExportableChart", getExportableChart())
-
-    $: if (getExportableTable && getExportableChart) {
-        console.log("downloadReport")
-        downloadReport({
-            title: "Fuck off",
-            form: {
-                section: {
-                    field: "value"
-                }
-            },
-            report: [
-                getExportableChart(),
-                getExportableTable()
-            ]
-        })
-    }
-
+    // $: exportCallback && console.log("ExportableTable", exportCallback())
+    // $: getExportableCharts && console.log("ExportableChart", getExportableCharts())
 
 </script>
 
 <Template {appInfo}>
-    <Form {values}>
+    <Form {values}
+          {documentExport}>
         <Section title="Какая-то секция" area={3}>
             <Field title="Календарь"
                    hint="Информация">
-                <Calendar bind:value={values.calendar}/>
+                <Calendar bind:value={values.calendar}
+                          bind:prettifyCallback={documentExport.formValuesCallbacks["0|Какая-то секция|Календарь"]}/>
             </Field>
             <Field title="Календарь с диапазоном"
                    {message}>
                 <Calendar bind:value={values.rangedCalendar}
-                          range={10}/>
+                          range={10}
+                          bind:prettifyCallback={documentExport.formValuesCallbacks["1|Какая-то секция|Календарь с диапазоном"]}/>
             </Field>
 
             <Field title="Cелект" isWrong>
@@ -125,7 +111,8 @@
                             "opt-3": "Опция 3",
                             "opt-4": "Опция 4",
                             "opt-5": "Опция 5"
-                        }}/>
+                        }}
+                        bind:prettifyCallback={documentExport.formValuesCallbacks["2|Какая-то секция|Селект"]}/>
             </Field>
             <Field title="Мультиселект">
                 <Select multiple
@@ -140,17 +127,20 @@
                             "opt-3": "Опция 3",
                             "opt-4": "Опция 4",
                             "opt-5": "Опция 5"
-                        }}/>
+                        }}
+                        bind:prettifyCallback={documentExport.formValuesCallbacks["3|Какая-то секция|Мультиселект"]}/>
             </Field>
             <Field hint="Информация">
                 <Switch title="Переключатель"
-                        bind:checked={values.switch}/>
+                        bind:checked={values.switch}
+                        bind:prettifyCallback={documentExport.formValuesCallbacks["4|Какая-то секция|Переключатель"]}/>
             </Field>
         </Section>
 
     </Form>
 
-    <Report title="Отчёт">
+    <Report title="Отчёт"
+            {documentExport}>
         <ContentBlock>
             <Grid area={2}>
                 <Chart  title="График"
@@ -182,7 +172,7 @@
                                 ]
                             }
                         ]}
-                        bind:getExportableChart
+                        bind:exportCallback={documentExport.reportCallbacks[0]}
                 />
                 <Chart  title="График"
                         matrix={chartMatrix}
@@ -208,7 +198,8 @@
                             [200, 150, 100, 1],
                             [50, 150, 100, 1]
                         ]
-                    }]}/>
+                    }]}
+                        bind:exportCallback={documentExport.reportCallbacks[1]}/>
             </Grid>
         </ContentBlock>
         <ContentBlock>
@@ -241,12 +232,12 @@
 
         <Table matrix={tableMatrix}
                config={{
-               chunking: "full",
+               chunking: "collapsable",
                pagination: 50,
                addOperations: true,
-               addCheckboxes: true,
+               addCheckboxes: false,
                addTotal: true}}
-               bind:getExportableTable
+               bind:exportCallback={documentExport.reportCallbacks[2]}
                on:select={(event) => console.log(event.detail)}>
             <slot slot="cell" let:cell>
                 {cell.value}

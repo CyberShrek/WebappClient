@@ -27,6 +27,7 @@ interface TableHead {
 interface TableBodyChunk {
     type:        "chunk"
     content: (TableRow | TableBodyChunk)[]
+    head:      TableRow,
     total:     TableRow
     table:        Table
     nesting:     number

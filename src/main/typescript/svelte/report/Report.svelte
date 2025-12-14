@@ -6,18 +6,20 @@
     import CollapseButton from "./buttons/CollapseButton.svelte"
     import DownloadButton from "./buttons/DownloadButton.svelte"
     import ToTopButton from "./buttons/ToTopButton.svelte"
+    import {downloadReport} from "../../api/report"
+    import {DocumentExport} from "../../model/export/DocumentExport"
 
     export let
         title        = "Отчёт",
         isReady      = true,
         isCollapsed  = false,
-        isFullscreen = false
+        isFullscreen = false,
+        documentExport: DocumentExport | null = null
 
     let rootElement: HTMLDivElement
 
-    $: if (isFullscreen) {
+    $: if (isFullscreen)
         isCollapsed = false
-    }
 
 </script>
 
@@ -38,7 +40,9 @@
                 {/if}
                 {#if !isCollapsed}
                     <slot name="buttons"/>
-                    <DownloadButton/>
+                    {#if !!documentExport}
+                        <DownloadButton on:confirm={() => downloadReport(documentExport.export())}/>
+                    {/if}
                 {/if}
                 {#if !isFullscreen}
                     <CollapseButton bind:isCollapsed/>

@@ -10,6 +10,8 @@
         value: string[],
         range: number = 0
 
+    export const prettifyCallback: () => string = () => range > 0 ? `${value[0]} - ${value[1]}` : value[0]
+
     let rootElement: HTMLInputElement,
         module: EasepickModule
 

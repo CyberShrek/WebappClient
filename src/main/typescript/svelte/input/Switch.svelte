@@ -5,6 +5,8 @@
         title: string = "",
         type: "checkbox" | "switch" = "switch"
 
+    export const prettifyCallback: () => string = () => checked ? "✔" : ""
+
     $: if (checked == null)
         checked = false
 

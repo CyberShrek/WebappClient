@@ -50,18 +50,18 @@
             <td rowspan={content.rowspan}
                 class:content-collapsed={content.collapsed}
                 class="primary {chunking}">
-                <div>
                     <slot name="cell"
-                          cell={content.total.cells[body.nesting]}/>
-                    {#if chunking === "collapsable" || chunking === "full"}
-                        <Button text={content.collapsed ? '▼' : '▲'}
-                                hint={content.collapsed ? 'Развернуть' : 'Свернуть'}
-                                on:click={() => content.collapsed = !content.collapsed}
-                                design="frameless"
-                                size="small"/>
-                    {/if}
-                </div>
+                          cell={content.head.cells[body.nesting]}/>
             </td>
+            {#if chunking === "collapsable" || chunking === "full"}
+                <td class="button">
+                    <Button text={content.collapsed ? '▼' : '▲'}
+                            hint={content.collapsed ? 'Развернуть' : 'Свернуть'}
+                            on:click={() => content.collapsed = !content.collapsed}
+                            design="frameless"
+                            size="small"/>
+                </td>
+            {/if}
         </tr>
 
         <!-- CHUNK BODY -->
@@ -90,10 +90,10 @@
         vertical-align: top;
     }
 
-    td.primary > div {
-        display: flex;
-        gap: var(--light-indent);
-        align-items: center;
+    td.button {
+        position: absolute;
+        transform: translateX(-100%);
+        border: none;
     }
 
     :global(tr *) {
