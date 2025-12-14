@@ -1,5 +1,5 @@
 import { execSync } from 'child_process'
-import { existsSync } from 'fs'
+import { existsSync, rmSync, symlinkSync, lstatSync } from 'fs'
 import { resolve, dirname } from 'path'
 import { fileURLToPath } from 'url'
 
@@ -22,18 +22,21 @@ function checkTargetExists(targetPath) {
 }
 
 function removeExistingLink(linkPath) {
-    if (existsSync(linkPath)) {
-        execSync(`rm -rf "${linkPath}"`, { stdio: 'inherit' })
-    }
+    // if (existsSync(linkPath)) {
+        console.log(`Removing link: ${linkPath}`)
+        rmSync(linkPath, { recursive: true, force: true })
+    // }
 }
 
 function createSymlink(targetPath, linkPath) {
+    console.log(`Creating symlink: ${linkPath}`)
     if (process.platform === 'win32') {
-        execSync(`mklink /D "${linkPath}" "${targetPath}"`, { stdio: 'inherit' })
+        execSync(`powershell -Command "New-Item -ItemType SymbolicLink -Path '${linkPath}' -Target '${targetPath}' -Force"`, { stdio: 'inherit' })
     } else {
         execSync(`ln -s "${targetPath}" "${linkPath}"`, { stdio: 'inherit' })
     }
 }
+
 
 function setupLink(target, link) {
     const targetPath = resolve(webappClientPath, target)
