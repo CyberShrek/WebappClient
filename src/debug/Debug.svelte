@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Template from "../main/typescript/svelte/index/Index.svelte"
+    import Index from "../main/typescript/svelte/index/Index.svelte"
     import Form from "../main/typescript/svelte/form/Form.svelte"
     import Section from "../main/typescript/svelte/form/Section.svelte"
     import Field from "../main/typescript/svelte/form/Field.svelte"
@@ -19,10 +19,6 @@
     import {downloadReport} from "../main/typescript/api/report";
     import {serverLocations} from "../main/typescript/properties";
     import {DocumentExport} from "../main/typescript/model/export/DocumentExport";
-
-    const appInfo: AppInfo = {
-        code: "debug"
-    }
 
     let values: {
         [fieldId: string]: any
@@ -87,7 +83,7 @@
 
 </script>
 
-<Template {appInfo}>
+<Index appCode="DEBUG">
     <Form {values}
           {documentExport}>
         <Section title="Какая-то секция" area={3}>
@@ -264,4 +260,4 @@
                 text="large"/>
 
     </div>
-</Template>
+</Index>

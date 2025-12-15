@@ -6,11 +6,10 @@
     import resetImage from "../../../resources/img/reset.svg"
     import infoImage from "../../../resources/img/info.svg"
     import helpImage from "../../../resources/img/help.svg"
+    import {getAppInfo} from "../../api/info";
+    import Loading from "../misc/Loading.svelte";
 
-    export let appInfo: AppInfo
-
-
-    function showAppInfo(){
+    function showAppInfo(appInfo: AppInfo){
         popupList(
             "Информация",
             [
@@ -22,7 +21,7 @@
         )
     }
 
-    function showHelpDownloader(){
+    function showHelpDownloader(appInfo: AppInfo){
         popupAction(
             "Руководство",
             appInfo.description ?? "",
@@ -43,19 +42,22 @@
 </script>
 
 <header>
-    <div class="name">
-        <a href="{appInfo.groupPath}" transition:fade>
-            {appInfo.groupName}
-        </a>|<span transition:fade>
-            {appInfo.name}
-        </span>
-    </div>
-
-    <div class="buttons">
-        <Button design="frameless" hint="Сброс"                    image={resetImage} on:click={() => location.reload()}/>
-        <Button design="frameless" hint="Информация о приложении"  image={infoImage}  on:click={showAppInfo}/>
-        <Button design="frameless" hint="Руководство пользователя" image={helpImage}  on:click={showHelpDownloader}/>
-    </div>
+    {#await getAppInfo()}
+        <Loading/>
+    {:then appInfo}
+        <div class="name">
+            <a href="{appInfo.groupPath}" transition:fade>
+                {appInfo.groupName}
+            </a>|<span transition:fade>
+                {appInfo.name}
+            </span>
+        </div>
+        <div class="buttons">
+            <Button design="frameless" hint="Сброс"                    image={resetImage} on:click={() => location.reload()}/>
+            <Button design="frameless" hint="Информация о приложении"  image={infoImage}  on:click={() => showAppInfo(appInfo)}/>
+            <Button design="frameless" hint="Руководство пользователя" image={helpImage}  on:click={() => showHelpDownloader(appInfo)}/>
+        </div>
+    {/await}
 </header>
 
 <style>
