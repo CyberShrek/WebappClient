@@ -81,6 +81,7 @@
     // $: exportCallback && console.log("ExportableTable", exportCallback())
     // $: getExportableCharts && console.log("ExportableChart", getExportableCharts())
 
+
 </script>
 
 <Index appCode="DEBUG">
