@@ -1,6 +1,7 @@
 import {addCursorLoader, removeCursorLoader} from "../../util/dom"
 import {popupError} from "../../util/alert"
 import {serverErrors, serverLocations} from "../../properties"
+import {store} from "../../store";
 
 
 export type Method = "GET" | "POST" | "PUT" | "PATCH" | "DELETE"
@@ -62,7 +63,7 @@ function prepareHeaders(headers: {[key: string]: string}) {
 
     return {
         "Content-Type"  : "application/json;charset=UTF-8",
-        // "Code"          :  appConfig.code ?? "",
+        "App-Code"      :  store.appCode,
         ...headers
     }
 }

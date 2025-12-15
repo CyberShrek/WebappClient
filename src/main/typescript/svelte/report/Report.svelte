@@ -40,9 +40,9 @@
                 {/if}
                 {#if !isCollapsed}
                     <slot name="buttons"/>
-                    {#if !!documentExport}
-                        <DownloadButton on:confirm={() => downloadReport(documentExport.export())}/>
-                    {/if}
+                {/if}
+                {#if !isCollapsed && !!documentExport}
+                    <DownloadButton on:confirm={() => downloadReport(documentExport.export())}/>
                 {/if}
                 {#if !isFullscreen}
                     <CollapseButton bind:isCollapsed/>

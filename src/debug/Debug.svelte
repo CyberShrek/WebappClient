@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Template from "../main/typescript/svelte/index/Template.svelte"
+    import Template from "../main/typescript/svelte/index/Index.svelte"
     import Form from "../main/typescript/svelte/form/Form.svelte"
     import Section from "../main/typescript/svelte/form/Section.svelte"
     import Field from "../main/typescript/svelte/form/Field.svelte"
@@ -77,7 +77,7 @@
     }
     const chartMatrix: Matrix = {
         head:                         ["key",    "Label-1", "Label-2", "Label-3"],
-        data: generateRandomData(100, ["string", "number",  "number",  "number" ])
+        data: generateRandomData(10, ["string", "number",  "number",  "number" ])
     }
 
     let documentExport: DocumentExport = new DocumentExport("Охуеть! Оно работает!")
@@ -141,67 +141,67 @@
 
     <Report title="Отчёт"
             {documentExport}>
-        <ContentBlock>
-            <Grid area={2}>
-                <Chart  title="График"
-                        matrix={chartMatrix}
-                        configs={[
-                            {
-                                type: "line",
-                                dash: true,
-                                fill: true,
-                                palette: [
-                                    [100, 150, 100, 1],
-                                    [200, 150, 100, 1],
-                                    [50, 150, 100, 1]
-                                ]
-                            },
-                            {
-                                type: "bar",
-                                palette: [
-                                    [200, 150, 100, 1],
-                                    [50, 150, 100, 1]
-                                ]
-                            },
-                            {
-                                type: "pie",
-                                // fill: false,
-                                palette: [
-                                    [200, 150, 100, 1],
-                                    [50, 150, 100, 1]
-                                ]
-                            }
-                        ]}
-                        bind:exportCallback={documentExport.reportCallbacks[0]}
-                />
-                <Chart  title="График"
-                        matrix={chartMatrix}
-                        configs={[{
-                        type: "line",
-                        dash: true,
-                        fill: true,
-                        palette: [
-                            [100, 150, 100, 1],
-                            [200, 150, 100, 1],
-                            [50, 150, 100, 1]
-                        ]
-                    },{
-                        type: "bar",
-                        palette: [
-                            [200, 150, 100, 1],
-                            [50, 150, 100, 1]
-                        ]
-                    },{
-                        type: "pie",
-                        // fill: false,
-                        palette: [
-                            [200, 150, 100, 1],
-                            [50, 150, 100, 1]
-                        ]
-                    }]}
-                        bind:exportCallback={documentExport.reportCallbacks[1]}/>
-            </Grid>
-        </ContentBlock>
+<!--        <ContentBlock>-->
+<!--            <Grid area={2}>-->
+<!--                <Chart  title="График"-->
+<!--                        matrix={chartMatrix}-->
+<!--                        configs={[-->
+<!--                            {-->
+<!--                                type: "line",-->
+<!--                                dash: true,-->
+<!--                                fill: true,-->
+<!--                                palette: [-->
+<!--                                    [100, 150, 100, 1],-->
+<!--                                    [200, 150, 100, 1],-->
+<!--                                    [50, 150, 100, 1]-->
+<!--                                ]-->
+<!--                            },-->
+<!--                            {-->
+<!--                                type: "bar",-->
+<!--                                palette: [-->
+<!--                                    [200, 150, 100, 1],-->
+<!--                                    [50, 150, 100, 1]-->
+<!--                                ]-->
+<!--                            },-->
+<!--                            {-->
+<!--                                type: "pie",-->
+<!--                                // fill: false,-->
+<!--                                palette: [-->
+<!--                                    [200, 150, 100, 1],-->
+<!--                                    [50, 150, 100, 1]-->
+<!--                                ]-->
+<!--                            }-->
+<!--                        ]}-->
+<!--                        bind:exportCallback={documentExport.reportCallbacks[0]}-->
+<!--                />-->
+<!--                <Chart  title="График"-->
+<!--                        matrix={chartMatrix}-->
+<!--                        configs={[{-->
+<!--                        type: "line",-->
+<!--                        dash: true,-->
+<!--                        fill: true,-->
+<!--                        palette: [-->
+<!--                            [100, 150, 100, 1],-->
+<!--                            [200, 150, 100, 1],-->
+<!--                            [50, 150, 100, 1]-->
+<!--                        ]-->
+<!--                    },{-->
+<!--                        type: "bar",-->
+<!--                        palette: [-->
+<!--                            [200, 150, 100, 1],-->
+<!--                            [50, 150, 100, 1]-->
+<!--                        ]-->
+<!--                    },{-->
+<!--                        type: "pie",-->
+<!--                        // fill: false,-->
+<!--                        palette: [-->
+<!--                            [200, 150, 100, 1],-->
+<!--                            [50, 150, 100, 1]-->
+<!--                        ]-->
+<!--                    }]}-->
+<!--                        bind:exportCallback={documentExport.reportCallbacks[1]}/>-->
+<!--            </Grid>-->
+<!--        </ContentBlock>-->
         <ContentBlock>
             <Grid area={4}>
                 <Tile title="Плитка-1"
@@ -232,7 +232,7 @@
 
         <Table matrix={tableMatrix}
                config={{
-               chunking: "collapsable",
+               chunking: null,
                pagination: 50,
                addOperations: true,
                addCheckboxes: false,

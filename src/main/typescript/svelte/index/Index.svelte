@@ -2,10 +2,14 @@
 
     import "../../../resources/css/global.css"
     import Header from "./Header.svelte"
+    import {store} from "../../store"
 
+    export let appCode: string
 
-    export let
-        appInfo: AppInfo
+    store.appCode = appCode
+
+    let appInfo: AppInfo
+
 
 </script>
 
