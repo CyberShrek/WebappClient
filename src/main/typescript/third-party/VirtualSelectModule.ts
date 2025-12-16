@@ -32,8 +32,7 @@ export class VirtualSelectModule extends InputModule<string[]>{
 
         super((newKeys: string[]) => {
             // @ts-ignore
-            rootElement
-                ?.setValue?.(newKeys)
+            rootElement?.setValue?.(newKeys)
         })
 
         this.value = []
@@ -54,8 +53,7 @@ export class VirtualSelectModule extends InputModule<string[]>{
             })
             rootElement.addEventListener("change", event => {
                 // @ts-ignore
-                const newValue = event.currentTarget
-                    ?.value
+                const newValue = event.currentTarget?.value
                     ?? []
                 super.setValue(newValue.length > 0 ? (typeof newValue === "object" ? newValue : [newValue]) : [], false)
             })
@@ -69,39 +67,32 @@ export class VirtualSelectModule extends InputModule<string[]>{
         super.setValue(optionKeys, true)
     }
 
-    setOptions(newOptions: Option[]) {
-        return this.mountPromise.then(() => {
-            if (!equal(this.options, newOptions)) {
-                if (newOptions && newOptions.length > 0) {
-                    // @ts-ignore
-                    this.rootElement
-                        .enable()
-                    // @ts-ignore
-                    this.rootElement
-                        .setOptions(newOptions)
-                } else {
-                    // @ts-ignore
-                    this.rootElement
-                        .disable()
-                    // @ts-ignore
-                    this.rootElement
-                        .reset()
-                    this.rootElement.blur()
-                }
-                this.options = newOptions
+    async setOptions(newOptions: Option[]) {
+        await this.mountPromise
+        if (!equal(this.options, newOptions)) {
+            if (newOptions && newOptions.length > 0) {
+                // @ts-ignore
+                this.rootElement.enable()
+                // @ts-ignore
+                this.rootElement.setOptions(newOptions)
+            } else {
+                // @ts-ignore
+                this.rootElement.disable()
+                // @ts-ignore
+                this.rootElement.reset()
+                this.rootElement.blur()
             }
-        })
+            this.options = newOptions
+        }
     }
 
     open(){
         // @ts-ignore
-        this.rootElement
-            ?.open()
+        this.rootElement?.open()
     }
     close(){
         // @ts-ignore
-        this.rootElement
-            ?.close()
+        this.rootElement?.close()
     }
     focus(){
         this.rootElement
@@ -109,19 +100,16 @@ export class VirtualSelectModule extends InputModule<string[]>{
     }
     enable(){
         // @ts-ignore
-        this.rootElement
-            ?.enable()
+        this.rootElement?.enable()
     }
     disable(){
         // @ts-ignore
-        this.rootElement
-            ?.disable()
+        this.rootElement?.disable()
     }
     override destroy() {
         try{
             // @ts-ignore
-            this.rootElement
-            ?.destroy()}
+            this.rootElement?.destroy()}
         catch{}
     }
 }

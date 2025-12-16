@@ -10,25 +10,27 @@
         SUBMIT_EVENT = "submit"
 
     export let
-        values: {[fieldId: string]: any},
-        submitIsTouched = false,
-        isWrong         = false
+        submitButtonText = "Подтвердить",
+        statements: FieldStatements = {}
+
+    let submitIsTouched = false
 
 
     async function dispatchSubmit(){
         documentExport?.saveForm()
-        dispatch(SUBMIT_EVENT, values)
+        dispatch(SUBMIT_EVENT)
     }
 
 </script>
 
-<form in:fade={{duration: 200}}>
+<form in:fade={{duration: 200}}
+      class:validated={submitIsTouched}>
 
     <slot/>
 
     <div class="buttons">
-        <Button text={"Подтвердить"}
-                disabled={submitIsTouched && isWrong}
+        <Button text={submitButtonText}
+                disabled={submitIsTouched && Object.values(statements).some(statement => statement === "wrong")}
                 design="submit"
                 size="large"
                 on:click={dispatchSubmit}
@@ -40,7 +42,7 @@
     form {
         display: flex;
         flex-direction: column;
-        gap: var(--indent);
+        gap: var(--strong-indent);
         border-radius: var(--outer-border-radius);
     }
 

@@ -1,11 +1,10 @@
 <script lang="ts">
 
     import {VirtualSelectModule} from "../../third-party/VirtualSelectModule"
-
-    type Options = { [key: string]: string}
+    import {isEmpty} from "../../util/data";
 
     export let
-        value:   Options,
+        picked:  Options,
         options: Options,
         multiple        = false,
         search          = false,
@@ -16,7 +15,7 @@
 
     export const prettifyCallback: () => string = () => {
 
-        const pickedEntries = Object.entries(value || {})
+        const pickedEntries = Object.entries(picked || {})
         if (pickedEntries.length == 0)
             return ""
 
@@ -24,7 +23,7 @@
 
         if (!multiple || pickedEntries.length == 1) return prepare(pickedEntries[0])
 
-        const notPickedEntries = Object.entries(options).filter(([key]) => value[key] == null)
+        const notPickedEntries = Object.entries(options).filter(([key]) => picked[key] == null)
         let prettified: string
 
         if (notPickedEntries.length == 0) {
@@ -44,15 +43,17 @@
     $: if (options == null)
         options = {}
 
-    $: if (value == null)
-        value = {}
+    $: if (picked == null)
+        picked = {}
 
     $: if(rootElement)
         recreate()
 
     // React to options changes
-    $: if(options && module) {
-        module.setOptions(Object.entries(options)
+    $: if(options && module) onOptionsChange()
+    async function onOptionsChange() {
+        const pickCache = Object.keys(picked)
+        await module.setOptions(Object.entries(options)
             .map(([key, value]) => {return {
                 value: key,
                 label: value,
@@ -60,11 +61,17 @@
                 description: key
             }})
         )
+        setTimeout(() => {
+            if (!isEmpty(pickCache))
+                module.setValue(Object.keys(options).filter(key => pickCache.includes(key)))
+        }, 10)
     }
 
     // Handle value changes
-    $: if(options && value !== undefined)
-        module?.setValue(Object.keys(value))
+    $: if(options && picked !== undefined) onValueChange()
+    function onValueChange() {
+        module?.setValue(Object.keys(picked))
+    }
 
     function recreate(){
         module?.destroy()
@@ -77,15 +84,17 @@
             maxValues
         })
         module.onChange(newKeys => {
-            value = {}
+            picked = {}
             newKeys = newKeys ?? []
-            newKeys.forEach(key => value[key] = options[key])
+            newKeys.forEach(key => picked[key] = options[key])
         })
     }
 
 </script>
 
-<div class="select" bind:this={rootElement}>
+<div class="select"
+     class:empty={isEmpty(options)}
+     bind:this={rootElement}>
 
 </div>
 

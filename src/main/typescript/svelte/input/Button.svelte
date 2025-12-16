@@ -130,4 +130,9 @@
         filter: brightness(0.8) !important;
     }
 
+    button.disabled {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+
 </style>

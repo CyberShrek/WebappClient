@@ -1,7 +1,6 @@
 <script lang="ts">
 
     import {slide, fade} from "svelte/transition"
-    import {onMount} from "svelte"
     import {popupMessage} from "../../util/alert";
     import Button from "../input/Button.svelte";
 
@@ -9,17 +8,12 @@
         title      = "",
         hint       = "",
         message    = "",
-        isWrong    = false,
-        isReady    = false
- 
-    onMount(() => {
-        isReady = true
-    })
+        statement: FieldStatement = null
 
 </script>
 
 <div class="field"
-     class:wrong={isWrong}
+     class:wrong={statement === "wrong"}
      transition:fade>
 
     <div class="header">
@@ -39,7 +33,7 @@
 
     {#if message?.length > 0}
         <span class="message"
-              class:wrong={isWrong}
+              class:wrong={statement === "wrong"}
               transition:slide>
             {message}
         </span>
@@ -73,7 +67,7 @@
         font-weight: normal;
     }
 
-    .field.wrong > :global(:not(.header, .message)){
+    :global(form.validated) .field.wrong > :global(:not(.header, .message, .empty)){
         outline: 1px solid var(--negative-color);
     }
 

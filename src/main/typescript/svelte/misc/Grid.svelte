@@ -6,8 +6,8 @@
     let gridElement: HTMLDivElement
 
     $: if(gridElement){
-        // gridElement.style.gridTemplateColumns = `repeat(${size}, calc((100% - ${size-1} * var(--indent)) / ${size}))`;
-        gridElement.style.gridTemplateColumns = `repeat(${area}, 1fr)`;
+        gridElement.style.gridTemplateColumns = `repeat(${area}, calc((100% - ${area-1} * var(--indent)) / ${area}))`;
+        // gridElement.style.gridTemplateColumns = `repeat(${area}, 1fr)`;
     }
 
 </script>

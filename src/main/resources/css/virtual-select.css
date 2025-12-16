@@ -46,3 +46,7 @@
 .vscomp-ele .checkbox-icon::after{
     border-radius: 2px;
 }
+
+.vscomp-ele .vscomp-options {
+    transition: none !important;
+}

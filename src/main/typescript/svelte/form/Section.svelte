@@ -38,10 +38,12 @@
         align-items: center;
         font-size: large;
         font-weight: bold;
-        margin: 0;
+        margin: var(--strong-indent) 0 0;
     }
 
     .section > .header > p {
         min-width: var(--default-field-width);
+        font-size: x-large;
+        font-weight: normal;
     }
 </style>

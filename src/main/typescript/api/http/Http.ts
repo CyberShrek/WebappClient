@@ -1,8 +1,6 @@
 import {addCursorLoader, removeCursorLoader} from "../../util/dom"
 import {popupError} from "../../util/alert"
 import {serverErrors, serverLocations} from "../../properties"
-import {store} from "../../store";
-
 
 export type Method = "GET" | "POST" | "PUT" | "PATCH" | "DELETE"
 export type ResourceType = "json" | "text" | "blob"
@@ -11,6 +9,8 @@ export type Headers = {[key: string]: string}
 export type Payload = object
 
 export abstract class Http {
+
+    static appCode: string = "NOT INITIALIZED"
 
     protected static get     = (url: string,
                                 headers?: Headers,
@@ -41,7 +41,7 @@ export abstract class Http {
         let response = await fetch(
             url, {
                 method,
-                headers: prepareHeaders(headers ?? {}),
+                headers: Http.prepareHeaders(headers ?? {}),
                 body: payload ? JSON.stringify(payload) : undefined
             })
             .finally(() => removeCursorLoader())
@@ -55,15 +55,15 @@ export abstract class Http {
             throw error
         }
     }
-}
 
-function prepareHeaders(headers: {[key: string]: string}) {
-    Object.keys(headers)
-        .forEach(key => headers[key] = encodeURIComponent(headers[key]))
+    private static prepareHeaders(headers: {[key: string]: string}) {
+        Object.keys(headers)
+            .forEach(key => headers[key] = encodeURIComponent(headers[key]))
 
-    return {
-        "Content-Type"  : "application/json;charset=UTF-8",
-        "App-Code"      :  store.appCode,
-        ...headers
+        return {
+            "Content-Type"  : "application/json;charset=UTF-8",
+            "App-Code"      :  Http.appCode,
+            ...headers
+        }
     }
 }

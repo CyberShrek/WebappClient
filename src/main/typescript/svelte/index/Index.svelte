@@ -2,13 +2,22 @@
 
     import "../../../resources/css/global.css"
     import Header from "./Header.svelte"
-    import {store} from "../../store"
-    export let appCode: string
-    store.appCode = appCode
+    import {loadStore, store} from "../../store"
+    import {Http} from "../../api/http/Http"
+    import Loading from "../misc/Loading.svelte"
 
+    export let appCode: string
+
+    Http.appCode = appCode
+
+    let storeLoadPromise: Promise<void> = loadStore()
 
 </script>
 
-<Header/>
+{#await storeLoadPromise}
+    <Loading/>
+{:then _}
+    <Header/>
 
-<slot/>
+    <slot/>
+{/await}

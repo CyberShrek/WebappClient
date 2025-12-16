@@ -7,10 +7,10 @@
     import image from "../../../resources/img/calendar.svg"
 
     export let
-        value: string[],
+        period: CalendarPeriod,
         range: number = 0
 
-    export const prettifyCallback: () => string = () => range > 0 ? `${value[0]} - ${value[1]}` : value[0]
+    export const prettifyCallback: () => string = () => range > 0 ? `${period[0]} - ${period[1]}` : period[0]
 
     let rootElement: HTMLInputElement,
         module: EasepickModule
@@ -18,7 +18,7 @@
     $: if(rootElement)
         recreate()
 
-    $: if(value == null && module)
+    $: if(period == null && module)
         setValue(module.getValue())
 
     function recreate(){
@@ -29,13 +29,13 @@
         })
         module.onChange(setValue)
 
-        if(!value)
+        if(!period)
             setValue(module.getValue())
     }
 
     async function setValue(newValue: string[]){
         await tick()
-        value = newValue
+        period = newValue
     }
 
 </script>

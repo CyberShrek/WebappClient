@@ -1,3 +1,13 @@
+
+// Returns true if the object, array or string is empty
+export function isEmpty(obj: object | string | any[]): boolean {
+    if (typeof obj === 'object')
+        return Object.keys(obj).length === 0
+    else
+        return obj?.length === 0
+}
+
+
 // Returns vararg items as a Set of the vararg items
 export function setOf<T>(...items: T[]): Set<T>{
     return new Set(items)
