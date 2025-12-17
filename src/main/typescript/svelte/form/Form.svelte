@@ -11,7 +11,7 @@
 
     export let
         submitButtonText = "Подтвердить",
-        statements: FieldStatements = {}
+        states: FieldStates = {}
 
     let submitIsTouched = false
 
@@ -30,9 +30,10 @@
 
     <div class="buttons">
         <Button text={submitButtonText}
-                disabled={submitIsTouched && Object.values(statements).some(statement => statement === "wrong")}
+                disabled={submitIsTouched && Object.values(states).some(field => field.wrong)}
                 design="submit"
                 size="large"
+                slideAxis="y"
                 on:click={dispatchSubmit}
                 on:mouseenter={() => submitIsTouched = true}/>
     </div>

@@ -4,12 +4,12 @@
 
     export let
         rootElement: HTMLElement,
-        isFullscreen: boolean = false
+        fullscreen: boolean = false
 
-    $: isFullscreen ? enterFullscreen() : exitFullscreen()
+    $: fullscreen ? enterFullscreen() : exitFullscreen()
 
     function toggleFullscreen() {
-        isFullscreen = !isFullscreen
+        fullscreen = !fullscreen
     }
 
     function exitFullscreen() {
@@ -24,13 +24,13 @@
     }
 
     function handleFullscreenChange() {
-        isFullscreen = !!document.fullscreenElement
+        fullscreen = !!document.fullscreenElement
     }
 
 </script>
 
 <Button {image}
         design="white"
-        active={isFullscreen}
+        active={fullscreen}
         hint="Полноэкранный режим"
         on:click={toggleFullscreen}/>

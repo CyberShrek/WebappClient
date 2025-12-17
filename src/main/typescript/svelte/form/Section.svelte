@@ -13,7 +13,7 @@
      transition:fade>
 
     <div class="header">
-        <p>
+        <p class="title">
             {title}
         </p>
     </div>

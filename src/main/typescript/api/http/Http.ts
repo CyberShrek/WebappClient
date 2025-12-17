@@ -57,8 +57,8 @@ export abstract class Http {
     }
 
     private static prepareHeaders(headers: {[key: string]: string}) {
-        Object.keys(headers)
-            .forEach(key => headers[key] = encodeURIComponent(headers[key]))
+        // Object.keys(headers)
+        //     .forEach(key => headers[key] = encodeURIComponent(headers[key]))
 
         return {
             "Content-Type"  : "application/json;charset=UTF-8",

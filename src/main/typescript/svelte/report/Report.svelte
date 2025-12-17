@@ -10,50 +10,51 @@
     import {DocumentExport} from "../../model/export/DocumentExport"
 
     export let
-        title        = "Отчёт",
-        isReady      = true,
-        isCollapsed  = false,
-        isFullscreen = false,
+        title      = "Отчёт",
+        ready      = false,
+        collapsed  = false,
+        fullscreen = false,
         documentExport: DocumentExport | null = null
 
     let rootElement: HTMLDivElement
 
-    $: if (isFullscreen)
-        isCollapsed = false
+    $: if (fullscreen)
+        collapsed = false
 
 </script>
 
 <div class="report"
-     class:collapsed={isCollapsed}
-     class:fullscreen={isFullscreen}
+     class:ready
+     class:collapsed
+     class:fullscreen
      bind:this={rootElement}>
 
     <div class="header">
-        <h2>
+        <p>
             {title}
-        </h2>
-        {#if isReady}
+        </p>
+        {#if ready}
             <div class="buttons"
             transition:blur>
-                {#if !isFullscreen}
+                {#if !fullscreen}
                     <ToTopButton/>
                 {/if}
-                {#if !isCollapsed}
+                {#if !collapsed}
                     <slot name="buttons"/>
                 {/if}
-                {#if !isCollapsed && !!documentExport}
+                {#if !collapsed && !!documentExport}
                     <DownloadButton on:confirm={() => downloadReport(documentExport.export())}/>
                 {/if}
-                {#if !isFullscreen}
-                    <CollapseButton bind:isCollapsed/>
+                {#if !fullscreen}
+                    <CollapseButton bind:collapsed/>
                 {/if}
 
-                <FullscreenButton {rootElement} bind:isFullscreen/>
+                <FullscreenButton {rootElement} bind:fullscreen/>
             </div>
         {/if}
     </div>
 
-    {#if isReady && !isCollapsed}
+    {#if ready && !collapsed}
         <div class="body"
              transition:slide>
             <slot/>
@@ -78,6 +79,10 @@
         padding: var(--light-indent) 0;
         gap: var(--light-indent);
         border-radius: var(--outer-border-radius);
+    }
+    .report:not(.ready) {
+        overflow: hidden;
+        opacity: 0.5;
     }
     .report.fullscreen {
         overflow-y: scroll;
@@ -107,8 +112,9 @@
     .report:not(.collapsed) > .header {
         /*border-bottom: var(--light-border);*/
     }
-    .header > h2{
+    .header > p{
         margin-right: auto;
+        font-size: large;
         padding: 0 var(--indent);
     }
     .header > .buttons{

@@ -1,4 +1,3 @@
-import {DocumentExport} from "../model/export/DocumentExport"
 import {SimpleHttp} from "./http/SimpleHttp"
 import {serverLocations} from "../properties"
 
