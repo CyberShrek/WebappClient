@@ -2,7 +2,7 @@
     import {createEventDispatcher} from "svelte"
     import {fade} from "svelte/transition"
     import Button from "../input/Button.svelte"
-    import {DocumentExport} from "../../model/export/DocumentExport";
+    import {DocumentExport} from "../../model/export/DocumentExport"
 
     export let documentExport: DocumentExport | null = null
 

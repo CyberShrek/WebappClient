@@ -1,7 +1,7 @@
 import {SimpleHttp} from "./http/SimpleHttp"
 import {serverLocations} from "../properties"
 
-export function getReportData(queryId: string, formValues: { [fieldId: string]: any }) {
+export async function getReportMatrix(queryId: string, formValues: { [fieldId: string]: any }): Promise<Matrix> {
 
     const exportValues: typeof formValues = {};
 
@@ -13,11 +13,16 @@ export function getReportData(queryId: string, formValues: { [fieldId: string]: 
         }
     )
 
-    return SimpleHttp
+    const data = await SimpleHttp
         .withHeaders({"Query-Id": queryId})
         .andBody(exportValues)
         .post(serverLocations.query)
         .json<(string | number | boolean)[][]>()
+
+    return {
+        head: data[0].map(item => String(item)),
+        data: data.slice(1)
+    }
 }
 
 export async function downloadReport(document: ExportableDocument) {
