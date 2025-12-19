@@ -8,6 +8,7 @@ export class ConcreteTableHead implements TableHead {
         public table: Table
     ) {
         const separatedAliases: string[][] = table.columns
+            .filter(column => column.type != null)
             .map(column => (table.config.headAliases?.[column.name] || column.name).split(splitter))
 
         // Вставка пустых строк

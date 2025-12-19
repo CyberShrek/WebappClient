@@ -12,10 +12,10 @@
         {#if totalRow.chunk.table.config.addCheckboxes && checkboxSpan}
             <td class="checkbox"/>
         {/if}
-        {#each totalRow.cells as cell}
+        {#each Object.values(totalRow.cells) as cell}
             {#if !cell.hidden}
-                <td class={cell.type}>
-                    {#if cell.type === "number"}
+                <td class={cell.column.type}>
+                    {#if cell.column.type === "number"}
                         <slot name="cell" {cell}/>
                     {:else}
                         {cell.value}

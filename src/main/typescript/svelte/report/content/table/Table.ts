@@ -9,6 +9,7 @@ export class ConcreteTable implements Table {
 
     constructor(private matrix: Matrix,
                 public readonly config: TableConfig) {
+
         this.columns = this.buildColumns()
         this.head    = new ConcreteTableHead(this)
         this.pages   = this.buildPages()
@@ -37,29 +38,25 @@ export class ConcreteTable implements Table {
         // Сортировка
         this.clientData.sort((a, b) =>
             operations.reduce((diff, oper, i) => diff || !oper.sort ? diff :
-                oper.sort === 'asc' ? compareValues(a[i], b[i], this.columnTypes[i]) :
-                    -compareValues(a[i], b[i], this.columnTypes[i]), 0)
+                oper.sort === 'asc' ? compareValues(a[i], b[i], this.columns[i].type) :
+                    -compareValues(a[i], b[i], this.columns[i].type), 0)
         )
 
         this.pages = this.buildPages()
     }
 
     private buildColumns(): TableColumn[] {
-        const types: (ColumnType | null)[] = this.matrix.head.map(() => null)
+        const columns: TableColumn[] = this.matrix.head.map(name => ({name, type: null}))
         this.matrix.data.forEach(row => {
             row.forEach((cell, cellI) => {
                 switch (typeof cell) {
-                    case "string" : types[cellI] = "string"; break
-                    case "number" : types[cellI] = (types[cellI] === null || types[cellI] === "number")  ? "number"  : "string"; break
-                    case "boolean": types[cellI] = (types[cellI] === null || types[cellI] === "boolean") ? "boolean" : "string"; break
+                    case "string" : columns[cellI].type = "string"; break
+                    case "number" : columns[cellI].type = (columns[cellI].type === null || columns[cellI].type === "number")  ? "number"  : "string"; break
+                    case "boolean": columns[cellI].type = (columns[cellI].type === null || columns[cellI].type === "boolean") ? "boolean" : "string"; break
                 }
             })
         })
-
-        return this.matrix.head.map((name, i) => ({
-            name,
-            type: types[i] ?? "string"
-        }))
+        return columns
     }
 
     private buildPages(): typeof this.pages {

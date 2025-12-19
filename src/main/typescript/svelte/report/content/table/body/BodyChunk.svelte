@@ -24,9 +24,9 @@
                     </td>
                 {/if}
             {/if}
-            {#each content.cells as cell, i}
+            {#each Object.values(content.cells) as cell}
                 {#if !cell.hidden}
-                    <td class={body.table.columnTypes[i]}>
+                    <td class={cell.column.type}>
                         <slot name="cell" {cell}/>
                     </td>
                 {/if}
@@ -84,7 +84,7 @@
         {/if}
     {/if}
 {/each}
-
+a
 <style>
     td.primary {
         vertical-align: top;

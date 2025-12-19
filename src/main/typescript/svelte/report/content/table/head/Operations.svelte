@@ -4,8 +4,8 @@
 
     export let table: Table
 
-    let operations: ColumnOperation[] = table.columnTypes
-        .filter(type => !!type)
+    let operations: ColumnOperation[] = table.columns
+        .filter(col => !!col.type)
         .map(() => ({filter: "", sort: null}))
 
     $: operations && processOperations()
@@ -18,7 +18,7 @@
 </script>
 
 <tr class="operations sort">
-    {#each operations as operation, colI}
+    {#each operations as operation}
         <th>
             <div class="sort">
                 <Sort bind:value={operation.sort}/>
@@ -30,7 +30,7 @@
 <tr class="operations filter">
     {#each operations as operation, colI}
         <th>
-            {#if table.columnTypes[colI] === "string"}
+            {#if table.columns[colI].type === "string"}
                 <input class="filter"
                        type="text"
                        placeholder="⌕ Фильтр"

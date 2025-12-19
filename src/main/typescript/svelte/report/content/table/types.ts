@@ -59,7 +59,7 @@ interface TableColumn {
     type: ColumnType
     // cells: TableCell[]
 }
-type ColumnType = "string" | "number" | "boolean"
+type ColumnType = "string" | "number" | "boolean" | null
 
 type ColumnOperation = {
     filter: string
