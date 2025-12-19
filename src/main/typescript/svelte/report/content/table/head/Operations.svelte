@@ -1,12 +1,10 @@
 <script lang="ts">
 
     import Sort from "../../../../input/Sort.svelte"
-    import Text from "../../../../input/Text.svelte"
-    import {type} from "node:os";
 
     export let table: Table
 
-    let operations: ColumnOperation[] = table.types
+    let operations: ColumnOperation[] = table.columnTypes
         .filter(type => !!type)
         .map(() => ({filter: "", sort: null}))
 
@@ -32,7 +30,7 @@
 <tr class="operations filter">
     {#each operations as operation, colI}
         <th>
-            {#if table.types[colI] === "string"}
+            {#if table.columnTypes[colI] === "string"}
                 <input class="filter"
                        type="text"
                        placeholder="⌕ Фильтр"
@@ -55,19 +53,23 @@
 
     div.sort {
         position: absolute;
-        right: -5px;
-        bottom: -5px;
+        right: -6px;
+        bottom: -8px;
     }
     input.filter {
         position: absolute;
         right: 0;
         top: -1px;
-        width: 150px;
-        opacity: 0.5;
+        width: 112px;
         cursor: text;
         border: var(--light-border);
+
+        background: transparent;
+        /*Blur*/
+        backdrop-filter: blur(2px)  !important;
+        -webkit-backdrop-filter: blur(2px) !important;
     }
     input.filter:is(:focus, :hover) {
-        opacity: 1;
+        background: white;
     }
 </style>

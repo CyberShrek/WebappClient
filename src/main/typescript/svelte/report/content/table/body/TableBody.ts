@@ -7,6 +7,7 @@ export class ConcreteBodyChunk implements TableBodyChunk {
 
     constructor(private data:   MatrixData,
                 public readonly table:   Table,
+                public readonly columns: TableColumn[],
                 public readonly nesting: number = 0) {
         this.head = new ConcreteTableRow(data[0], this)
     }
@@ -16,13 +17,13 @@ export class ConcreteBodyChunk implements TableBodyChunk {
     private _content: typeof this.content = []
     get content(): (TableBodyChunk | TableRow)[] {
         if (this._content.length == 0) {
-            if (!(this.table.config.chunking && this.table.types[this.nesting + 1] === "string"))
+            if (!(this.table.config.chunking && this.columns[this.nesting + 1].type === "string"))
                 this.data.forEach(row =>
                     this._content.push(new ConcreteTableRow(row, this)))
             else
                 this.buildDataChunks().forEach(chunkData =>
                     this._content.push(chunkData.length > 1
-                        ? new ConcreteBodyChunk(chunkData, this.table, this.nesting + 1)
+                        ? new ConcreteBodyChunk(chunkData, this.table, this.columns,this.nesting + 1)
                         : new ConcreteTableRow(chunkData[0], this))
                 )
         }
@@ -90,7 +91,7 @@ export class ConcreteBodyChunk implements TableBodyChunk {
     private calculateTotalRow(): TableRow {
         const rowData = this.data[0]
         const values: (string | number)[] = rowData ? rowData.map((cell, index) => {
-            switch (this.table.types[index]) {
+            switch (this.columns[index].type) {
                 case "string" : return index == this.nesting ? "Итого" : ""
                 case "number" : return 0
                 default       : return ""
@@ -98,7 +99,7 @@ export class ConcreteBodyChunk implements TableBodyChunk {
         }) : []
         this.data.forEach(row => {
             row.forEach((cell, index) => {
-                if (this.table.types[index] === "number" && typeof cell === "number") {
+                if (this.columns[index].type === "number" && typeof cell === "number") {
                     const sum = new Decimal(values[index] as number)
                     values[index] = sum.add(Number(cell)).toNumber()
                 }
@@ -113,33 +114,32 @@ class ConcreteTableRow implements TableRow {
     type: "row"
         = "row"
 
-    public cells: TableCell[]
+    public cells: TableCells
 
-    constructor(private values: TableCell["value"][] = [],
+    constructor(values: TableCell["value"][] = [],
                 public readonly chunk: TableBodyChunk) {
 
-        this.cells = values.map(
-            (value, cellIndex) =>
-                new ConcreteTableCell(cellIndex, chunk.table.head.findColName(cellIndex), value, chunk.table.types[cellIndex], this)
+        this.cells = {}
+        values.forEach(
+            (value, cellIndex) => {
+                this.cells[chunk.columns[cellIndex].name] =
+                    new ConcreteTableCell(cellIndex, value, chunk.columns[cellIndex], this)
+            }
         )
     }
 
     checked?: boolean | undefined;
-
-    findCellByColName(name: string): TableCell | null {
-        return this.cells[this.chunk.table.head.findColIndex(name)]
-    }
 }
 
 class ConcreteTableCell implements TableCell {
     constructor(public readonly index: number,
-                public readonly column: string,
-                public readonly value: TableCell["value"],
-                public readonly type:  ColumnType,
-                public readonly row:   TableRow) {}
+                public readonly value:  TableCell["value"],
+                public readonly column: TableColumn,
+                public readonly row:    TableRow) {
+    }
 
     get hidden(): boolean {
         const chunk = this.row.chunk
-        return !this.type || this.index < chunk.nesting
+        return !this.column.type || this.index < chunk.nesting
     }
 }

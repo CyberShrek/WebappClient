@@ -14,7 +14,9 @@
         matrix: Matrix,
         config: TableConfig = {}
 
-    export const exportCallback: () => ExportableReport = () => new TableExport("Таблица", table)
+    export const
+        exportCallback: () => ExportableReport = () => new TableExport("Таблица", table),
+        getTotal: () => TableRow = () => table.total
 
     let table: ConcreteTable
 

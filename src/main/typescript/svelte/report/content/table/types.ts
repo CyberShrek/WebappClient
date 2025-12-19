@@ -4,14 +4,17 @@ type TableConfig = {
     addOperations?: boolean
     addTotal?:      boolean
     addCheckboxes?: boolean
+    headAliases?: {
+        [columnName: string]: string
+    }
 }
 
 interface Table {
-    config: TableConfig
-    head:   TableHead
-    pages:  TableBodyChunk[]
-    types:  ColumnType[]
-    total:  TableRow
+    config:  TableConfig
+    head:    TableHead
+    columns: TableColumn[]
+    pages:   TableBodyChunk[]
+    total:   TableRow
 
     processOperations(operations: ColumnOperation[]): void
 }
@@ -19,13 +22,11 @@ interface Table {
 interface TableHead {
     content: ({value: string, rowspan?: number, colspan?: number} | null)[][]
     table: Table
-
-    findColName(index: number): string
-    findColIndex(name: string): number
 }
 
 interface TableBodyChunk {
     type:        "chunk"
+    columns: TableColumn[]
     content: (TableRow | TableBodyChunk)[]
     head:      TableRow,
     total:     TableRow
@@ -36,24 +37,29 @@ interface TableBodyChunk {
 }
 interface TableRow {
     type: "row"
-    cells: TableCell[]
+    cells: TableCells
     chunk: TableBodyChunk
     checked?:   boolean
     collapsed?: boolean
-    findCellByColName(name: string): TableCell | null
+}
+type TableCells = {
+    [columnName: string]: TableCell
 }
 interface TableCell {
     index: number
-    column: string
     value: string | number | boolean | null
-    type: ColumnType
-
     hidden?: boolean
 
+    column: TableColumn
     row: TableRow
 }
 
-type ColumnType = "string" | "number" | "boolean" | null
+interface TableColumn {
+    name: string
+    type: ColumnType
+    // cells: TableCell[]
+}
+type ColumnType = "string" | "number" | "boolean"
 
 type ColumnOperation = {
     filter: string

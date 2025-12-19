@@ -8,6 +8,7 @@
     import ToTopButton from "./buttons/ToTopButton.svelte"
     import {downloadReport} from "../../api/report"
     import {DocumentExport} from "../../model/export/DocumentExport"
+    import {scrollIntoElement} from "../../util/dom";
 
     export let
         title      = "Отчёт",
@@ -16,10 +17,13 @@
         fullscreen = false,
         documentExport: DocumentExport | null = null
 
-    let rootElement: HTMLDivElement
+    let element: HTMLDivElement
 
     $: if (fullscreen)
         collapsed = false
+
+    $: if (ready && element)
+        scrollIntoElement(element)
 
 </script>
 
@@ -27,7 +31,7 @@
      class:ready
      class:collapsed
      class:fullscreen
-     bind:this={rootElement}>
+     bind:this={element}>
 
     <div class="header">
         <p>
@@ -49,7 +53,8 @@
                     <CollapseButton bind:collapsed/>
                 {/if}
 
-                <FullscreenButton {rootElement} bind:fullscreen/>
+                <FullscreenButton targetElement={element}
+                                  bind:fullscreen/>
             </div>
         {/if}
     </div>
@@ -79,6 +84,7 @@
         padding: var(--light-indent) 0;
         gap: var(--light-indent);
         border-radius: var(--outer-border-radius);
+        /*overflow-x: scroll;*/
     }
     .report:not(.ready) {
         overflow: hidden;
@@ -114,7 +120,7 @@
     }
     .header > p{
         margin-right: auto;
-        font-size: large;
+        font-size: 22px;
         padding: 0 var(--indent);
     }
     .header > .buttons{

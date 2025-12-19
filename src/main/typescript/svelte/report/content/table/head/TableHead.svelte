@@ -59,8 +59,10 @@
         background: var(--accent-color);
     }
     th:not(.checkbox) {
-        padding-left: 20px !important;
-        padding-right: 20px !important;
         min-width: 100px;
+    }
+    tr:last-child th:not(.checkbox) {
+        /*padding-left: 18px !important;*/
+        padding-right: 38px !important;
     }
 </style>

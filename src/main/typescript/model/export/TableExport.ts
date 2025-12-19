@@ -10,7 +10,7 @@ export class TableExport implements ExportableTable {
         readonly title: string,
         table: Table
     ) {
-        this.types = table.types.filter(type => !!type)
+        this.types = table.columnTypes.filter(type => !!type)
         this.head  = table.head.content
         this.body  = this.buildBody(table)
     }

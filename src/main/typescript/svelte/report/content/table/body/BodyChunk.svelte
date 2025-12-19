@@ -26,7 +26,7 @@
             {/if}
             {#each content.cells as cell, i}
                 {#if !cell.hidden}
-                    <td class={body.table.types[i]}>
+                    <td class={body.table.columnTypes[i]}>
                         <slot name="cell" {cell}/>
                     </td>
                 {/if}

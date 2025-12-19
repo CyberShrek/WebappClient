@@ -3,7 +3,7 @@
     import image from "../../../../resources/img/expand.svg"
 
     export let
-        rootElement: HTMLElement,
+        targetElement: HTMLElement,
         fullscreen: boolean = false
 
     $: fullscreen ? enterFullscreen() : exitFullscreen()
@@ -19,7 +19,7 @@
         }
     }
     function enterFullscreen() {
-        rootElement.requestFullscreen()
+        targetElement.requestFullscreen()
         document.addEventListener("fullscreenchange", handleFullscreenChange)
     }
 

@@ -5,7 +5,7 @@
     export let
         title: string = "",
         label: string,
-        value: number,
+        value: string | number | boolean,
         color: string = '',
         image: string = ''
 
