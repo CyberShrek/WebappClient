@@ -1,42 +1,45 @@
 <script lang="ts">
 
     import Sort from "../../../../input/Sort.svelte"
+    import {equal} from "../../../../../util/data";
+    import {deepCopyOf} from "../../../../../util/data.js";
 
-    export let table: Table
+    export let columns: TableColumn[],
+        operations: ColumnOperation[] = []
 
-    let operations: ColumnOperation[] = table.columns
-        .filter(col => !!col.type)
-        .map(() => ({filter: "", sort: null}))
-
-    $: operations && processOperations()
-
-    function processOperations() {
-        table.processOperations(operations)
-        table = table
+    let columnsBeforeUpdate: TableColumn[] = []
+    $: if (!equal(columns, columnsBeforeUpdate)) update()
+    function update() {
+        operations = columns.map(() => ({filter: "", sort: null}))
+        columnsBeforeUpdate = deepCopyOf(columns)
     }
 
 </script>
 
 <tr class="operations sort">
-    {#each operations as operation}
-        <th>
-            <div class="sort">
-                <Sort bind:value={operation.sort}/>
-            </div>
-        </th>
+    {#each operations as operation, colI}
+        {#if !!columns[colI].type}
+            <th>
+                <div class="sort">
+                    <Sort bind:value={operation.sort}/>
+                </div>
+            </th>
+        {/if}
     {/each}
 </tr>
 
 <tr class="operations filter">
     {#each operations as operation, colI}
-        <th>
-            {#if table.columns[colI].type === "string"}
-                <input class="filter"
-                       type="text"
-                       placeholder="⌕ Фильтр"
-                       bind:value={operation.filter}/>
-            {/if}
-        </th>
+        {#if !!columns[colI].type}
+            <th>
+                {#if columns[colI].type === "string"}
+                    <input class="filter"
+                           type="text"
+                           placeholder="⌕ Фильтр"
+                           bind:value={operation.filter}/>
+                {/if}
+            </th>
+        {/if}
     {/each}
 </tr>
 
@@ -46,7 +49,6 @@
         padding: 0;
         height: 0;
         border: 0;
-        /*max-height: 0 !important;*/
         border-top: none;
         background: var(--accent-color);
     }
@@ -59,15 +61,11 @@
     input.filter {
         position: absolute;
         right: 0;
-        top: -1px;
+        top: 0;
         width: 112px;
         cursor: text;
         border: var(--light-border);
-
         background: transparent;
-        /*Blur*/
-        backdrop-filter: blur(2px)  !important;
-        -webkit-backdrop-filter: blur(2px) !important;
     }
     input.filter:is(:focus, :hover) {
         background: white;

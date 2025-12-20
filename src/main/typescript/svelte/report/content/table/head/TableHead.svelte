@@ -5,24 +5,25 @@
     import PagesBar from "./PagesBar.svelte";
 
     export let
-        head: TableHead,
-        pageIndex: number
+        table: Table,
+        pageIndex: number,
+        operations: ColumnOperation[]
 
-    $: pagesLength = head.table.pages.length
+    $: pageLengthArray = table.pages.map(page => page.length)
 
 </script>
 
 <thead>
-    {#if pagesLength > 1}
-        <PagesBar {pagesLength}
+    {#if pageLengthArray.length > 1}
+        <PagesBar {pageLengthArray}
                   bind:pageIndex/>
     {/if}
-    {#if head.table.config.addCheckboxes}
+    {#if table.config.addCheckboxes}
         <th rowspan={0} class="checkbox">
-            <HeadCheckbox bind:dependent={head.table.pages}/>
+            <HeadCheckbox bind:dependent={table.pages}/>
         </th>
     {/if}
-    {#each head.content as row}
+    {#each table.head as row}
         <tr>
             {#each row as cell}
                 {#if !!cell}
@@ -34,8 +35,9 @@
             {/each}
         </tr>
     {/each}
-    {#if head.table.config.addOperations}
-        <Operations bind:table={head.table}/>
+    {#if table.config.addOperations}
+        <Operations columns={table.columns}
+                    bind:operations/>
     {/if}
 </thead>
 
@@ -59,7 +61,7 @@
         background: var(--accent-color);
     }
     th:not(.checkbox) {
-        min-width: 100px;
+        /*min-width: 100px;*/
     }
     tr:last-child th:not(.checkbox) {
         /*padding-left: 18px !important;*/

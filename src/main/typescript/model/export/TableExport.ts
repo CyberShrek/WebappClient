@@ -10,14 +10,14 @@ export class TableExport implements ExportableTable {
         readonly title: string,
         table: Table
     ) {
-        this.types = table.columnTypes.filter(type => !!type)
-        this.head  = table.head.content
+        this.types = table.columns.filter(column => !!column.type).map(column => column.type)
+        this.head  = table.head
         this.body  = this.buildBody(table)
     }
 
     buildBody(table: Table): typeof this.body {
         function collectRow (row: TableRow)  {
-            body.push(row.cells.filter(cell => !!cell.type).map(cell => {
+            body.push(Object.values(row.cells).filter(cell => !!cell.column.type).map(cell => {
                 return {
                     value: String(cell.value)
                 }

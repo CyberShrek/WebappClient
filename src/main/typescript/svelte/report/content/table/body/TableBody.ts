@@ -41,6 +41,10 @@ export class ConcreteBodyChunk implements TableBodyChunk {
         return this._totalRow
     }
 
+    get length(): number {
+        return this.data.length
+    }
+
     private _rowspan: number = -1
     get rowspan(): number {
         if (this._rowspan == -1) {
@@ -119,24 +123,33 @@ class ConcreteTableRow implements TableRow {
     constructor(values: TableCell["value"][] = [],
                 public readonly chunk: TableBodyChunk) {
 
-        this.cells = {}
+        const virtualCells: typeof this.cells = {}
         values.forEach(
             (value, cellIndex) => {
-                this.cells[chunk.columns[cellIndex].name] =
+                virtualCells[chunk.columns[cellIndex].name] =
                     new ConcreteTableCell(cellIndex, value, chunk.columns[cellIndex], this)
             }
         )
+        const cells: typeof this.cells = {}
+        this.cells = virtualCells
+        Object.entries(virtualCells).forEach(([name, virtualCell]) => {
+            cells[name] = new ConcreteTableCell(
+                virtualCell.index,
+                this.chunk.table.config.structure?.[name]?.[1]?.(virtualCell) ?? virtualCell.value,
+                virtualCell.column,
+                this)
+        })
+        this.cells = cells
     }
 
     checked?: boolean | undefined;
 }
 
 class ConcreteTableCell implements TableCell {
-    constructor(public readonly index: number,
-                public readonly value:  TableCell["value"],
+    constructor(public readonly index:  number,
+                public readonly value:  CellValue,
                 public readonly column: TableColumn,
-                public readonly row:    TableRow) {
-    }
+                public readonly row:    TableRow) {}
 
     get hidden(): boolean {
         const chunk = this.row.chunk

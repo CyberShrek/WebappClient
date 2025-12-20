@@ -4,8 +4,11 @@ type TableConfig = {
     addOperations?: boolean
     addTotal?:      boolean
     addCheckboxes?: boolean
-    headAliases?: {
-        [columnName: string]: string
+    structure?: {
+        [columnName: string]:[
+            alias?: string,
+            valueCallback?: (cell: TableCell) => CellValue
+        ]
     }
 }
 
@@ -15,14 +18,9 @@ interface Table {
     columns: TableColumn[]
     pages:   TableBodyChunk[]
     total:   TableRow
-
-    processOperations(operations: ColumnOperation[]): void
 }
 
-interface TableHead {
-    content: ({value: string, rowspan?: number, colspan?: number} | null)[][]
-    table: Table
-}
+type TableHead = ({value: string, rowspan?: number, colspan?: number} | null)[][]
 
 interface TableBodyChunk {
     type:        "chunk"
@@ -31,6 +29,7 @@ interface TableBodyChunk {
     head:      TableRow,
     total:     TableRow
     table:        Table
+    length:      number
     nesting:     number
     rowspan:     number
     collapsed?: boolean
@@ -47,7 +46,7 @@ type TableCells = {
 }
 interface TableCell {
     index: number
-    value: string | number | boolean | null
+    value: CellValue
     hidden?: boolean
 
     column: TableColumn
@@ -59,6 +58,8 @@ interface TableColumn {
     type: ColumnType
     // cells: TableCell[]
 }
+type CellValue = string | number | boolean | null
+
 type ColumnType = "string" | "number" | "boolean" | null
 
 type ColumnOperation = {

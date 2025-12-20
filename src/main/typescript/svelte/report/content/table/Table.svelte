@@ -12,13 +12,11 @@
 
     export let
         matrix: Matrix,
-        config: TableConfig = {}
+        config: TableConfig = {},
+        table:  Table | undefined = undefined
 
     export const
-        exportCallback: () => ExportableReport = () => new TableExport("Таблица", table),
-        getTotal: () => TableRow = () => table.total
-
-    let table: ConcreteTable
+        exportCallback: () => ExportableReport = () => new TableExport("Таблица", table as Table)
 
     $: if (matrix && config) rebuildTable()
     function rebuildTable() {
@@ -38,17 +36,26 @@
                     case "chunk": collectSelection(content); break
                 }
             })
-        table.pages.forEach(collectSelection)
+        table?.pages.forEach(collectSelection)
 
         dispatch(SELECT_EVENT, selection)
+    }
+
+    let operations: ColumnOperation[]
+    $: if (!!operations) processOperations()
+    function processOperations() {
+        if (!table) return
+        (table as ConcreteTable).processOperations(operations)
+        table = table
     }
 
 </script>
 
 <table>
     {#if table}
-        <TableHead bind:head={table.head}
-                   bind:pageIndex/>
+        <TableHead {table}
+                   bind:pageIndex
+                   bind:operations/>
 
         <TableFoot totalRow={config.addTotal ? table.total : null}
                    hasSlot={!!$$slots.foot}>
@@ -65,16 +72,6 @@
                 <slot name="cell" {cell}/>
             </svelte:fragment>
         </TableBody>
-
-<!--        {#if $$slots.foot}-->
-<!--            Слот существует!-->
-<!--            <tr>-->
-<!--                <td colspan=1000-->
-<!--                    class="slot">-->
-<!--&lt;!&ndash;                    <slot name="foot"/>&ndash;&gt;-->
-<!--                </td>-->
-<!--            </tr>-->
-<!--        {/if}-->
     {/if}
 </table>
 
@@ -89,6 +86,9 @@
         border-bottom: var(--light-border);
         height: 24px;
         padding: 4px 8px;
+    }
+    :global(table td) {
+        vertical-align: top;
     }
     :global(table td:not(.primary):last-child) {
         border-right: none;

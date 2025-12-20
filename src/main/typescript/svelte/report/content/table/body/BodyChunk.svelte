@@ -51,7 +51,7 @@
                 class:content-collapsed={content.collapsed}
                 class="primary {chunking}">
                     <slot name="cell"
-                          cell={content.head.cells[body.nesting]}/>
+                          cell={Object.values(content.head.cells)[body.nesting]}/>
             </td>
             {#if chunking === "collapsable" || chunking === "full"}
                 <td class="button">
@@ -84,7 +84,7 @@
         {/if}
     {/if}
 {/each}
-a
+
 <style>
     td.primary {
         vertical-align: top;
