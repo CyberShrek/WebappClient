@@ -1,32 +1,31 @@
 <script lang="ts">
 
     import Calendar from "../../input/Calendar.svelte"
-    import Field from "./AbstractField.svelte"
-    import {DocumentExport} from "../../../model/export/DocumentExport"
+    import Field from "./Field.svelte"
+    import {equal} from "../../../util/data"
 
     export let
-        // FIELD
-        title      = "",
-        hint       = "",
-        state: FieldState = {
-            value: null
-        },
-        // INPUT
-        period: CalendarPeriod,
-        range: number = 0,
-        // EXPORT
-        documentExport: DocumentExport
+        field: CalendarField,
+        range: number = 0
 
-    let exportCallbackName: string = "",
+    let period: CalendarPeriod,
         prettifyCallback: () => string
-    $: if (documentExport && !!exportCallbackName)
-        documentExport.formValuesCallbacks[exportCallbackName] = prettifyCallback
+
+    $: if (field.value) importChanges()
+    function importChanges() {
+        if (equal(field.value, period)) return
+        period = field.value
+    }
+
+    $: if (period && prettifyCallback) exportChanges()
+    async function exportChanges() {
+        field.value = period
+        field.prettyValue = prettifyCallback()
+    }
 
 </script>
 
-<Field {title} {hint} {state}
-       bind:exportCallbackName>
-
+<Field bind:field>
     <Calendar {range}
               bind:period
               bind:prettifyCallback/>

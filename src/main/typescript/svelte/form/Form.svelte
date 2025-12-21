@@ -1,24 +1,26 @@
 <script lang="ts">
-    import {createEventDispatcher} from "svelte"
+    import {tick, setContext, createEventDispatcher} from "svelte"
+    import { writable } from 'svelte/store';
     import {fade} from "svelte/transition"
     import Button from "../input/Button.svelte"
-    import {DocumentExport} from "../../model/export/DocumentExport"
+    import {deepCopyOf} from "../../util/data"
 
-    export let documentExport: DocumentExport | null = null
-
-    const dispatch = createEventDispatcher(),
-        SUBMIT_EVENT = "submit"
+    const dispatch    = createEventDispatcher()
+    const submitEvent = writable();
+    setContext('form-submit', submitEvent);
 
     export let
         submitButtonText = "Подтвердить",
-        states: FieldStates = {}
+        fields: Fields = {}
 
     let submitIsTouched = false
 
-
     async function dispatchSubmit(){
-        documentExport?.saveForm()
-        dispatch(SUBMIT_EVENT)
+        submitEvent.set("submit")
+        await tick()
+        submitEvent.set(null)
+        await tick()
+        dispatch("submit", deepCopyOf(fields))
     }
 
 </script>
@@ -30,7 +32,7 @@
 
     <div class="buttons">
         <Button text={submitButtonText}
-                disabled={submitIsTouched && Object.values(states).some(field => field.wrong)}
+                disabled={submitIsTouched && Object.values(fields).some(field => field.wrong)}
                 design="submit"
                 size="large"
                 slideAxis="y"

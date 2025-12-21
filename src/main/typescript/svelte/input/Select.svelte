@@ -4,34 +4,33 @@
     import {isEmpty} from "../../util/data";
 
     export let
-        picked:  Options,
         options: Options,
+        picked:  (keyof Options)[],
         multiple        = false,
         search          = false,
-        showCodes       = false,
+        showKeys       = false,
         pickAllCheckbox = false,
         placeholder     = '',
         maxValues       = 0
 
     export const prettifyCallback: () => string = () => {
 
-        const pickedEntries = Object.entries(picked || {})
-        if (pickedEntries.length == 0)
+        if (picked.length == 0)
             return ""
 
-        const prepare = (entry: [string, string]) => entry[1] + (showCodes ? " (" + entry[0] + ")" : "")
+        const prepare = (key: string) => options[key].trim() + (showKeys ? " (" + key + ")" : "")
 
-        if (!multiple || pickedEntries.length == 1) return prepare(pickedEntries[0])
+        if (!multiple || picked.length == 1) return prepare(picked[0])
 
-        const notPickedEntries = Object.entries(options).filter(([key]) => picked[key] == null)
+        const notPickedEntries = Object.entries(options).filter(([key, _]) => !picked.includes(key))
         let prettified: string
 
         if (notPickedEntries.length == 0) {
-            prettified = `все (${pickedEntries.length})`
-        } else if (notPickedEntries.length < pickedEntries.length / 2){
-            prettified = `все, кроме ${notPickedEntries.length}: ` + notPickedEntries.map(prepare).join(", ")
+            prettified = `все (${picked.length})`
+        } else if (notPickedEntries.length < picked.length / 2){
+            prettified = `все, кроме ${notPickedEntries.length}: ` + notPickedEntries.map(([key, _]) =>  prepare(key)).join(", ")
         } else {
-            prettified = pickedEntries.map(prepare).join(", ")
+            prettified = picked.map(prepare).join(", ")
         }
 
         return prettified
@@ -44,7 +43,7 @@
         options = {}
 
     $: if (picked == null)
-        picked = {}
+        picked = []
 
     $: if(rootElement)
         recreate()
@@ -52,7 +51,7 @@
     // React to options changes
     $: if(options && module) onOptionsChange()
     async function onOptionsChange() {
-        const pickCache = Object.keys(picked)
+        const pickCache = [...picked]
         await module.setOptions(Object.entries(options)
             .map(([key, value]) => {return {
                 value: key,
@@ -70,7 +69,7 @@
     // Handle value changes
     $: if(options && picked !== undefined) onValueChange()
     function onValueChange() {
-        module?.setValue(Object.keys(picked))
+        module?.setValue(picked)
     }
 
     function recreate(){
@@ -78,15 +77,13 @@
         module = new VirtualSelectModule(rootElement, {
             multiple,
             search,
-            showCodes,
+            showKeys,
             placeholder,
             disableSelectAll: !pickAllCheckbox,
             maxValues
         })
         module.onChange(newKeys => {
-            picked = {}
-            newKeys = newKeys ?? []
-            newKeys.forEach(key => picked[key] = options[key])
+            picked = newKeys
         })
     }
 

@@ -38,6 +38,8 @@
         period = newValue
     }
 
+    $: console.log("calendar", period)
+
 </script>
 
 <div class="datepicker">

@@ -23,7 +23,7 @@ export class VirtualSelectModule extends InputModule<string[]>{
                 readonly config: {
                     multiple?:         boolean
                     search?:           boolean
-                    showCodes?:        boolean
+                    showKeys?:        boolean
                     placeholder?:      string
                     disableSelectAll?: boolean
                     maxValues?:        number
@@ -45,7 +45,7 @@ export class VirtualSelectModule extends InputModule<string[]>{
                 multiple: !!config.multiple,
                 search: !!config.search,
                 placeholder: config.placeholder ?? "",
-                hasOptionDescription: !!config.showCodes,
+                hasOptionDescription: !!config.showKeys,
                 disableSelectAll: !!config.disableSelectAll,
                 maxValues: config.maxValues,
                 searchPlaceholderText: virtualSelectProperties.searchPlaceholderText,

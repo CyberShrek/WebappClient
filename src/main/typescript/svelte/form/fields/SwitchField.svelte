@@ -1,33 +1,22 @@
 <script lang="ts">
 
-    import Field from "./AbstractField.svelte"
-    import {DocumentExport} from "../../../model/export/DocumentExport"
+    import Field from "./Field.svelte"
     import Switch from "../../input/Switch.svelte";
 
     export let
-        // FIELD
-        title      = "",
-        hint       = "",
-        state: FieldState = {
-            value: null
-        },
-        // INPUT
-        checked: boolean = false,
-        type: "checkbox" | "switch" = "switch",
-        // EXPORT
-        documentExport: DocumentExport
+        field: SwitchField,
+        type: "checkbox" | "switch" = "switch"
 
-    let exportCallbackName: string = "",
-        prettifyCallback: () => string
-    $: if (documentExport && !!exportCallbackName)
-        documentExport.formValuesCallbacks[exportCallbackName] = prettifyCallback
+    let prettifyCallback: () => string
+
+    $: !!prettifyCallback && (field.prettyValue = prettifyCallback())
 
 </script>
 
-<Field {hint} {state}
-       bind:exportCallbackName>
-    <Switch {title}
+<Field bind:field
+       showTitle={false}>
+    <Switch title={field.title}
             {type}
-            bind:checked
+            bind:checked={field.value}
             bind:prettifyCallback/>
 </Field>
