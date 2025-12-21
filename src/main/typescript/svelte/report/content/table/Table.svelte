@@ -15,8 +15,7 @@
         config: TableConfig = {},
         table:  Table | undefined = undefined
 
-    export const
-        exportCallback: () => ExportableReport = () => new TableExport("Таблица", table as Table)
+    export const exportCallback: () => ExportableReport = () => new TableExport("Таблица", table as Table)
 
     $: if (matrix && config) rebuildTable()
     function rebuildTable() {
@@ -50,7 +49,7 @@
     }
 
 </script>
-
+{exportCallback}
 <table>
     {#if table}
         <TableHead {table}

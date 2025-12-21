@@ -1,47 +1,29 @@
 
-export class DocumentExport implements ExportableDocument {
+export class DocumentExport {
 
-    constructor(public readonly title: string) {
-
+    constructor(public readonly title: string,
+                private readonly formFields: Fields,
+                ...reportCallbacks: (() => (ExportableReport))[]) {
+        this.reportCallbacks = reportCallbacks
     }
 
-    _form: ExportableDocument["form"] = {}
-    get form () {
-        return this._form
-    }
-
-    get report(): (ExportableReport)[] {
-        return this.reportCallbacks.map(fn => fn?.())
-    }
-
-    formValuesCallbacks: {
-        [sectionfield: string]: () => string
-    } = {}
-
-    reportCallbacks: (() => (ExportableReport))[] = []
-
-    saveForm() {
-        this._form = {}
-        Object.entries(this.formValuesCallbacks)
-            .sort(([key1], [key2]) => key1.split("|")[0].localeCompare(key2.split("|")[0]))
-            .forEach(([key, fn]) => {
-            const split = key.split("|"),
-                section = split[1],
-                field = split[2]
-
-            if (this._form[section] == null)
-                this._form[section] = {}
-
-            this._form[section]
-                [field] = fn()
-        })
-    }
+    public reportCallbacks: (() => (ExportableReport))[]
 
     export(): ExportableDocument {
+        const form = {}
+        Object.values(this.formFields).forEach(field => {
+            const section = field.sectionTitle
+
+            if (!form[section])
+                form[section] = {}
+
+            form[section][field.title] = field.prettyValue
+        })
+        console.log("reportCallbacks", this.reportCallbacks)
         return {
-            title: this.title,
-            form: this.form,
-            report: this.report
+            title:  this.title,
+            form,
+            report: this.reportCallbacks.map(fn => fn?.())
         }
     }
 }
