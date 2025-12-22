@@ -83,7 +83,7 @@
         background: white;
         top: 10vh;
         max-width: calc(100vw - var(--strong-indent) * 10);
-        filter: drop-shadow(0 2px 5px);
+        filter: drop-shadow(var(--drop-shadow));
         overflow: clip;
         border-radius: var(--border-radius);
     }

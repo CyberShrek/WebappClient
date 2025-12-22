@@ -1,21 +1,22 @@
 import {SimpleHttp} from "./http/SimpleHttp"
 import {serverLocations} from "../properties"
 
-export async function getReportMatrix(queryId: string, formValues: { [fieldId: string]: any }): Promise<Matrix> {
+export async function getReportMatrix(queryId: string, fields: Fields): Promise<Matrix> {
 
-    const exportValues: typeof formValues = {};
+    const fieldValues: { [fieldId: string]: any } = {};
 
-    Object.keys(formValues).forEach(
+    Object.keys(fields).forEach(
         key => {
-            exportValues[key] = (typeof formValues[key] === 'object' && formValues[key] !== null && !Array.isArray(formValues[key]))
-                ? Object.keys(formValues[key])
-                : formValues[key]
+            const value = fields[key].value
+            fieldValues[key] = (typeof value === 'object' && value !== null && !Array.isArray(value))
+                ? Object.keys(value)
+                : value
         }
     )
 
     const data = await SimpleHttp
         .withHeaders({"Query-Id": queryId})
-        .andBody(exportValues)
+        .andBody(fieldValues)
         .post(serverLocations.query)
         .json<(string | number | boolean)[][]>()
 
@@ -25,12 +26,12 @@ export async function getReportMatrix(queryId: string, formValues: { [fieldId: s
     }
 }
 
-export async function downloadReport(document: ExportableDocument) {
+export async function downloadReport(document: ExportableDocument, name?: string) {
     download(await SimpleHttp
         .withHeaders()
         .andBody(document)
         .post(serverLocations.export)
-        .blob(), document.title)
+        .blob(), name ?? document.title)
 }
 
 function download(blob: Blob, name: string) {

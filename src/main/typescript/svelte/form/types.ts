@@ -3,7 +3,7 @@ type Fields = {
 }
 
 interface Field {
-    title        : string
+    title       : string
     hint        ?: string
     sectionTitle?: string
 
@@ -13,14 +13,4 @@ interface Field {
     // validation
     wrong  ?: boolean
     message?: string
-}
-
-interface SwitchField extends Field {
-    value: boolean
-}
-interface CalendarField extends Field {
-    value: CalendarPeriod
-}
-interface SelectField extends Field {
-    value: (keyof Options)[]
 }

@@ -1,6 +1,6 @@
 <script lang="ts">
 
-    import Field from "./Field.svelte"
+    import FieldComponent from "./Field.svelte"
     import Select from "../../input/Select.svelte"
     import {equal} from "../../../util/data"
     import { getContext } from 'svelte'
@@ -8,11 +8,11 @@
     const submitEvent = getContext('form-submit')
 
     export let
-        field: SelectField,
+        field: Field,
         options: Options,
         multiple        = false,
         search          = false,
-        showCodes       = false,
+        showKeys        = false,
         pickAllCheckbox = false,
         placeholder     = '',
         maxValues       = 0
@@ -26,7 +26,7 @@
         picked = field.value
     }
 
-    $: if (picked && prettifyCallback) exportChanges()
+    $: if (picked && !!prettifyCallback) exportChanges()
     async function exportChanges() {
         field.value = picked
     }
@@ -38,8 +38,8 @@
 
 </script>
 
-<Field bind:field>
-    <Select {options} {multiple} {search} {showCodes} {pickAllCheckbox} {placeholder} {maxValues}
+<FieldComponent bind:field>
+    <Select {options} {multiple} {search} {showKeys} {pickAllCheckbox} {placeholder} {maxValues}
             bind:picked
             bind:prettifyCallback/>
-</Field>
+</FieldComponent>

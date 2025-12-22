@@ -1,29 +1,35 @@
+import {store} from "../../store";
+import {isEmpty} from "../../util/data";
 
 export class DocumentExport {
 
-    constructor(public readonly title: string,
-                private readonly formFields: Fields,
-                ...reportCallbacks: (() => (ExportableReport))[]) {
-        this.reportCallbacks = reportCallbacks
-    }
 
-    public reportCallbacks: (() => (ExportableReport))[]
+    constructor() {}
 
-    export(): ExportableDocument {
-        const form = {}
-        Object.values(this.formFields).forEach(field => {
-            const section = field.sectionTitle
+    public fields: Fields = {}
+
+    public reportCallbacks: (() => (ExportableReport))[] = []
+
+    export(defaultReportTitle?: string): ExportableDocument {
+        const form: ExportableDocument["form"] = {}
+        Object.values(this.fields).forEach(field => {
+            const section: string = field.sectionTitle ?? ""
 
             if (!form[section])
                 form[section] = {}
 
-            form[section][field.title] = field.prettyValue
+            form[section][field.title] = field.prettyValue ?? ""
         })
         console.log("reportCallbacks", this.reportCallbacks)
         return {
-            title:  this.title,
+            title:  store.appInfo?.name ?? "",
             form,
-            report: this.reportCallbacks.map(fn => fn?.())
+            report: this.reportCallbacks.map(fn => {
+                const report = fn?.()
+                if (isEmpty(report.title) && defaultReportTitle)
+                    report.title = defaultReportTitle
+                return report
+            })
         }
     }
 }

@@ -9,10 +9,12 @@
     import {downloadReport} from "../../api/report"
     import {DocumentExport} from "../../model/export/DocumentExport"
     import {scrollIntoElement} from "../../util/dom";
+    import {store} from "../../store";
 
     export let
         title      = "Отчёт",
-        ready      = false,
+        show       = false,
+        modal      = false,
         collapsed  = false,
         fullscreen = false,
         documentExport: DocumentExport | null = null
@@ -22,13 +24,14 @@
     $: if (fullscreen)
         collapsed = false
 
-    $: if (ready && element)
+    $: if (show && element)
         scrollIntoElement(element)
 
 </script>
 
 <div class="report"
-     class:ready
+     class:show
+     class:modal
      class:collapsed
      class:fullscreen
      bind:this={element}>
@@ -37,19 +40,19 @@
         <p>
             {title}
         </p>
-        {#if ready}
+        {#if show}
             <div class="buttons"
             transition:blur>
-                {#if !fullscreen}
+                {#if !fullscreen && !modal}
                     <ToTopButton/>
                 {/if}
                 {#if !collapsed}
                     <slot name="buttons"/>
                 {/if}
                 {#if !collapsed && !!documentExport}
-                    <DownloadButton on:confirm={() => downloadReport(documentExport.export())}/>
+                    <DownloadButton on:confirm={() => downloadReport(documentExport.export(title), title)}/>
                 {/if}
-                {#if !fullscreen}
+                {#if !fullscreen && !modal}
                     <CollapseButton bind:collapsed/>
                 {/if}
 
@@ -59,7 +62,7 @@
         {/if}
     </div>
 
-    {#if ready && !collapsed}
+    {#if show && !collapsed}
         <div class="body"
              transition:slide>
             <slot/>
@@ -86,7 +89,7 @@
         border-radius: var(--outer-border-radius);
         /*overflow-x: scroll;*/
     }
-    .report:not(.ready) {
+    .report:not(.show) {
         overflow: hidden;
         opacity: 0.5;
     }
@@ -105,6 +108,8 @@
         align-items: center;
         padding: 0 var(--light-indent);
         background: RGBA(255, 255, 255, 0.3);
+    }
+    .report:not(.modal) > .header {
         /*Blur*/
         backdrop-filter: blur(6px)  !important;
         -webkit-backdrop-filter: blur(6px) !important;

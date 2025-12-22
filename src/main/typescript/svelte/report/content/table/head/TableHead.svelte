@@ -45,7 +45,7 @@
     thead {
         position: sticky;
         top: var(--report-header-height);
-        z-index: 100;
+        z-index: 2;
     }
 
     :global(.report.fullscreen) thead {

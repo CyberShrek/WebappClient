@@ -95,10 +95,10 @@ export class ConcreteTable implements Table {
             .filter(column => column.type != null)
             .map(column => (this.config.structure?.[column.name]?.[0] || column.name).split("|"))
 
-        // Вставка пустых строк
+        // Вставка null-строк
         separatedAliases.forEach(cells => {
             while (head.length < cells.length)
-                head.push(this.columns.map(_ => null))
+                head.push(separatedAliases.map(_ => null))
         })
 
         // Первичное заполнение с вертикальной группировкой
@@ -114,7 +114,6 @@ export class ConcreteTable implements Table {
 
         // Горизонтальная группировка. Лишние ячейки удаляются
         head.forEach(row => {
-            const cellsToDelete: number[] = []
             let targetCell: typeof row[number] | null = null
             row.forEach((cell, i) => {
                 if (targetCell == null || targetCell.value !== cell?.value) {

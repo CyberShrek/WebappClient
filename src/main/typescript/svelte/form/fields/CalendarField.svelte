@@ -1,11 +1,11 @@
 <script lang="ts">
 
     import Calendar from "../../input/Calendar.svelte"
-    import Field from "./Field.svelte"
+    import FieldComponent from "./Field.svelte"
     import {equal} from "../../../util/data"
 
     export let
-        field: CalendarField,
+        field: Field,
         range: number = 0
 
     let period: CalendarPeriod,
@@ -17,7 +17,7 @@
         period = field.value
     }
 
-    $: if (period && prettifyCallback) exportChanges()
+    $: if (period && !!prettifyCallback) exportChanges()
     async function exportChanges() {
         field.value = period
         field.prettyValue = prettifyCallback()
@@ -25,8 +25,8 @@
 
 </script>
 
-<Field bind:field>
+<FieldComponent bind:field>
     <Calendar {range}
               bind:period
               bind:prettifyCallback/>
-</Field>
+</FieldComponent>

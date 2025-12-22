@@ -30,7 +30,7 @@
     tfoot {
         position: sticky;
         bottom: 0;
-        z-index: 10;
+        z-index: 1;
     }
 
     .slot {

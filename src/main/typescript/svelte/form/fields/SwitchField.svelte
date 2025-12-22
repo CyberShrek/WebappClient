@@ -1,10 +1,10 @@
 <script lang="ts">
 
-    import Field from "./Field.svelte"
+    import FieldComponent from "./Field.svelte"
     import Switch from "../../input/Switch.svelte";
 
     export let
-        field: SwitchField,
+        field: Field,
         type: "checkbox" | "switch" = "switch"
 
     let prettifyCallback: () => string
@@ -13,10 +13,10 @@
 
 </script>
 
-<Field bind:field
+<FieldComponent bind:field
        showTitle={false}>
     <Switch title={field.title}
             {type}
             bind:checked={field.value}
             bind:prettifyCallback/>
-</Field>
+</FieldComponent>
