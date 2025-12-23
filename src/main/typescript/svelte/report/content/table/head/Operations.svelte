@@ -55,8 +55,8 @@
 
     div.sort {
         position: absolute;
-        right: -6px;
-        bottom: -8px;
+        right: -8px;
+        bottom: -10px;
     }
     input.filter {
         display: flex;

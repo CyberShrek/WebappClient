@@ -109,7 +109,7 @@ export class ConcreteBodyChunk implements TableBodyChunk {
                 }
             })
         })
-        return new ConcreteTableRow(values, this)
+        return new ConcreteTableRow(values, this, true)
     }
 }
 
@@ -121,7 +121,8 @@ class ConcreteTableRow implements TableRow {
     public cells: TableCells
 
     constructor(values: TableCell["value"][] = [],
-                public readonly chunk: TableBodyChunk) {
+                public readonly chunk: TableBodyChunk,
+                public readonly isTotal: boolean = false) {
 
         const virtualCells: typeof this.cells = {}
         values.forEach(
@@ -141,6 +142,8 @@ class ConcreteTableRow implements TableRow {
         })
         this.cells = cells
     }
+
+    collapsed?: boolean | undefined;
 
     checked?: boolean | undefined;
 }

@@ -89,6 +89,8 @@
     }
     :global(table td) {
         vertical-align: top;
+        height: 20px;
+        font-size: 14px;
     }
     :global(table td:not(.primary):last-child) {
         border-right: none;

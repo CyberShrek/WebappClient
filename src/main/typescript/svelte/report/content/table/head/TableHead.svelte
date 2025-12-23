@@ -58,10 +58,15 @@
     th {
         color: white;
         font-weight: normal;
+
+
+
         background: var(--accent-color);
     }
     th:not(.checkbox) {
-        /*min-width: 100px;*/
+        min-width: 50px;
+        /*padding-left: 15px;*/
+        /*padding-right: 15px;*/
     }
 
 </style>

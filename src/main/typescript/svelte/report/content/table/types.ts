@@ -40,6 +40,7 @@ interface TableRow {
     chunk: TableBodyChunk
     checked?:   boolean
     collapsed?: boolean
+    isTotal:   boolean
 }
 type TableCells = {
     [columnName: string]: TableCell

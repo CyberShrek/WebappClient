@@ -18,7 +18,7 @@
         fullscreen = false,
         documentExport: DocumentExport | null = null,
 
-        data: any // Only for trigger scrollIntoElement
+        data: any = true // Only for trigger scrollIntoElement
 
 
     let element: HTMLDivElement

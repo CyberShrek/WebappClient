@@ -23,8 +23,8 @@
         right: 0;
         cursor: pointer;
         opacity: 0.5;
-        height: 18px;
-        width: 18px;
+        height: 17px;
+        width: 17px;
         padding: 0;
         transform: translateX(calc(0px - var(--indent))) translateY(calc(-20px - var(--indent)));
         border-radius: 100px;

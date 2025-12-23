@@ -4,7 +4,6 @@
         totalRow: TableRow | null,
         collapsed: boolean = false,
         checkboxSpan: boolean = true
-
 </script>
 
 <tr class:collapsed>
