@@ -1,13 +1,23 @@
 <script lang="ts">
 
-    import Image from "../../../misc/Image.svelte";
+    import Image from "../../../misc/Image.svelte"
+
+    import {createEventDispatcher} from "svelte"
+    const dispatch = createEventDispatcher()
 
     export let
         title: string = "",
-        label: string,
-        value: string | number | boolean,
+        label: string = "",
+        value: string | number | boolean = "",
         color: string = '',
-        image: string = ''
+        image: string = '',
+        change: number = 0,
+        valueSize: string = 'xx-large',
+        clickable: boolean = false
+
+    function click() {
+        if (clickable) dispatch('click')
+    }
 
 </script>
 
@@ -18,19 +28,29 @@
         </p>
     {/if}
     <div class="tile"
-         style="background-color: {color}">
+         class:clickable
+         style="background-color: {color}"
+         on:click={click}>
         {#if image}
             <div class="image">
                 <Image {image}/>
             </div>
         {/if}
-    <span class="value"
-          style="color: {color.length > 0 ? color : 'var(--accent-color)'}" >
-        {value}
-        <span class="label">
-            {label}
-        </span>
-    </span>
+        <div class="block">
+            <span class="value"
+                  style="color: {color.length > 0 ? color : 'var(--accent-color)'}; font-size: {valueSize}" >
+                {value}
+                <span class="label">
+                    {label}
+                </span>
+                {#if change && change !== 0}
+                    <span class="change {change > 0 ? 'up' : 'down'}">
+                        {change > 0 ? '+' : ''}{change}%
+                    </span>
+                {/if}
+            </span>
+            <slot/>
+        </div>
     </div>
 </div>
 
@@ -54,6 +74,7 @@
     .tile {
         display: flex;
         align-items: center;
+        justify-content: center;
         height: var(--tile-height);
         padding: var(--strong-indent);
         box-sizing: border-box;
@@ -62,8 +83,16 @@
     }
 
     .tile .image{
-        width: calc(var(--tile-height) - 2 * var(--strong-indent));
+        width: calc(var(--tile-height) - 1 * var(--indent));
         height: 100%;
+    }
+
+    .tile .block {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        width: 100%;
     }
 
     .tile .value {
@@ -77,5 +106,27 @@
         font-size: medium;
         font-weight: normal;
         filter: none;
+    }
+    .tile .value .change {
+        position: absolute;
+        font-size: medium;
+    }
+    .tile .value .change.up {
+        color: green;
+    }
+    .tile .value .change.down {
+        color: red;
+    }
+
+
+
+    .tile.clickable {
+        cursor: pointer;
+    }
+    .tile.clickable:hover {
+        filter: brightness(0.9);
+    }
+    .tile.clickable:active {
+        filter: brightness(0.8);
     }
 </style>

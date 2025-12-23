@@ -63,8 +63,5 @@
     th:not(.checkbox) {
         /*min-width: 100px;*/
     }
-    tr:last-child th:not(.checkbox) {
-        /*padding-left: 18px !important;*/
-        padding-right: 38px !important;
-    }
+
 </style>

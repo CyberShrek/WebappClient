@@ -59,10 +59,11 @@
         bottom: -8px;
     }
     input.filter {
+        display: flex;
         position: absolute;
         right: 0;
         top: 0;
-        width: 112px;
+        width: calc(100% - 5px);
         cursor: text;
         border: var(--light-border);
         background: transparent;

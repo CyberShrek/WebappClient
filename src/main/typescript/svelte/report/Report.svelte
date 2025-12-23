@@ -1,6 +1,6 @@
 <script lang="ts">
 
-    import {slide, blur} from "svelte/transition"
+    import {blur} from "svelte/transition"
 
     import FullscreenButton from "./buttons/FullscreenButton.svelte"
     import CollapseButton from "./buttons/CollapseButton.svelte"
@@ -9,7 +9,6 @@
     import {downloadReport} from "../../api/report"
     import {DocumentExport} from "../../model/export/DocumentExport"
     import {scrollIntoElement} from "../../util/dom";
-    import {store} from "../../store";
 
     export let
         title      = "Отчёт",
@@ -17,14 +16,17 @@
         modal      = false,
         collapsed  = false,
         fullscreen = false,
-        documentExport: DocumentExport | null = null
+        documentExport: DocumentExport | null = null,
+
+        data: any // Only for trigger scrollIntoElement
+
 
     let element: HTMLDivElement
 
     $: if (fullscreen)
         collapsed = false
 
-    $: if (show && element)
+    $: if (show && element && data)
         scrollIntoElement(element)
 
 </script>
@@ -64,7 +66,7 @@
 
     {#if show && !collapsed}
         <div class="body"
-             transition:slide>
+             transition:blur>
             <slot/>
         </div>
     {/if}

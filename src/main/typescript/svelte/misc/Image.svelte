@@ -19,7 +19,6 @@
      transition:blur/>
 
 <style>
-
     img.auto {
         width: 100%;
     }

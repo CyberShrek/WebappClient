@@ -8,7 +8,7 @@
         configs: ChartConfig[],
         matrix: Matrix
 
-    export const exportCallback: (() => ExportableReport) = () => {
+    export const exportCallback: () => ExportableImage = () => {
         return {
             type: "image",
             title,
@@ -18,8 +18,10 @@
     let canvas: HTMLCanvasElement,
         chart: SimpleChart
 
-    $: if (configs && matrix && canvas)
+    $: if (configs && matrix && canvas) {
+        if (chart) chart.destroy()
         chart = new SimpleChart(configs, matrix, canvas)
+    }
 
     onDestroy(() => chart?.destroy())
 

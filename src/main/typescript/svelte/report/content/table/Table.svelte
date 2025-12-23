@@ -53,7 +53,7 @@
 
 <table>
     {#if table}
-        <TableHead {table}
+        <TableHead bind:table
                    bind:pageIndex
                    bind:operations/>
 
@@ -85,7 +85,7 @@
         border-right: var(--light-border);
         border-bottom: var(--light-border);
         height: 24px;
-        padding: 4px 8px;
+        padding: 6px 6px;
     }
     :global(table td) {
         vertical-align: top;

@@ -36,9 +36,9 @@
     .slot {
         position: absolute;
         border:none;
-        bottom: 40px;
-        left: 40px;
-
+        bottom: var(--strong-indent);
+        left: var(--strong-indent);
+        transform: translateY(-100%);
     }
     .slot  :global(*) {
         filter: drop-shadow(var(--drop-shadow));

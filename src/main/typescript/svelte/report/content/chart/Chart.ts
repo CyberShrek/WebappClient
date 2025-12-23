@@ -52,13 +52,13 @@ export class SimpleChart {
 
             let config = this.configs[i - 1]
             if (config) {
-                const fill = config.fill == undefined ? true : config.fill
+                const fill = config.fill == undefined ? false : config.fill
                 dataset = {
                     ...dataset,
                     type: config.type,
                     fill,
                     borderColor: config.palette?.map(rgba => rgbaToString(rgba)),
-                    backgroundColor: config.palette?.map(rgba => rgbaToString([...rgba.slice(0, 3), rgba[3] * (fill ? 0.7 : 0)] as RGBA)),
+                    backgroundColor: config.palette?.map(rgba => rgbaToString([...rgba.slice(0, 3), rgba[3] * (fill ? 0.5 : 0)] as RGBA)),
                     ...getSpecialProperties(config)
 
                 } as ChartDataset
@@ -81,8 +81,8 @@ function getSpecialProperties(config: ChartConfig) {
 
 function getLineProperties(config: LineChartConfig) {
     return {
-        borderWidth: config.dash ? 2 : 1,
-        borderDash: config.dash ? [4, 4] : undefined
+        borderWidth: 3,
+        borderDash: config.dash ? [6, 6] : undefined
     } as
         ChartDataset
 }
