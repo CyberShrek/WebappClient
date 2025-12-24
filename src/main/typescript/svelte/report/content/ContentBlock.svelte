@@ -1,15 +1,20 @@
 <script lang="ts">
 
     import Modal from "../../misc/Modal.svelte"
+    import {slide, blur} from "svelte/transition"
 
     export let
         title = "",
-        modal = false
+        modal = false,
+        width = "auto",
+        align = "stretch"
     let show: boolean
 
 </script>
 
-<div class="content">
+<div class="content"
+     style="width: {width}; align-self: {align};"
+     in:blur out:slide>
     {#if modal}
         <a href=""
            on:click={(ev) => {ev.preventDefault() ; show = true}}>
@@ -31,6 +36,7 @@
 <style>
     .content {
         padding: 0 var(--indent);
-        /*background: white !important;*/
+    }
+    a {
     }
 </style>

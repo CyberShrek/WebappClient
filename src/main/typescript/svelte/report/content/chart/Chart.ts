@@ -1,6 +1,7 @@
 import {ChartConfig, LineChartConfig} from "./types"
 import {registerTypeIfNone} from "./registrator"
 import {Chart, ChartConfiguration, ChartDataset} from "chart.js"
+import Decimal from 'decimal.js';
 
 export class SimpleChart {
 
@@ -12,6 +13,8 @@ export class SimpleChart {
         private canvas : HTMLCanvasElement
     ) {
         configs.forEach(config => registerTypeIfNone(config.type))
+
+        matrix.data = aggregateData(matrix.data)
 
         this.chartJS = new Chart(canvas, {
             type: configs[0].type,
@@ -96,4 +99,24 @@ function getBarProperties() {
 
 function rgbaToString(rgba: RGBA): string {
     return `rgba(${rgba[0]}, ${rgba[1]}, ${rgba[2]}, ${rgba[3]})`
+}
+
+function aggregateData(data: MatrixData): MatrixData {
+    const result = new Map<string, Decimal[]>();
+
+    for (const row of data) {
+        const key = String(row[0]);
+        const sums: Decimal[] = result.get(key) || row.slice(1).map(() => new Decimal(0));
+
+        row.slice(1).forEach((val, i) => {
+            sums[i] = sums[i].add(new Decimal(val as number));
+        });
+
+        result.set(key, sums);
+    }
+
+    return Array.from(result.entries(), ([key, sums]) => [
+        key,
+        ...sums.map(s => s.toNumber())
+    ]);
 }

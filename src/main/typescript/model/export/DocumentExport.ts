@@ -22,7 +22,7 @@ export class DocumentExport {
         })
         console.log("reportCallbacks", this.reportCallbacks)
         return {
-            title:  store.appInfo?.name ?? "",
+            title: (store.appInfo?.groupName ?? "") + " | " + (store.appInfo?.name ?? ""),
             form,
             report: this.reportCallbacks.map(fn => {
                 const report = fn?.()

@@ -13,14 +13,21 @@
         submitButtonText = "Подтвердить",
         fields: Fields = {}
 
-    let submitIsTouched = false
+    let submitIsTouched = false,
+        submitIsDisabled = false
+
+    $: submitIsDisabled = Object.values(fields).some(field => field.wrong)
+
+    $: console.log("submitIsDisabled", submitIsDisabled)
 
     async function dispatchSubmit(){
+
         submitEvent.set("submit")
         await tick()
         submitEvent.set(null)
         await tick()
         dispatch("submit", deepCopyOf(fields))
+        submitIsDisabled = true
     }
 
 </script>
@@ -31,8 +38,9 @@
     <slot/>
 
     <div class="buttons">
+        <slot name="buttons"/>
         <Button text={submitButtonText}
-                disabled={submitIsTouched && Object.values(fields).some(field => field.wrong)}
+                disabled={submitIsTouched && submitIsDisabled}
                 design="submit"
                 size="large"
                 slideAxis="y"

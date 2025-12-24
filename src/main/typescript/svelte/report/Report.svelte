@@ -9,6 +9,7 @@
     import {downloadReport} from "../../api/report"
     import {DocumentExport} from "../../model/export/DocumentExport"
     import {scrollIntoElement} from "../../util/dom";
+    import Loading from "../misc/Loading.svelte";
 
     export let
         title      = "Отчёт",
@@ -18,7 +19,8 @@
         fullscreen = false,
         documentExport: DocumentExport | null = null,
 
-        data: any = true // Only for trigger scrollIntoElement
+        reportPromise: Promise<any>, // Only for loader
+        data: any = true             // Only for trigger scrollIntoElement
 
 
     let element: HTMLDivElement
@@ -42,6 +44,9 @@
         <p>
             {title}
         </p>
+        {#await reportPromise}
+            <Loading/>
+        {/await}
         {#if show}
             <div class="buttons"
             transition:blur>
@@ -71,7 +76,6 @@
         </div>
     {/if}
 </div>
-<!--{JSON.stringify(formValue)}-->
 
 <style>
 
@@ -126,7 +130,7 @@
         /*border-bottom: var(--light-border);*/
     }
     .header > p{
-        margin-right: auto;
+        /*margin-right: auto;*/
         font-size: 22px;
         padding: 0 var(--indent);
     }
