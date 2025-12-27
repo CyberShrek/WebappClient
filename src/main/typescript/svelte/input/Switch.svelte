@@ -54,6 +54,8 @@
         border-radius: var(--switch-height);
         width: var(--switch-width);
         height: var(--switch-height);
+        min-width: var(--switch-width);
+        min-height: var(--switch-height);
         transform: translateX(0);
     }
 
