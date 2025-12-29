@@ -20,9 +20,17 @@
     {#each operations as operation, colI}
         {#if !!columns[colI].type}
             <th>
-                <div class="sort">
-                    <Sort bind:value={operation.sort}/>
-                </div>
+                <button class="sort {operation.sort ?? ''}"
+                        title="Сортировка"
+                        on:click={() => operation.sort = operation.sort == null ? "asc" : operation.sort === "asc" ? "desc" : null}>
+                    {#if operation.sort === "asc"}
+                        ↑
+                    {:else if operation.sort === "desc"}
+                        ↓
+                    {:else}
+                        ⇅
+                    {/if}
+                </button>
             </th>
         {/if}
     {/each}
@@ -53,22 +61,36 @@
         background: var(--accent-color);
     }
 
-    div.sort {
+    button.sort {
         position: absolute;
         right: -8px;
-        bottom: -10px;
+        bottom: -28px;
+        cursor: pointer;
+        opacity: 0.5;
+        height: 18px;
+        width: 18px;
+        padding: 0;
+        transform: translateX(calc(0px - var(--indent))) translateY(calc(-20px - var(--indent)));
+        border-radius: 100px;
+        border: none;
     }
+    button.sort:is(:hover, .asc, .desc) {
+        opacity: 1;
+    }
+
     input.filter {
         display: flex;
         position: absolute;
-        right: 0;
-        top: 0;
-        width: calc(100% - 5px);
+        right: 24px;
+        bottom: 4px;
+        height: 16px;
+        width: calc(100% - 31px);
         cursor: text;
-        border: var(--light-border);
-        background: transparent;
+        border: none;
+        border-radius: 100px;
+        opacity: 0.5;
     }
     input.filter:is(:focus, :hover) {
-        background: white;
+        opacity: 1;
     }
 </style>

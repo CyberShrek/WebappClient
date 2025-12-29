@@ -13,7 +13,7 @@
 
 </script>
 
-<thead>
+<thead class:operations>
     {#if pageLengthArray.length > 1}
         <PagesBar {pageLengthArray}
                   bind:pageIndex/>
@@ -23,11 +23,12 @@
             <HeadCheckbox bind:dependent={table.pages}/>
         </th>
     {/if}
-    {#each table.head as row}
+    {#each table.head as row, rowIndex}
         <tr>
             {#each row as cell}
                 {#if !!cell}
-                    <th rowspan={cell.rowspan}
+                    <th class:lowest="{rowIndex === table.head.length - 1 || cell.rowspan >= table.head.length - rowIndex}"
+                        rowspan={cell.rowspan}
                         colspan={cell.colspan}>
                         {cell.value}
                     </th>
@@ -58,15 +59,15 @@
     th {
         color: white;
         font-weight: normal;
-
-
-
         background: var(--accent-color);
     }
     th:not(.checkbox) {
         min-width: 50px;
         /*padding-left: 15px;*/
         /*padding-right: 15px;*/
+    }
+    thead.operations th.lowest {
+        padding-bottom: 20px;
     }
 
 </style>

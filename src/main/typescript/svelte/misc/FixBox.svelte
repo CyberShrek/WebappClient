@@ -19,15 +19,11 @@
 <style>
     .fix {
         display: flex;
-        opacity: 0.8;
         position: fixed;
         z-index: 64;
         filter: drop-shadow(var(--drop-shadow));
         transition:  opacity 0.3s;
         width: min-content;
-    }
-    .fix:hover {
-        opacity: 1;
     }
     .fix.y-start { top:  var(--strong-indent);  }
     .fix.y-end   { bottom: var(--strong-indent);}

@@ -101,6 +101,9 @@
         font-weight: bold;
         filter: saturate(10) brightness(0.4);
     }
+    .tile.clickable .value {
+        text-decoration: underline;
+    }
     .tile .value .label {
         margin: auto;
         font-size: medium;

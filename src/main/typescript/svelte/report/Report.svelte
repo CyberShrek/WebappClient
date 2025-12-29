@@ -10,6 +10,7 @@
     import {DocumentExport} from "../../model/export/DocumentExport"
     import {scrollIntoElement} from "../../util/dom";
     import Loading from "../misc/Loading.svelte";
+    import CloseButton from "./buttons/CloseButton.svelte";
 
     export let
         title      = "Отчёт",
@@ -62,9 +63,12 @@
                 {#if !fullscreen && !modal}
                     <CollapseButton bind:collapsed/>
                 {/if}
-
                 <FullscreenButton targetElement={element}
                                   bind:fullscreen/>
+
+                {#if modal}
+                    <CloseButton on:click={() => show = false}/>
+                {/if}
             </div>
         {/if}
     </div>

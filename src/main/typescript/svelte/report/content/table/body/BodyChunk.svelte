@@ -87,10 +87,6 @@
 
 <style>
 
-    tbody tr:first-child td {
-        padding-top: 20px;
-    }
-
     td.primary {
         vertical-align: top;
     }
