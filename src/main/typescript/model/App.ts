@@ -1,5 +1,4 @@
 interface AppInfo {
-    code: string
     name?: string
     groupName?: string
     contextRoot?: string
