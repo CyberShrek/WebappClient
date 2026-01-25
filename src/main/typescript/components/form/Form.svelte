@@ -43,7 +43,6 @@
                 disabled={submitIsTouched && submitIsDisabled}
                 design="submit"
                 size="large"
-                slideAxis="y"
                 on:click={dispatchSubmit}
                 on:mouseenter={() => submitIsTouched = true}/>
     </div>

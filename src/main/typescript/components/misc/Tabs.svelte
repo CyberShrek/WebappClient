@@ -41,6 +41,7 @@
         overflow-y: auto;
     }
     .tabs > .header > .tab {
+        cursor: pointer;
         font-size: medium;
         height: calc(var(--input-height));
         padding: var(--indent) var(--strong-indent);
@@ -48,10 +49,15 @@
         border-radius: var(--border-radius);
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
+        border: none;
         white-space: nowrap;
+        transition: .2s;
     }
     .tabs > .header > .tab.active {
         color: white;
         background: var(--accent-color);
+    }
+    .content {
+        padding: var(--indent);
     }
 </style>

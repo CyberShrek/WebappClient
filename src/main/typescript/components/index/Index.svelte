@@ -2,7 +2,7 @@
 
     import "../../../resources/css/global.css"
     import Header from "./Header.svelte"
-    import {loadStore, store} from "../../store"
+    import {loadStore} from "../../store"
     import {Http} from "../../api/http/Http"
     import Loading from "../misc/Loading.svelte"
 

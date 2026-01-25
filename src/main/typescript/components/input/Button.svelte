@@ -1,7 +1,6 @@
 <script lang="ts">
 
     import Image from "../misc/Image.svelte"
-    import {slide} from "svelte/transition"
 
     export let
         disabled      = false,
@@ -21,7 +20,6 @@
         hint          = "",
         text          = "",
         image         = "",
-        slideAxis: "x" | "y" = "x",
         root: null |HTMLButtonElement = null
 
     let showContent = true
@@ -39,8 +37,7 @@
         on:click
         on:mouseenter
         on:mousedown
-        on:mouseup
-        transition:slide={{axis: slideAxis}}>
+        on:mouseup>
 
     {#if image && image.length > 0}
         <Image {hint}

@@ -1,9 +1,9 @@
 <script lang="ts">
 
-    import {slide, fade} from "svelte/transition"
+    import {slide} from "svelte/transition"
     import {popupMessage} from "../../../util/alert"
     import Button from "../../input/Button.svelte"
-    import {isEmpty} from "../../../util/data";
+    import {isEmpty} from "../../../util/data"
 
     export let
         field: Field,
@@ -23,8 +23,7 @@
 
 <div class="field"
      class:wrong={field.wrong}
-     bind:this={element}
-     transition:fade>
+     bind:this={element}>
 
     <div class="header">
         {#if showTitle}

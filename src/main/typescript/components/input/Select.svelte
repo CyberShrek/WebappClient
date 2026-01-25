@@ -1,14 +1,14 @@
 <script lang="ts">
 
     import {VirtualSelectModule} from "../../third-party/VirtualSelectModule"
-    import {isEmpty} from "../../util/data";
+    import {isEmpty} from "../../util/data"
 
     export let
         options: Options,
         picked:  (keyof Options)[],
         multiple        = false,
         search          = false,
-        showKeys       = false,
+        showKeys        = false,
         pickAllCheckbox = false,
         placeholder     = '',
         maxValues       = 0

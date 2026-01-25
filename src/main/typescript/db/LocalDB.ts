@@ -31,23 +31,23 @@ export class LocalDB {
         alasql(`DROP TABLE IF EXISTS ${tableName}`);
     }
 
-    public static execute(query: string): { head: string[]; body: any[][]; } {
+    public static execute(query: string): Matrix {
         // Выполняем запрос
         const result: {}[] = alasql(query);
 
         // Обрабатываем разные форматы результатов
         if (result == null || result.length === 0) {
-            return { head: [], body: [] };
+            return { head: [], data: [] };
         }
 
         // Получаем имена колонок
         const head = Object.keys(result[0]);
 
         // Преобразуем результат в массив массивов
-        const body = result.map((row: any) =>
+        const data = result.map((row: any) =>
             head.map(columnName => row[columnName])
         );
 
-        return { head, body };
+        return { head, data };
     }
 }

@@ -11,6 +11,7 @@ interface Field {
     prettyValue?: string
 
     // validation
-    wrong  ?: boolean
-    message?: string
+    required ?: boolean
+    wrong    ?: boolean
+    message  ?: string
 }

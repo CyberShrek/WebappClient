@@ -29,6 +29,8 @@
     $: if (picked && !!prettifyCallback) exportChanges()
     async function exportChanges() {
         field.value = picked
+        if (field.required != null)
+            field.wrong = field.required && picked.length == 0
     }
 
     $: if ($submitEvent) setPrettyValue()

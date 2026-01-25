@@ -1,6 +1,5 @@
 <script lang="ts">
 
-    import {fade} from "svelte/transition"
     import Grid from "../misc/Grid.svelte"
 
     export let
@@ -9,8 +8,7 @@
 
 </script>
 
-<div class="section"
-     transition:fade>
+<div class="section">
 
     <div class="header">
         <p class="title">

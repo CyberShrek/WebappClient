@@ -25,6 +25,9 @@
     white-space: nowrap;
     margin-right: var(--indent);
 }
+.vscomp-ele .vscomp-toggle-all-label {
+    display: none !important;
+}
 
 .vscomp-ele .vscomp-option.selected {
     background: initial !important;
